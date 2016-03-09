@@ -5,6 +5,7 @@ using System;
 //Hace que sea visible para el Testing y los Servicios
 [assembly: InternalsVisibleTo("Testings")]
 [assembly: InternalsVisibleTo("Servicios")]
+[assembly: InternalsVisibleTo("UI")]
 
 namespace Dominio
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using UI.Tipos;
+using Dominio;
 using Servicios;
 using System.Text.RegularExpressions;
 using System.Drawing;
@@ -20,11 +20,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Comunicacion.Agregar);
+        private delegado agregar = new delegado(Servicios.Fachada.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Comunicacion.Modificar);
+        private delegado modificar = new delegado(Servicios.Fachada.Modificar);
         #endregion
 
         #region Región: Inicialización y Carga
