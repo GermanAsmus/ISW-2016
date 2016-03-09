@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,7 @@
     <Compile Include="Campaña.cs" />
     <Compile Include="ExtensionLista.cs" />
     <Compile Include="Fachada.cs" />
+    <Compile Include="Imagen.cs" />
     <Compile Include="ITexto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangoFecha.cs" />

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Servicios;
 using System.IO;
-using UI.Tipos;
+using Dominio;
 
 namespace UI
 {
@@ -61,8 +61,8 @@ namespace UI
             TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
             //BANNER
             this.iBannerProximo = BannerNulo();
-            this.iDuracionBannerActual = Fachada.DuracionBannerSiguiente(horaActual);
-            this.iBannerActual = Fachada.ObtenerBannerCorrespondiente(horaActual, fechaActual);
+            this.iDuracionBannerActual = Servicios.Fachada.DuracionBannerSiguiente(horaActual);
+            this.iBannerActual = Servicios.Fachada.ObtenerBannerCorrespondiente(horaActual, fechaActual);
             this.ActualizarBanner();
             //CAMPAÑA
             this.iCampañaProxima = CampañaNula();

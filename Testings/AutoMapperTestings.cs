@@ -18,119 +18,46 @@ namespace Testings
         #endregion
 
         #region Banner
+
+       
+
         [TestMethod]
-        public void PruebaAutoMapperBannerUIModelo()
+        public void PruebaAutoMapperBannerDominioPersistencia()
         {
             AutoMapper.Configurar();
-            UI.Tipos.RangoHorario rangoHorario = new UI.Tipos.RangoHorario()
+            Dominio.RangoHorario rangoHorario = new Dominio.RangoHorario()
             {
                 Codigo = 1,
                 HoraFin = DateTime.Now.TimeOfDay,
                 HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
             };
-            List<UI.Tipos.RangoHorario> listaRangosHorarios = new List<UI.Tipos.RangoHorario>();
+            List<Dominio.RangoHorario> listaRangosHorarios = new List<Dominio.RangoHorario>();
             listaRangosHorarios.Add(rangoHorario);
-            UI.Tipos.RangoFecha rangoFecha = new UI.Tipos.RangoFecha()
+            Dominio.RangoFecha rangoFecha = new Dominio.RangoFecha()
             {
                 Codigo = 1,
                 FechaFin = DateTime.Today,
                 FechaInicio = DateTime.Today.AddDays(-10),
                 ListaRangosHorario = listaRangosHorarios
             };
-            List<UI.Tipos.RangoFecha> listaRangosFechas = new List<UI.Tipos.RangoFecha>();
+            List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            UI.Tipos.Banner bannerUI = new UI.Tipos.Banner()
+            Dominio.Banner bannerUI = new Dominio.Banner()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
-                Texto = "Hola",
-                URL = "",
                 ListaRangosFecha = listaRangosFechas
             };
-            //UI a Modelo
-            Modelo.Banner bannerModelo = (Modelo.Banner) Servicios.AutoMapper.Map<UI.Tipos.Banner, Modelo.Banner>(bannerUI);
-            //Modelo a UI
-            UI.Tipos.Banner bannerUICopia = (UI.Tipos.Banner)Servicios.AutoMapper.Map<Modelo.Banner, UI.Tipos.Banner>(bannerModelo);
+            //Dominio a Persistencia
+            Persistencia.Banner bannerPersistencia = (Persistencia.Banner) Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerUI);
+            //Persistencia a Dominio
+            Dominio.Banner bannerUICopia = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
             bool resul = Equality.Equals(bannerUI, bannerUICopia);
             Assert.IsTrue(resul);
         }
 
         [TestMethod]
-        public void PruebaAutoMapperBannerUIModelo2()
-        {
-            AutoMapper.Configurar();
-            UI.Tipos.RangoHorario rangoHorario = new UI.Tipos.RangoHorario()
-            {
-                Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
-            };
-            List<UI.Tipos.RangoHorario> listaRangosHorarios = new List<UI.Tipos.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            UI.Tipos.RangoFecha rangoFecha = new UI.Tipos.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                ListaRangosHorario = listaRangosHorarios
-            };
-            List<UI.Tipos.RangoFecha> listaRangosFechas = new List<UI.Tipos.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            UI.Tipos.Banner bannerUI = new UI.Tipos.Banner()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                Texto = "",
-                URL = "Hola",
-                ListaRangosFecha = listaRangosFechas
-            };
-            //UI a Modelo
-            Modelo.Banner bannerModelo = (Modelo.Banner)Servicios.AutoMapper.Map<UI.Tipos.Banner, Modelo.Banner>(bannerUI);
-            //Modelo a UI
-            UI.Tipos.Banner bannerUICopia = (UI.Tipos.Banner)Servicios.AutoMapper.Map<Modelo.Banner, UI.Tipos.Banner>(bannerModelo);
-            bool resul = Equality.Equals(bannerUI, bannerUICopia);
-            Assert.IsTrue(resul);
-        }
-
-        [TestMethod]
-        public void PruebaAutoMapperBannerUIPersistencia()
-        {
-            AutoMapper.Configurar();
-            UI.Tipos.RangoHorario rangoHorario = new UI.Tipos.RangoHorario()
-            {
-                Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
-            };
-            List<UI.Tipos.RangoHorario> listaRangosHorarios = new List<UI.Tipos.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            UI.Tipos.RangoFecha rangoFecha = new UI.Tipos.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                ListaRangosHorario = listaRangosHorarios
-            };
-            List<UI.Tipos.RangoFecha> listaRangosFechas = new List<UI.Tipos.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            UI.Tipos.Banner bannerUI = new UI.Tipos.Banner()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                Texto = "Hola",
-                URL = "",
-                ListaRangosFecha = listaRangosFechas
-            };
-            //UI a Persistencia
-            Persistencia.Banner bannerPersistencia = (Persistencia.Banner) Servicios.AutoMapper.Map<UI.Tipos.Banner, Persistencia.Banner>(bannerUI);
-            //Persistencia a UI
-            UI.Tipos.Banner bannerUICopia = (UI.Tipos.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, UI.Tipos.Banner>(bannerPersistencia);
-            bool resul = Equality.Equals(bannerUI, bannerUICopia);
-            Assert.IsTrue(resul);
-        }
-
-        [TestMethod]
-        public void PruebaAutoMapperBannerPersistenciaModelo()
+        public void PruebaAutoMapperBannerPersistenciaDominio()
         {
             AutoMapper.Configurar();
             Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
@@ -158,16 +85,16 @@ namespace Testings
                 URL = "",
                 RangosFecha = listaRangosFechas
             };
-            //Persistencia a Modelo
-            Modelo.Banner bannerModelo = (Modelo.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Modelo.Banner>(bannerPersistencia);
-            //Modelo a Persistencia
-            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Modelo.Banner, Persistencia.Banner>(bannerModelo);
+            //Persistencia a Dominio
+            Dominio.Banner bannerModelo = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
+            //Dominio a Persistencia
+            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerModelo);
             bool resul = Equality.Equals(bannerPersistencia, bannerPersistenciaCopia);
             Assert.IsTrue(resul);
         }
 
         [TestMethod]
-        public void PruebaAutoMapperBannerPersistenciaModelo2()
+        public void PruebaAutoMapperBannerPersistenciaDominio2()
         {
             AutoMapper.Configurar();
             Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
@@ -195,91 +122,48 @@ namespace Testings
                 URL = "Hola",
                 RangosFecha = listaRangosFechas
             };
-            //Persistencia a Modelo
-            Modelo.Banner bannerModelo = (Modelo.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Modelo.Banner>(bannerPersistencia);
+            //Persistencia a Dominio
+            Dominio.Banner bannerModelo = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
             //Modelo a Persistencia
-            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Modelo.Banner, Persistencia.Banner>(bannerModelo);
+            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerModelo);
             bool resul = Equality.Equals(bannerPersistencia, bannerPersistenciaCopia);
             Assert.IsTrue(resul);
         }
         #endregion
         
         #region Campaña
-        [TestMethod]
-        public void PruebaAutoMapperCampañaUIModelo()
-        {
-            AutoMapper.Configurar();
-            UI.Tipos.Imagen imagen = new UI.Tipos.Imagen
-            {
-                Codigo = 1,
-                Tiempo = 10,
-                Picture = Image.FromFile(@"F:/Lucho/Varios/Salida.jpg", true)
-            };
-            List<UI.Tipos.Imagen> listaImagenes = new List<UI.Tipos.Imagen>();
-            listaImagenes.Add(imagen);
-            UI.Tipos.RangoHorario rangoHorario = new UI.Tipos.RangoHorario()
-            {
-                Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
-            };
-            List<UI.Tipos.RangoHorario> listaRangosHorarios = new List<UI.Tipos.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            UI.Tipos.RangoFecha rangoFecha = new UI.Tipos.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                ListaRangosHorario = listaRangosHorarios
-            };
-            List<UI.Tipos.RangoFecha> listaRangosFechas = new List<UI.Tipos.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            UI.Tipos.Campaña CampañaUI = new UI.Tipos.Campaña()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                IntervaloTiempo = 12,
-                ListaImagenes = listaImagenes,
-                ListaRangosFecha = listaRangosFechas
-            };
-            //UI a Modelo
-            Modelo.Campaña CampañaModelo = (Modelo.Campaña)Servicios.AutoMapper.Map<UI.Tipos.Campaña, Modelo.Campaña>(CampañaUI);
-            //Modelo a UI
-            UI.Tipos.Campaña CampañaUICopia = (UI.Tipos.Campaña)Servicios.AutoMapper.Map<Modelo.Campaña, UI.Tipos.Campaña>(CampañaModelo);
-            bool resul = Equality.EqualsDesdeModelo(CampañaUI, CampañaUICopia);
-            Assert.IsTrue(resul);
-        }
+        
      
         [TestMethod]
-        public void PruebaAutoMapperCampañaUIPersistencia()
+        public void PruebaAutoMapperCampañaDominioPersistencia()
         {
             AutoMapper.Configurar();
-            UI.Tipos.Imagen imagen = new UI.Tipos.Imagen
+            Dominio.Imagen imagen = new Dominio.Imagen
             {
                 Codigo = 1,
                 Tiempo = 10,
                 Picture = Image.FromFile(@"F:/Lucho/Varios/Salida.jpg", true)
             };
-            List<UI.Tipos.Imagen> listaImagenes = new List<UI.Tipos.Imagen>();
+            List<Dominio.Imagen> listaImagenes = new List<Dominio.Imagen>();
             listaImagenes.Add(imagen);
-            UI.Tipos.RangoHorario rangoHorario = new UI.Tipos.RangoHorario()
+            Dominio.RangoHorario rangoHorario = new Dominio.RangoHorario()
             {
                 Codigo = 1,
                 HoraFin = DateTime.Now.TimeOfDay,
                 HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
             };
-            List<UI.Tipos.RangoHorario> listaRangosHorarios = new List<UI.Tipos.RangoHorario>();
+            List<Dominio.RangoHorario> listaRangosHorarios = new List<Dominio.RangoHorario>();
             listaRangosHorarios.Add(rangoHorario);
-            UI.Tipos.RangoFecha rangoFecha = new UI.Tipos.RangoFecha()
+            Dominio.RangoFecha rangoFecha = new Dominio.RangoFecha()
             {
                 Codigo = 1,
                 FechaFin = DateTime.Today,
                 FechaInicio = DateTime.Today.AddDays(-10),
                 ListaRangosHorario = listaRangosHorarios
             };
-            List<UI.Tipos.RangoFecha> listaRangosFechas = new List<UI.Tipos.RangoFecha>();
+            List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            UI.Tipos.Campaña CampañaUI = new UI.Tipos.Campaña()
+            Dominio.Campaña CampañaUI = new Dominio.Campaña()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
@@ -287,16 +171,16 @@ namespace Testings
                 ListaImagenes = listaImagenes,
                 ListaRangosFecha = listaRangosFechas
             };
-            //UI a Persistencia
-            Persistencia.Campaña CampañaPersistencia = (Persistencia.Campaña)Servicios.AutoMapper.Map<UI.Tipos.Campaña, Persistencia.Campaña>(CampañaUI);
-            //Persistencia a UI
-            UI.Tipos.Campaña CampañaUICopia = (UI.Tipos.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, UI.Tipos.Campaña>(CampañaPersistencia);
+            //Dominio a Persistencia
+            Persistencia.Campaña CampañaPersistencia = (Persistencia.Campaña)Servicios.AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(CampañaUI);
+            //Persistencia a Dominio
+            Dominio.Campaña CampañaUICopia = (Dominio.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(CampañaPersistencia);
             bool resul = Equality.Equals(CampañaUI, CampañaUICopia);
             Assert.IsTrue(resul);
         }
 
         [TestMethod]
-        public void PruebaAutoMapperCampañaPersistenciaModelo()
+        public void PruebaAutoMapperCampañaPersistenciaDominio()
         {
             AutoMapper.Configurar();
             Persistencia.Imagen imagen = new Persistencia.Imagen
@@ -332,10 +216,10 @@ namespace Testings
                 Imagenes = listaImagenes,
                 RangosFecha = listaRangosFechas
             };
-            //Persistencia a Modelo
-            Modelo.Campaña CampañaModelo = (Modelo.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, Modelo.Campaña>(CampañaPersistencia);
-            //Modelo a Persistencia
-            Persistencia.Campaña CampañaPersistenciaCopia = (Persistencia.Campaña)Servicios.AutoMapper.Map<Modelo.Campaña, Persistencia.Campaña>(CampañaModelo);
+            //Persistencia a Dominio
+            Dominio.Campaña CampañaModelo = (Dominio.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(CampañaPersistencia);
+            //Dominio a Persistencia
+            Persistencia.Campaña CampañaPersistenciaCopia = (Persistencia.Campaña)Servicios.AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(CampañaModelo);
             bool resul = Equality.EqualsDesdeModelo(CampañaPersistencia, CampañaPersistenciaCopia);
             Assert.IsTrue(resul);
         }

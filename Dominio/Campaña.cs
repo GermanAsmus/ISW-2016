@@ -9,6 +9,7 @@ namespace Dominio
         private int iInteravaloTiempo;
         private string iNombre;
         private List<RangoFecha> iListaRangosFecha;
+        private List<Imagen> iListaImagenes;
 
         /// <summary>
         /// Constructor de la Campaña
@@ -53,6 +54,16 @@ namespace Dominio
             get { return this.iListaRangosFecha; }
             set { this.iListaRangosFecha = value; }
         }
+
+        /// <summary>
+        /// Get/Set de la lista de imágenes de la campaña
+        /// </summary>
+        public List<Imagen> ListaImagenes
+        {
+            get { return this.iListaImagenes; }
+            set { this.iListaImagenes = value; }
+        }
+
 
         /// <summary>
         /// Determina si dos campañas son iguales
