@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelo", "Modelo\Modelo.csproj", "{98AB3E84-C427-4F3D-8144-8484FA92055B}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Tipos", "UI.Tipos\UI.Tipos.csproj", "{C15C208F-15C7-43B3-90C4-3D9F968975FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testings", "Testings\Testings.csproj", "{92C8DAA1-E137-44E6-AD73-4C6260114F53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{99913064-1A87-45EB-A137-C9C7239F0909}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{92C8DAA1-E137-44E6-AD73-4C6260114F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C8DAA1-E137-44E6-AD73-4C6260114F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C8DAA1-E137-44E6-AD73-4C6260114F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99913064-1A87-45EB-A137-C9C7239F0909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99913064-1A87-45EB-A137-C9C7239F0909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99913064-1A87-45EB-A137-C9C7239F0909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99913064-1A87-45EB-A137-C9C7239F0909}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
