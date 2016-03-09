@@ -44,7 +44,6 @@
     <Compile Include="Banner.cs" />
     <Compile Include="Campaña.cs" />
     <Compile Include="Imagen.cs" />
-    <Compile Include="InformacionAdicional.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangoFecha.cs" />
     <Compile Include="RangoHorario.cs" />
