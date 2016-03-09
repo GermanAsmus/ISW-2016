@@ -59,14 +59,6 @@
     <Compile Include="Form_Configuracion_Campaña.designer.cs">
       <DependentUpon>Form_Configuracion_Campaña.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_InformacionAdicional.cs" />
-    <Compile Include="Form_InformacionAdicional.designer.cs">
-      <DependentUpon>Form_InformacionAdicional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form_Configuracion_InformacionAdicional.cs" />
-    <Compile Include="Form_Configuracion_InformacionAdicional.designer.cs">
-      <DependentUpon>Form_Configuracion_InformacionAdicional.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form_SeleccionRangoHorario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,12 +107,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Configuracion_Campaña.resx">
       <DependentUpon>Form_Configuracion_Campaña.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form_InformacionAdicional.resx">
-      <DependentUpon>Form_InformacionAdicional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form_Configuracion_InformacionAdicional.resx">
-      <DependentUpon>Form_Configuracion_InformacionAdicional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_SeleccionRangoHorario.resx">
       <DependentUpon>Form_SeleccionRangoHorario.cs</DependentUpon>

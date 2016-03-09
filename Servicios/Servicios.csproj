@@ -65,10 +65,10 @@
   <ItemGroup>
     <Compile Include="ArchivoServices.cs" />
     <Compile Include="AutoMapper.cs" />
-    <Compile Include="Comunicacion.cs" />
     <Compile Include="Excepciones\ExcepcionArchivo.cs" />
     <Compile Include="Excepciones\ExcepcionWeb.cs" />
     <Compile Include="Excepciones\ExcepcionXML.cs" />
+    <Compile Include="Fachada.cs" />
     <Compile Include="ImagenServices.cs" />
     <Compile Include="IoCContainerLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
