@@ -249,11 +249,11 @@ namespace Dominio
         /// <summary>
         /// Obtiene la Campaña siguiente
         /// </summary>
-        /// <param name="horaInicio">Hora de inicio a verificar la Campaña siguiente</param>
-        /// <param name="fechaActual">Fecha Actual en la que se pide la Campaña</param>
         /// <returns>Tipo de dato Campaña que representa la Campaña siguiente</returns>
-        public int ObtenerCampañaSiguiente(TimeSpan horaInicio, DateTime fechaActual)
+        public int ObtenerCampañaSiguiente()
         {
+            DateTime fechaActual = DateTime.Now;
+            TimeSpan horaInicio = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
             if (fechaActual.Date.CompareTo(this.iFechaActual) < 0)
             {
                 this.CambiarListas();
@@ -312,8 +312,10 @@ namespace Dominio
         /// </summary>
         /// <param name="horaInicio">Hora de inicio a verificar la Campaña siguiente</param>
         /// <returns>Tipo de dato Entero que representa la duración del banner siguiente</returns>
-        public int ObtenerDuracionCampañaSiguiente(TimeSpan horaInicio)
+        public int ObtenerDuracionCampañaSiguiente()
         {
+            DateTime fechaActual = DateTime.Now;
+            TimeSpan horaInicio= new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
             int duracionResultado = 0;
             int indice = 0;
             if ((indice == this.iListaCampañaActual.Count)||

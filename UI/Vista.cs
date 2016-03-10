@@ -66,8 +66,8 @@ namespace UI
             this.ActualizarBanner();
             //CAMPAÑA
             this.iCampañaProxima = CampañaNula();
-            this.iDuracionCampañaActual = Servicios.Fachada.DuracionCampañaSiguiente(horaActual);
-            this.iCampañaActual = Servicios.Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.iDuracionCampañaActual = Servicios.Fachada.DuracionCampañaSiguiente();
+            this.iCampañaActual = Servicios.Fachada.ObtenerCampañaCorrespondiente();
             this.ActualizarCampaña();
         }
 

@@ -280,13 +280,11 @@ namespace Servicios
         /// <summary>
         /// Obtiene la campaña correspondiente con respecto a la fecha y a la hora
         /// </summary>
-        /// <param name="pHoraActual">Hora Actual</param>
-        /// <param name="pFechaActual">Fecha Actual</param>
         /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
-        public static Dominio.Campaña ObtenerCampañaCorrespondiente(TimeSpan pHoraActual, DateTime pFechaActual)
+        public static Dominio.Campaña ObtenerCampañaCorrespondiente()
         {
             FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-            int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente(pHoraActual, pFechaActual);
+            int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             Dominio.Campaña campañaSiguiente;
             if (codigoCampaña == -1)
             {
@@ -337,9 +335,9 @@ namespace Servicios
         /// </summary>
         /// <param name="pHoraActual">Hora Actual</param>
         /// <returns>Tipo de dato entero que reprsenta la duración de la Campaña próxima</returns>
-        public static int DuracionCampañaSiguiente(TimeSpan pHoraActual)
+        public static int DuracionCampañaSiguiente()
         {
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionCampañaSiguiente(pHoraActual);
+            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionCampañaSiguiente();
         }
 
         /// <summary>
