@@ -212,8 +212,8 @@ namespace UI
         {
             DateTime fechaActual = (DateTime)e.Argument;
             TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente(horaActual));
-            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente());
+            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente();
         }
 
         /// <summary>
