@@ -36,7 +36,7 @@ namespace UI
         /// <summary>
         /// Variable que determina que hace la ventana
         /// </summary>
-        private Form_Banner.delegado iFuncionVentana;
+        internal Form_Banner.delegado iFuncionVentana;
         #endregion
 
         #region Región: Inicialización y Carga
@@ -45,7 +45,7 @@ namespace UI
         /// </summary>
         /// <param name="funcionVentana">Función que realizará la ventana a la hora de presionar boton Aceptar</param>
         /// <param name="pBanner">Banner sobre el cual trabajar, sino es nulo</param>
-        public Form_Configuracion_Banner(Form_Banner.delegado funcionVentana, Banner pBanner = null)
+        internal Form_Configuracion_Banner(Form_Banner.delegado funcionVentana, Banner pBanner = null)
         {
             InitializeComponent();
             this.ConfiguracionInicialDataGridView();
@@ -683,7 +683,7 @@ namespace UI
         /// Actualiza la lista de Rangos Horarios a partir de los Seleccionados)
         /// </summary>
         /// <param name="pListaRangoHorario">Lista de rangos Horarios con la cual actualizar</param>
-        private void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
+        internal void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
         {
             this.RangoFechaSeleccionado().ListaRangosHorario = pListaRangoHorario;
             this.ActualizarListaHorarios(this.RangoFechaSeleccionado());

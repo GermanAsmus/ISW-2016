@@ -48,7 +48,7 @@ namespace UI
         /// </summary>
         /// <param name="pRangoFecha">Rango Fecha a agregar Listas de Horarios</param>
         /// <param name="listaRangoHorariosOcupados">Lista de horarios ocupados</param>
-        public Form_SeleccionRangoHorario(RangoFecha pRangoFecha, List<RangoHorario> listaRangoHorariosOcupados, bool pEsBanner)
+        internal Form_SeleccionRangoHorario(RangoFecha pRangoFecha, List<RangoHorario> listaRangoHorariosOcupados, bool pEsBanner)
         {
             InitializeComponent();
             this.ConfigurarDGVs();
@@ -289,7 +289,7 @@ namespace UI
         /// <param name="pListaRangosHorarios">Lista de rangos horarios No Disponibles</param>
         /// <param name="array">Array a rellenar</param>
         /// <param name="value">Valor con el cual llenar</param>
-        public void ArrayRangosHorarios(List<RangoHorario> pListaRangosHorarios, bool[] array, bool value)
+        internal void ArrayRangosHorarios(List<RangoHorario> pListaRangosHorarios, bool[] array, bool value)
         {
             foreach (RangoHorario pRH in pListaRangosHorarios)
             {

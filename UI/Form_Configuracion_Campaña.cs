@@ -65,7 +65,7 @@ namespace UI
         /// </summary>
         /// <param name="funcionVentana">Función que realizará la ventana a la hora de presionar boton Aceptar</param>
         /// <param name="pCampaña">Campaña sobre la cual trabajar, sino es nulo</param>
-        public Form_Configuracion_Campaña(Form_Campaña.delegado funcionVentana, Campaña pCampaña = null)
+        internal Form_Configuracion_Campaña(Form_Campaña.delegado funcionVentana, Campaña pCampaña = null)
         {
             InitializeComponent();
             this.ConfiguracionInicialDataGridView();
@@ -682,7 +682,7 @@ namespace UI
         /// Actualiza la lista de Rangos Horarios a partir de los Seleccionados)
         /// </summary>
         /// <param name="pListaRangoHorario">Lista de rangos Horarios con la cual actualizar</param>
-        public void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
+        internal void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
         {
             this.RangoFechaSeleccionado().ListaRangosHorario = pListaRangoHorario;
             this.ActualizarListaHorarios(this.RangoFechaSeleccionado());
@@ -1222,7 +1222,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargarImagenes_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Comunicacion.ObtenerImagenesCampaña((int)e.Argument);
+            e.Result = Servicios.Fachada.ObtenerImagenesCampaña((int)e.Argument);
         }
 
         /// <summary>
