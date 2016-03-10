@@ -546,10 +546,5 @@ namespace UI
             this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
         }
         #endregion
-
-        private void NADA()
-        {
-
-        }
     }
 }
