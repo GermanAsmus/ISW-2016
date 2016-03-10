@@ -59,8 +59,7 @@ namespace UI
                 this.ChangeEnableGroupBoxHorario(false);
                 this.button_EliminarFecha.Enabled = false;
                 this.iBanner = new Banner();
-                ///this.iBanner = "";
-                //this.iBanner. = "";
+                // Acá se valida el tipo de fuente del banner
             }
             this.iSCEActive = true;
             this.ConfigInicialForms();
@@ -80,7 +79,7 @@ namespace UI
             this.AcceptButton = this.button_Aceptar;
             this.iCantRangosFecha = this.iBanner.ListaRangosFecha.Count;
             this.textBox_Nombre.Text = this.iBanner.Nombre;
-            /*if (this.iBanner.URL != "")
+            /*if (Si no es RSS)
             {
                 this.radioButton_FuenteRSS.Checked = true;
                 this.groupBox_TextoFijo.Enabled = false;
@@ -381,7 +380,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Servicios.Fachada.OperacionesRSS((string)e.Argument);
+            e.Result = Servicios.FachadaServicios.OperacionesRSS((string)e.Argument);
         }
 
         /// <summary>

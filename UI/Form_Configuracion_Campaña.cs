@@ -1222,7 +1222,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargarImagenes_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Servicios.Fachada.ObtenerImagenesCampaña((int)e.Argument);
+            e.Result = Servicios.FachadaServicios.ObtenerImagenesCampaña((int)e.Argument);
         }
 
         /// <summary>

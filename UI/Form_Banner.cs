@@ -20,11 +20,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Servicios.Fachada.Agregar);
+        private delegado agregar = new delegado(Servicios.FachadaServicios.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Servicios.Fachada.Modificar);
+        private delegado modificar = new delegado(Servicios.FachadaServicios.Modificar);
         #endregion
 
         #region Región: Inicialización y Carga
@@ -488,11 +488,11 @@ namespace UI
             Dictionary<string, object> argumentos = (Dictionary<string, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Servicios.Fachada.ObtenerBanners();
+                resultado = Servicios.FachadaServicios.ObtenerBanners();
             }
             else
             {
-                resultado = Servicios.Fachada.ObtenerBanners(argumentos);
+                resultado = Servicios.FachadaServicios.ObtenerBanners(argumentos);
             }
             e.Result = resultado;
         }
@@ -520,7 +520,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Servicios.Fachada.Eliminar((Banner) e.Argument);
+            Servicios.FachadaServicios.Eliminar((Banner) e.Argument);
         }
 
         /// <summary>

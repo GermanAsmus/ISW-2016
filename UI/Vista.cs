@@ -34,9 +34,7 @@ namespace UI
             this.WindowState = FormWindowState.Maximized;
             this.tableLayoutPanel_Vista.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             this.ConfigurarTimers();
-            this.ConfigurarBannerCampaña();
-            this.ConfigurarInformacionAdicional();
-        }
+            this.ConfigurarBannerCampaña();        }
 
         /// <summary>
         /// Configura los Timers
@@ -57,38 +55,18 @@ namespace UI
         /// </summary>
         public void ConfigurarBannerCampaña()
         {
-            DateTime fechaActual = DateTime.Now;
-            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
             //BANNER
             this.iBannerProximo = BannerNulo();
-            this.iDuracionBannerActual = Servicios.Fachada.DuracionBannerSiguiente(horaActual);
-            this.iBannerActual = Servicios.Fachada.ObtenerBannerCorrespondiente(horaActual, fechaActual);
+            this.iDuracionBannerActual = Servicios.FachadaServicios.DuracionBannerSiguiente();
+            this.iBannerActual = Servicios.FachadaServicios.ObtenerBannerCorrespondiente();
             this.ActualizarBanner();
             //CAMPAÑA
             this.iCampañaProxima = CampañaNula();
-            this.iDuracionCampañaActual = Servicios.Fachada.DuracionCampañaSiguiente(horaActual);
-            this.iCampañaActual = Servicios.Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.iDuracionCampañaActual = Servicios.FachadaServicios.DuracionCampañaSiguiente(horaActual);
+            this.iCampañaActual = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente();
             this.ActualizarCampaña();
         }
 
-        /// <summary>
-        /// Configura Visualización de la Información Adicional
-        /// </summary>
-        public void ConfigurarInformacionAdicional()
-        {
-            /*
-            this.tableLayoutPanel_Vista.Controls.Add(this.flowLayoutPanel_InformacionAdicional);
-            this.flowLayoutPanel_InformacionAdicional.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom);
-            this.flowLayoutPanel_InformacionAdicional.AutoSize = true;
-            List<InformacionAdicional> lInformacionAdicional = Fachada.ObtenerInformacionAdicionalCargadas();
-            foreach (InformacionAdicional infAd in lInformacionAdicional)
-            {
-                this.MostrarInformaciónAdicional(infAd);
-            }
-            this.tableLayoutPanel_Vista.ColumnStyles[1].SizeType= SizeType.Absolute;
-            this.tableLayoutPanel_Vista.ColumnStyles[1].Width = 0;
-            */
-        }
         #endregion
 
         #region Muestra del Banner
@@ -98,8 +76,7 @@ namespace UI
         /// <returns>Tipo de dato Banner que representa el Banner Nulo</returns>
         private static Banner BannerNulo()
         {
-            return Banner.BannerNulo();
-            //HAY QUE VER
+            return FachadaServicios.BannerNulo();
         }
 
         /// <summary>
@@ -108,10 +85,6 @@ namespace UI
         /// <returns>Devuelve una cadena con el texto correspondiente</returns>
         private string TextoBannerActual()
         {
-            if (this.iBannerActual.Codigo == -1)
-            {
-                this.iBannerActual = BannerNulo();
-            }
             string cadena = this.iBannerActual.Texto;
             return cadena;
         }
@@ -137,10 +110,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-            DateTime fechaActual = (DateTime)e.Argument;
-            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoBanner.ReportProgress(0, Servicios.Fachada.DuracionBannerSiguiente(horaActual));
-            e.Result = Servicios.Fachada.ObtenerBannerCorrespondiente(horaActual, fechaActual);
+            this.backgroundWorker_ChequeoBanner.ReportProgress(0, Servicios.FachadaServicios.DuracionBannerSiguiente());
+            e.Result = Servicios.FachadaServicios.ObtenerBannerCorrespondiente();
         }
 
         /// <summary>
@@ -241,8 +212,8 @@ namespace UI
         {
             DateTime fechaActual = (DateTime)e.Argument;
             TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.Fachada.DuracionCampañaSiguiente(horaActual));
-            e.Result = Servicios.Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente(horaActual));
+            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
         }
 
         /// <summary>
@@ -429,7 +400,7 @@ namespace UI
         private void backgroundWorker_CargarDiaSiguiente_DoWork(object sender, DoWorkEventArgs e)
         {
             DateTime fechaCarga = (DateTime)e.Argument;
-            Servicios.Fachada.CargarDatosEnMemoria(fechaCarga);
+            Servicios.FachadaServicios.CargarDatosEnMemoria(fechaCarga);
         }
 
         /// <summary>
