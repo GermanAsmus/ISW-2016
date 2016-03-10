@@ -16,7 +16,7 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        public delegate void delegado(Banner banner);
+        private delegate void delegado(Banner banner);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
@@ -358,7 +358,7 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        public void ActualizarLista(List<Banner> fuenteBanners)
+        private void ActualizarLista(List<Banner> fuenteBanners)
         {
             this.dataGridView.DataSource = typeof(List<Banner>);
             this.dataGridView.DataSource = fuenteBanners;
@@ -488,11 +488,11 @@ namespace UI
             Dictionary<string, object> argumentos = (Dictionary<string, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Comunicacion.ObtenerBanners();
+                resultado = Servicios.Fachada.ObtenerBanners();
             }
             else
             {
-                resultado = Comunicacion.ObtenerBanners(argumentos);
+                resultado = Servicios.Fachada.ObtenerBanners(argumentos);
             }
             e.Result = resultado;
         }
@@ -520,7 +520,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Comunicacion.Eliminar((Banner) e.Argument);
+            Servicios.Fachada.Eliminar((Banner) e.Argument);
         }
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace UI
                 Banner auxBanner = (Banner)e.Result;
                 MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar el banner\n" +
                                 "\t- Nombre: " + auxBanner.Nombre + "\n" +
-                                "\t- Tipo: " + auxBanner.Tipo + "\n" +
+                                //"\t- Tipo: " + auxBanner. + "\n" +
                                 "Intente Eliminarlo nuevamente");
             }
             if (this.backgroundWorker_Obtener.IsBusy)

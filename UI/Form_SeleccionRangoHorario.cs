@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using Servicios;
 using System.Windows.Forms;
-using UI.Tipos;
+using Dominio;
 
 namespace UI
 {
@@ -429,11 +429,11 @@ namespace UI
             List<RangoHorario> listaRangos;
             if (this.iEsBanner)
             {
-                listaRangos = Comunicacion.RangosHorariosOcupadosBanner((RangoFecha)e.Argument);
+                listaRangos = Servicios.Fachada.RangosHorariosOcupadosBanner((RangoFecha)e.Argument);
             }
             else
             {
-                listaRangos = Comunicacion.RangosHorariosOcupadosCampaña((RangoFecha)e.Argument);
+                listaRangos = Servicios.Fachada.RangosHorariosOcupadosCampaña((RangoFecha)e.Argument);
             }
             e.Result = listaRangos;
         }
