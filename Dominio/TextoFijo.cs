@@ -1,4 +1,8 @@
-﻿namespace Dominio
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("UI")]
+
+namespace Dominio
 {
     class TextoFijo : ITexto
     {

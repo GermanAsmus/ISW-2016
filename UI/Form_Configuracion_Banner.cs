@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Servicios;
 using System.Collections.Generic;
-using UI.Tipos;
+using Dominio;
 using System.Drawing;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
@@ -59,8 +59,8 @@ namespace UI
                 this.ChangeEnableGroupBoxHorario(false);
                 this.button_EliminarFecha.Enabled = false;
                 this.iBanner = new Banner();
-                this.iBanner.URL = "";
-                this.iBanner.Texto = "";
+                ///this.iBanner = "";
+                //this.iBanner. = "";
             }
             this.iSCEActive = true;
             this.ConfigInicialForms();
@@ -80,7 +80,7 @@ namespace UI
             this.AcceptButton = this.button_Aceptar;
             this.iCantRangosFecha = this.iBanner.ListaRangosFecha.Count;
             this.textBox_Nombre.Text = this.iBanner.Nombre;
-            if (this.iBanner.URL != "")
+            /*if (this.iBanner.URL != "")
             {
                 this.radioButton_FuenteRSS.Checked = true;
                 this.groupBox_TextoFijo.Enabled = false;
@@ -91,7 +91,7 @@ namespace UI
                 this.radioButton_TextoFijo.Checked = true;
                 this.groupBox_RSS.Enabled = false;
                 this.textBox_TextoFijo.Text = this.iBanner.Texto;
-            }
+            }*/
             this.button_AgregarHora.Image = ImagenServices.CambiarTamañoImagen(Properties.Resources.Modificar, this.button_AgregarHora.Size.Width, this.button_AgregarHora.Size.Height);
         }
 
@@ -130,7 +130,7 @@ namespace UI
         private void button_Aceptar_Click(object sender, EventArgs e)
         {
             this.iBanner.Nombre = this.textBox_Nombre.Text;
-            if (this.radioButton_TextoFijo.Checked)
+            /*if (this.radioButton_TextoFijo.Checked)
             {
                 this.iBanner.URL = "";
                 this.iBanner.Texto = this.textBox_TextoFijo.Text;
@@ -139,7 +139,7 @@ namespace UI
             {
                 this.iBanner.URL = this.textBox_URL.Text;
                 this.iBanner.Texto = this.label_ValorPrueba.Text;
-            }
+            }*/
             this.backgroundWorker_BotonAceptar.RunWorkerAsync(this.iBanner);
             ((Form_Banner)this.Owner).EnEspera(false);
             ((Form_Banner)this.Owner).HijoCerrandose();
@@ -381,7 +381,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Comunicacion.OperacionesRSS((string)e.Argument);
+            e.Result = Servicios.Fachada.OperacionesRSS((string)e.Argument);
         }
 
         /// <summary>
@@ -683,7 +683,7 @@ namespace UI
         /// Actualiza la lista de Rangos Horarios a partir de los Seleccionados)
         /// </summary>
         /// <param name="pListaRangoHorario">Lista de rangos Horarios con la cual actualizar</param>
-        public void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
+        private void ActualizarHorarios(List<RangoHorario> pListaRangoHorario)
         {
             this.RangoFechaSeleccionado().ListaRangosHorario = pListaRangoHorario;
             this.ActualizarListaHorarios(this.RangoFechaSeleccionado());

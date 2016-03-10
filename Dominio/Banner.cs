@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System;
 
-//Hace que sea visible para el Testing y los Servicios
+//Hace que sea visible para el Testing, los Servicios y UI
 [assembly: InternalsVisibleTo("Testings")]
 [assembly: InternalsVisibleTo("Servicios")]
 [assembly: InternalsVisibleTo("UI")]

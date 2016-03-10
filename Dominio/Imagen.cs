@@ -1,4 +1,7 @@
 ﻿using System.Drawing;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("UI")]
 
 namespace Dominio
 {

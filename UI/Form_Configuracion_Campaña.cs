@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 using Servicios;
 using System.Collections.Generic;
-using UI.Tipos;
 using System.Drawing;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using Dominio;
 
 namespace UI
 {
