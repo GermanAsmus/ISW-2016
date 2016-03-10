@@ -15,7 +15,7 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        public delegate void delegado(Campaña campaña);
+        internal delegate void delegado(Campaña campaña);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
@@ -307,7 +307,7 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        public void ActualizarLista(List<Campaña> fuenteCampañas)
+        internal void ActualizarLista(List<Campaña> fuenteCampañas)
         {
             this.dataGridView.DataSource = typeof(List<Campaña>);
             this.dataGridView.DataSource = fuenteCampañas;

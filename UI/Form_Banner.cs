@@ -16,7 +16,7 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        private delegate void delegado(Banner banner);
+        internal delegate void delegado(Banner banner);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>

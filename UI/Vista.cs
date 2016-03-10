@@ -66,8 +66,8 @@ namespace UI
             this.ActualizarBanner();
             //CAMPAÑA
             this.iCampañaProxima = CampañaNula();
-            this.iDuracionCampañaActual = Fachada.DuracionCampañaSiguiente(horaActual);
-            this.iCampañaActual = Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.iDuracionCampañaActual = Servicios.Fachada.DuracionCampañaSiguiente(horaActual);
+            this.iCampañaActual = Servicios.Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
             this.ActualizarCampaña();
         }
 
@@ -96,9 +96,10 @@ namespace UI
         /// Genera el Banner Nulo 
         /// </summary>
         /// <returns>Tipo de dato Banner que representa el Banner Nulo</returns>
-        private static UI.Tipos.Banner BannerNulo()
+        private static Banner BannerNulo()
         {
-            return new Tipos.Banner() { Nombre = "", Texto = "Publicite Aquí", URL = "" };
+            return Banner.BannerNulo();
+            //HAY QUE VER
         }
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace UI
         {
             DateTime fechaActual = (DateTime)e.Argument;
             TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoBanner.ReportProgress(0, Fachada.DuracionBannerSiguiente(horaActual));
+            this.backgroundWorker_ChequeoBanner.ReportProgress(0, Servicios.Fachada.DuracionBannerSiguiente(horaActual));
             e.Result = Servicios.Fachada.ObtenerBannerCorrespondiente(horaActual, fechaActual);
         }
 
@@ -185,8 +186,8 @@ namespace UI
         /// <returns></returns>
         private static Campaña CampañaNula()
         {
-            Campaña campañaNula = new UI.Tipos.Campaña() { Codigo = -1 };
-            Imagen imagenNula = new UI.Tipos.Imagen();
+            Campaña campañaNula = new Campaña() { Codigo = -1 };
+            Imagen imagenNula = new Imagen();
             imagenNula.Picture = Properties.Resources.sinCampaña;
             imagenNula.Tiempo = 60;
             campañaNula.ListaImagenes.Add(imagenNula);
@@ -198,7 +199,7 @@ namespace UI
         /// </summary>
         /// <param name="pCampaña"></param>
         /// <returns></returns>
-        private Image ImagenCampañaCorrespondiente(UI.Tipos.Campaña pCampaña)
+        private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
             Image imagen;
             if (pCampaña.Codigo == -1)
@@ -240,7 +241,7 @@ namespace UI
         {
             DateTime fechaActual = (DateTime)e.Argument;
             TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Fachada.DuracionCampañaSiguiente(horaActual));
+            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.Fachada.DuracionCampañaSiguiente(horaActual));
             e.Result = Servicios.Fachada.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
         }
 
@@ -428,7 +429,7 @@ namespace UI
         private void backgroundWorker_CargarDiaSiguiente_DoWork(object sender, DoWorkEventArgs e)
         {
             DateTime fechaCarga = (DateTime)e.Argument;
-            Fachada.CargarDatosEnMemoria(fechaCarga);
+            Servicios.Fachada.CargarDatosEnMemoria(fechaCarga);
         }
 
         /// <summary>
@@ -441,8 +442,8 @@ namespace UI
             Banner pBanner = (Banner)e.Argument;
             try
             {
-                string resultado = Fachada.OperacionesRSS(pBanner.URL);
-                pBanner.Texto = resultado;
+                //string resultado = Servicios.Fachada.OperacionesRSS(pBanner.URL);
+                
             }
             catch (Exception) { }
         }

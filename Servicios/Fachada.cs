@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Dominio;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("UI")]
 
 namespace Servicios
 {
@@ -22,7 +25,7 @@ namespace Servicios
             pBanner.Codigo = fachadaBanner.Create(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
             if (Fachada.DiaEnCurso(pBanner.ListaRangosFecha))
             {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(AutoMapper.Map<Dominio.Banner, Dominio.Banner>(pBanner));
+                IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pBanner);
             }
         }
 
