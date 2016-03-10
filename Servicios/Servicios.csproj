@@ -72,11 +72,6 @@
     <Compile Include="ImagenServices.cs" />
     <Compile Include="IoCContainerLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RSS\IRssReader.cs" />
-    <Compile Include="RSS\RawXmlRssReader.cs" />
-    <Compile Include="RSS\RssItem.cs" />
-    <Compile Include="RSS\RssReader.cs" />
-    <Compile Include="RSS\SyndicationFeedRssReader.cs" />
     <Compile Include="WebServices.cs" />
     <Compile Include="XMLServices.cs" />
   </ItemGroup>

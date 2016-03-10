@@ -54,11 +54,13 @@ namespace Servicios
             }
         }
 
+        
         /// <summary>
         /// Obtiene la cadena de RSS a partir de la WebURL
         /// </summary>
         /// <param name="pWebURL">URL a partir de la cual obtener el RSS</param>
         /// <returns>Tipo de dato string que representa el contenido del RSS</returns>
+        /*
         public static string OperacionesRSS(string pWebURL)
         {
             Uri pURL = WebServices.ObtenerURLVálida(pWebURL);
@@ -70,7 +72,10 @@ namespace Servicios
                 resultado.Append(pItem.Title + " // ");
             }
             return resultado.ToString();
-        }
+        }*/
+        
+
+
 
         /// <summary>
         /// Obtiene todos los Banners de la base de datos

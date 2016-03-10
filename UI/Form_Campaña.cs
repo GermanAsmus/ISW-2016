@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using UI.Tipos;
 using Servicios;
 using System.Text.RegularExpressions;
 using System.Drawing;
+using Dominio;
 
 namespace UI
 {
@@ -19,11 +19,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Comunicacion.Agregar);
+        private delegado agregar = new delegado(Servicios.Fachada.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Comunicacion.Modificar);
+        private delegado modificar = new delegado(Servicios.Fachada.Modificar);
         #endregion
 
         #region Región: Inicialización y Carga
@@ -431,11 +431,11 @@ namespace UI
             Dictionary<string, object> argumentos = (Dictionary<string, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Comunicacion.ObtenerCampañas();
+                resultado = Servicios.Fachada.ObtenerCampañas();
             }
             else
             {
-                resultado = Comunicacion.ObtenerCampañas(argumentos);
+                resultado = Servicios.Fachada.ObtenerCampañas(argumentos);
             }
             e.Result = resultado;
         }
@@ -462,7 +462,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Comunicacion.Eliminar((Campaña)e.Argument);
+            Servicios.Fachada.Eliminar((Campaña)e.Argument);
         }
 
         /// <summary>
