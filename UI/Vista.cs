@@ -248,36 +248,6 @@ namespace UI
         }
         #endregion
 
-        #region Muestra de la Información Adicional
-        /// <summary>
-        /// Muestra la información Adicional
-        /// </summary>
-        /// <param name="pInformacionAdicional">Infomración Adicional a mostrar</param>
-        private void MostrarInformaciónAdicional()
-        {
-            /*
-            string auxiliar="";
-            foreach (string xPath in pInformacionAdicional.NodosXML)
-            {
-                 auxiliar = auxiliar +" "+ Path.GetFileName(xPath);
-                
-            }
-            GroupBox groupBox = new GroupBox();
-            groupBox.Text = pInformacionAdicional.Nombre;
-            groupBox.ForeColor = Color.White;
-            groupBox.Anchor= (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left);
-            groupBox.AutoSize = true;
-            FlowLayoutPanel panelFlow = new FlowLayoutPanel();
-            groupBox.Controls.Add(panelFlow);
-            panelFlow.AutoSize = true;
-            panelFlow.Anchor = (AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left | AnchorStyles.Bottom);
-            Label labelNodo = new Label() { Text = auxiliar, Anchor = (AnchorStyles.Top | AnchorStyles.Left) };
-            labelNodo.AutoSize = true;
-            panelFlow.Controls.Add(labelNodo);
-            this.flowLayoutPanel_InformacionAdicional.Controls.Add(groupBox);
-            */
-        }
-        #endregion
 
         #region Eventos Comunes
         /// <summary>
