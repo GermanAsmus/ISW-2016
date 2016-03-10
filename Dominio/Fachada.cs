@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 
-[assembly: InternalsVisibleTo("Dominio")]
-
-
 namespace Dominio
 {
     class Fachada
@@ -236,7 +233,7 @@ namespace Dominio
             if((indice == this.iListaBannersActual.Count) || 
                 Math.Abs((horaInicio.Subtract(this.iListaBannersActual.Keys[indice].HoraInicio)).TotalSeconds) > 60)
             {
-                bannerResultado = Banner.BannerNulo();
+                bannerResultado = BannerNulo();
             }
             else
             {
@@ -346,13 +343,14 @@ namespace Dominio
             {
                 return (x.HoraInicio.CompareTo(y.HoraInicio));
             }
+        }
 
 
-            /// <summary>
-            /// Devuelve un Banner es el Nulo (código -1)
-            /// </summary>
-            /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
-            public static Dominio.Banner BannerNulo()
+        /// <summary>
+        /// Devuelve un Banner que es el Nulo (código -1)
+        /// </summary>
+        /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
+        public static Dominio.Banner BannerNulo()
             {
                 TextoFijo pTextoFijo = new TextoFijo("");
                 return new Dominio.Banner()
@@ -375,6 +373,36 @@ namespace Dominio
                 }
                 return resultado;
             }
+
+
+
+        /// <summary>
+        /// Devuelve una Campaña que es la Nula (código -1)
+        /// </summary>
+        /// <returns>tipo de dato Campaña que representa la Campaña de código -1</returns>
+        public static Dominio.Campaña CampañaNula()
+        {
+            Campaña campañaNula = new Campaña() { Codigo = -1,Nombre="" };
+            Imagen imagenNula = new Imagen();
+            imagenNula.Picture = Properties.Resources.sinCampaña;
+            imagenNula.Tiempo = 60;
+            campañaNula.ListaImagenes.Add(imagenNula);
+            return campañaNula;
+        }
+
+
+        /// <summary>
+        /// Comprueba si la Campaña es nula o no.
+        /// </summary>
+        /// <returns>Devuelve verdadero si es nulo la Campaña</returns>
+        public static bool EsCampañaNula(Campaña pCampaña)
+        {
+            bool resultado = false;
+            if (pCampaña.Codigo == -1)
+            {
+                resultado = true;
+            }
+            return resultado;
         }
     }
 }

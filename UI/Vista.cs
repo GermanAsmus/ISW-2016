@@ -79,6 +79,7 @@ namespace UI
             return FachadaServicios.BannerNulo();
         }
 
+
         /// <summary>
         /// Devuelve el texto del banner correspondiente, ya sea el RSS o el Texto
         /// </summary>
@@ -143,7 +144,7 @@ namespace UI
         {
             this.label_TextoBanner.Left = Screen.FromControl(this).Bounds.Width;
             this.label_TextoBanner.Text = this.TextoBannerActual();
-            if(this.iBannerActual.Codigo == -1)
+            if(FachadaServicios.EsBannerNulo(this.iBannerActual))
             {
                 this.iDuracionBannerActual = 0;
             }
@@ -151,18 +152,14 @@ namespace UI
         #endregion
 
         #region Muestra de la Campaña
+       
         /// <summary>
-        /// Campaña nula
+        /// Genera la campaña nula
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Tipo de dato Banner que representa el Banner Nulo</returns>
         private static Campaña CampañaNula()
         {
-            Campaña campañaNula = new Campaña() { Codigo = -1 };
-            Imagen imagenNula = new Imagen();
-            imagenNula.Picture = Properties.Resources.sinCampaña;
-            imagenNula.Tiempo = 60;
-            campañaNula.ListaImagenes.Add(imagenNula);
-            return campañaNula;
+            return FachadaServicios.CampañaNula();
         }
 
         /// <summary>
@@ -173,9 +170,9 @@ namespace UI
         private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
             Image imagen;
-            if (pCampaña.Codigo == -1)
+            if (FachadaServicios.EsCampañaNula(pCampaña))
             {
-                this.iCampañaActual = CampañaNula();
+                ///this.iCampañaActual = pCampaña;
                 this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
             }
             if (enumeradorImagenes.MoveNext())
@@ -210,10 +207,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_DoWork(object sender, DoWorkEventArgs e)
         {
-            DateTime fechaActual = (DateTime)e.Argument;
-            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente(horaActual));
-            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente(horaActual, fechaActual);
+            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente());
+            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente();
         }
 
         /// <summary>

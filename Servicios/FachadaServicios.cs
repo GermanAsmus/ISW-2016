@@ -358,7 +358,7 @@ namespace Servicios
         /// <returns>Tipo banner que representa el banner nulo</returns>
         public static Dominio.Banner BannerNulo()
         {
-            return FachadaServicios.BannerNulo();
+            return Fachada.BannerNulo();
         }
 
         /// <summary>
@@ -367,7 +367,27 @@ namespace Servicios
         /// <returns>Verdadero si el Banner es nulo</returns>
         public static bool EsBannerNulo(Dominio.Banner pBanner)
         {
-            return FachadaServicios.EsBannerNulo(pBanner);
+            return Fachada.EsBannerNulo(pBanner);
+        }
+
+
+
+        /// <summary>
+        /// Devuelve una Campaña Nulo
+        /// </summary>
+        /// <returns>Tipo banner que representa el banner nulo</returns>
+        public static Dominio.Campaña CampañaNula()
+        {
+            return Fachada.CampañaNula();
+        }
+
+        /// <summary>
+        /// Comprueba si un Banner es nulo o no
+        /// </summary>
+        /// <returns>Verdadero si el Banner es nulo</returns>
+        public static bool EsCampañaNula(Dominio.Campaña pCampaña)
+        {
+            return Fachada.EsCampañaNula(pCampaña);
         }
     }
 }
