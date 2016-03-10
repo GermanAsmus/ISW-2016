@@ -12,7 +12,7 @@ namespace Servicios
     /// <summary>
     /// Clase responsable de la Comunicación entre las diversas partes de la Aplicación: Modelo, UI, Persistencia.
     /// </summary>
-    class Fachada
+    class FachadaServicios
     {
         #region Banner
         /// <summary>
@@ -23,7 +23,7 @@ namespace Servicios
         {
             FachadaCRUDBanner fachadaBanner = IoCContainerLocator.GetType<FachadaCRUDBanner>();
             pBanner.Codigo = fachadaBanner.Create(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
-            if (Fachada.DiaEnCurso(pBanner.ListaRangosFecha))
+            if (FachadaServicios.DiaEnCurso(pBanner.ListaRangosFecha))
             {
                 IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pBanner);
             }
@@ -272,9 +272,11 @@ namespace Servicios
         /// <param name="pHoraActual">Hora Actual</param>
         /// <param name="pFechaActual">Fecha Actual</param>
         /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
-        public static Dominio.Banner ObtenerBannerCorrespondiente(TimeSpan pHoraActual, DateTime pFechaActual)
+        public static Dominio.Banner ObtenerBannerCorrespondiente()
         {
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente(pHoraActual, pFechaActual);
+            DateTime fechaActual = DateTime.Now;
+            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
+            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente(horaActual, fechaActual);
         }
 
         /// <summary>
@@ -325,9 +327,11 @@ namespace Servicios
         /// </summary>        
         /// <param name="pHoraActual">Hora Actual</param>
         /// <returns>Tipo de dato entero que reprsenta la duración del banner próximo</returns>
-        public static int DuracionBannerSiguiente(TimeSpan pHoraActual)
+        public static int DuracionBannerSiguiente()
         {
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionBannerSiguiente(pHoraActual);
+            DateTime fechaActual = DateTime.Now;
+            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
+            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionBannerSiguiente(horaActual);
         }
 
         /// <summary>
@@ -346,6 +350,24 @@ namespace Servicios
         public static void CargaInicial()
         {
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListas();
-        }    
+        }
+
+        /// <summary>
+        /// Devuelve un Banner Nulo
+        /// </summary>
+        /// <returns>Tipo banner que representa el banner nulo</returns>
+        public static Dominio.Banner BannerNulo()
+        {
+            return FachadaServicios.BannerNulo();
+        }
+
+        /// <summary>
+        /// Comprueba si un Banner es nulo o no
+        /// </summary>
+        /// <returns>Verdadero si el Banner es nulo</returns>
+        public static bool EsBannerNulo(Dominio.Banner pBanner)
+        {
+            return FachadaServicios.EsBannerNulo(pBanner);
+        }
     }
 }

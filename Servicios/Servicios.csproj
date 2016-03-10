@@ -68,7 +68,7 @@
     <Compile Include="Excepciones\ExcepcionArchivo.cs" />
     <Compile Include="Excepciones\ExcepcionWeb.cs" />
     <Compile Include="Excepciones\ExcepcionXML.cs" />
-    <Compile Include="Fachada.cs" />
+    <Compile Include="FachadaServicios.cs" />
     <Compile Include="ImagenServices.cs" />
     <Compile Include="IoCContainerLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

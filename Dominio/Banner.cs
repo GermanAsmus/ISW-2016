@@ -17,20 +17,6 @@ namespace Dominio
         private List<RangoFecha> iListaRangosFecha;
 
         /// <summary>
-        /// Devuelve un Banner es el Nulo (código -1)
-        /// </summary>
-        /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
-        public static Banner BannerNulo()
-        {
-            TextoFijo pTextoFijo = new TextoFijo("");
-            return new Banner()
-            {
-                Codigo = -1,
-                InstanciaTexto = pTextoFijo
-            };
-        }
-
-        /// <summary>
         /// Constructor del Banner
         /// </summary>
         public Banner()

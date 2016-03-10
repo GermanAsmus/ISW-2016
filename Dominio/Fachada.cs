@@ -346,6 +346,35 @@ namespace Dominio
             {
                 return (x.HoraInicio.CompareTo(y.HoraInicio));
             }
+
+
+            /// <summary>
+            /// Devuelve un Banner es el Nulo (código -1)
+            /// </summary>
+            /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
+            public static Dominio.Banner BannerNulo()
+            {
+                TextoFijo pTextoFijo = new TextoFijo("");
+                return new Dominio.Banner()
+                {
+                    Codigo = -1,
+                    InstanciaTexto = pTextoFijo
+                };
+            }
+
+            /// <summary>
+            /// Comprueba si el banner es nulo o no.
+            /// </summary>
+            /// <returns>Devuelve verdadero si es nulo el Banner</returns>
+            public static bool EsBannerNulo(Banner pBanner)
+            {
+                bool resultado=false;
+                if(pBanner.Codigo==-1)
+                {
+                    resultado = true;
+                }
+                return resultado;
+            }
         }
     }
 }

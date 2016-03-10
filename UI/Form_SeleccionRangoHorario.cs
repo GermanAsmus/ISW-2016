@@ -429,11 +429,11 @@ namespace UI
             List<RangoHorario> listaRangos;
             if (this.iEsBanner)
             {
-                listaRangos = Servicios.Fachada.RangosHorariosOcupadosBanner((RangoFecha)e.Argument);
+                listaRangos = Servicios.FachadaServicios.RangosHorariosOcupadosBanner((RangoFecha)e.Argument);
             }
             else
             {
-                listaRangos = Servicios.Fachada.RangosHorariosOcupadosCampaña((RangoFecha)e.Argument);
+                listaRangos = Servicios.FachadaServicios.RangosHorariosOcupadosCampaña((RangoFecha)e.Argument);
             }
             e.Result = listaRangos;
         }
