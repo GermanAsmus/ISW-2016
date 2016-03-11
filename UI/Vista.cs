@@ -51,20 +51,12 @@ namespace UI
         }
 
         /// <summary>
-        /// Configura Primer Banner y Camapaña
+        /// Configura Primer Banner y Campaña
         /// </summary>
         public void ConfigurarBannerCampaña()
         {
-            //BANNER
-            this.iBannerProximo = BannerNulo();
-            this.iDuracionBannerActual = Servicios.FachadaServicios.DuracionBannerSiguiente();
-            this.iBannerActual = Servicios.FachadaServicios.ObtenerBannerCorrespondiente();
-            this.ActualizarBanner();
-            //CAMPAÑA
-            this.iCampañaProxima = CampañaNula();
-            this.iDuracionCampañaActual = Servicios.FachadaServicios.DuracionCampañaSiguiente();
-            this.iCampañaActual = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente();
-            this.ActualizarCampaña();
+            ///BANNER
+            FachadaServicios.ObtenerBannerSiguiente();
         }
 
         #endregion
@@ -86,8 +78,7 @@ namespace UI
         /// <returns>Devuelve una cadena con el texto correspondiente</returns>
         private string TextoBannerActual()
         {
-            string cadena = this.iBannerActual.Texto;
-            return cadena;
+
         }
 
         /// <summary>
@@ -111,8 +102,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-            this.backgroundWorker_ChequeoBanner.ReportProgress(0, Servicios.FachadaServicios.DuracionBannerSiguiente());
-            e.Result = Servicios.FachadaServicios.ObtenerBannerCorrespondiente();
+
         }
 
         /// <summary>
@@ -122,9 +112,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.iBannerProximo = (Banner)e.Result;
-            this.backgroundWorker_CargarDiaSiguiente.RunWorkerAsync(this.iBannerProximo);
-            //this.label_TextoBanner.Text = TextoBannerCorrespondiente(iBannerActual);
+
         }
 
         /// <summary>
@@ -134,7 +122,6 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.iDuracionBannerProximo = (int)e.UserState;
         }
 
         /// <summary>
@@ -169,25 +156,7 @@ namespace UI
         /// <returns></returns>
         private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
-            Image imagen;
-            if (FachadaServicios.EsCampañaNula(pCampaña))
-            {
-                ///this.iCampañaActual = pCampaña;
-                this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
-            }
-            if (enumeradorImagenes.MoveNext())
-            {
-                imagen = this.enumeradorImagenes.Current.Picture;
-                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo * 1000;
-            }
-            else
-            {
-                this.enumeradorImagenes.Reset();
-                this.enumeradorImagenes.MoveNext();
-                imagen = this.enumeradorImagenes.Current.Picture;
-                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo * 1000;
-            }
-            return imagen;
+
         }
 
         /// <summary>
@@ -294,26 +263,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void timer_Chequeo_Tick(object sender, EventArgs e)
         {
-            DateTime fechaActual = DateTime.Now;
-            if((fechaActual.Hour == 23))
-            {
-                if(fechaActual.Minute == 59)
-                {
-                    fechaActual = new DateTime(fechaActual.Year, fechaActual.Month, fechaActual.Day + 1, 0, 0, 0);
-                }
-                else if (fechaActual.Minute == 30)
-                {
-                    this.backgroundWorker_CargarDiaSiguiente.RunWorkerAsync(fechaActual.AddDays(1));
-                }
-            }
-            if (this.iDuracionBannerActual <= 60)
-            {
-                this.backgroundWorker_ChequeoBanner.RunWorkerAsync(fechaActual);
-            }
-            if (this.iDuracionCampañaActual <= 60)
-            {
-                this.backgroundWorker_ChequeoCampaña.RunWorkerAsync(fechaActual);
-            }
+         
         }
 
         /// <summary>
@@ -323,25 +273,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void timer_Cambio_Tick(object sender, EventArgs e)
         {
-            this.iDuracionCampañaActual -= 60;
-            this.iDuracionBannerActual -= 60;
-            //Último minuto que corre el Banner
-            if (this.iDuracionBannerActual < 60)
-            {
-                this.iBannerActual = this.iBannerProximo;
-                this.iDuracionBannerActual = this.iDuracionBannerProximo;
-                this.iDuracionBannerProximo = 0;
-                this.iBannerProximo = BannerNulo();
-                this.ActualizarBanner();
-            }
-            if (this.iDuracionCampañaActual < 60)
-            {
-                this.iCampañaActual = this.iCampañaProxima;
-                this.iDuracionCampañaActual = this.iDuracionCampañaProxima;
-                this.iDuracionCampañaProxima = 0;
-                this.iCampañaProxima = CampañaNula();
-                this.ActualizarCampaña();
-            }
+   
         }
 
         /// <summary>
@@ -364,8 +296,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargarDiaSiguiente_DoWork(object sender, DoWorkEventArgs e)
         {
-            DateTime fechaCarga = (DateTime)e.Argument;
-            Servicios.FachadaServicios.CargarDatosEnMemoria(fechaCarga);
+
         }
 
         /// <summary>
@@ -375,13 +306,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            Banner pBanner = (Banner)e.Argument;
-            try
-            {
-                //string resultado = Servicios.Fachada.OperacionesRSS(pBanner.URL);
-                
-            }
-            catch (Exception) { }
+
         }
         #endregion
 

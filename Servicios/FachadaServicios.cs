@@ -272,11 +272,9 @@ namespace Servicios
         /// <param name="pHoraActual">Hora Actual</param>
         /// <param name="pFechaActual">Fecha Actual</param>
         /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
-        public static Dominio.Banner ObtenerBannerCorrespondiente()
+        public static Dominio.Banner ObtenerBannerSiguiente()
         {
-            DateTime fechaActual = DateTime.Now;
-            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente(horaActual, fechaActual);
+            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
         }
 
         /// <summary>
@@ -285,15 +283,15 @@ namespace Servicios
         /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
         public static Dominio.Campaña ObtenerCampañaCorrespondiente()
         {
-            FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
             int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             Dominio.Campaña campañaSiguiente;
-            if (codigoCampaña == -1)
+            if (Fachada.EsCampañaNula(codigoCampaña))
             {
-                campañaSiguiente = new Dominio.Campaña() { Codigo = codigoCampaña };
+                campañaSiguiente = Fachada.CampañaNula();
             }
             else
             {
+                FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
                 campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
             }
             return campañaSiguiente;
@@ -323,70 +321,11 @@ namespace Servicios
         }
 
         /// <summary>
-        /// Obtiene la duración del Banner próximo
-        /// </summary>        
-        /// <param name="pHoraActual">Hora Actual</param>
-        /// <returns>Tipo de dato entero que reprsenta la duración del banner próximo</returns>
-        public static int DuracionBannerSiguiente()
-        {
-           
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionBannerSiguiente();
-        }
-
-        /// <summary>
-        /// Obtiene la duración de la Campaña próxima
-        /// </summary>
-        /// <param name="pHoraActual">Hora Actual</param>
-        /// <returns>Tipo de dato entero que reprsenta la duración de la Campaña próxima</returns>
-        public static int DuracionCampañaSiguiente()
-        {
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionCampañaSiguiente();
-        }
-
-        /// <summary>
         /// Carga las Listas inicialmentes
         /// </summary>
         public static void CargaInicial()
         {
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListas();
-        }
-
-        /// <summary>
-        /// Devuelve un Banner Nulo
-        /// </summary>
-        /// <returns>Tipo banner que representa el banner nulo</returns>
-        public static Dominio.Banner BannerNulo()
-        {
-            return Fachada.BannerNulo();
-        }
-
-        /// <summary>
-        /// Comprueba si un Banner es nulo o no
-        /// </summary>
-        /// <returns>Verdadero si el Banner es nulo</returns>
-        public static bool EsBannerNulo(Dominio.Banner pBanner)
-        {
-            return Fachada.EsBannerNulo(pBanner);
-        }
-
-
-
-        /// <summary>
-        /// Devuelve una Campaña Nulo
-        /// </summary>
-        /// <returns>Tipo banner que representa el banner nulo</returns>
-        public static Dominio.Campaña CampañaNula()
-        {
-            return Fachada.CampañaNula();
-        }
-
-        /// <summary>
-        /// Comprueba si un Banner es nulo o no
-        /// </summary>
-        /// <returns>Verdadero si el Banner es nulo</returns>
-        public static bool EsCampañaNula(Dominio.Campaña pCampaña)
-        {
-            return Fachada.EsCampañaNula(pCampaña);
         }
     }
 }
