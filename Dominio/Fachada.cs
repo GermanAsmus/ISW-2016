@@ -285,10 +285,11 @@ namespace Dominio
         /// <summary>
         /// Devuleve la duración en segundos del banner siguiente
         /// </summary>
-        /// <param name="horaInicio">Hora de inicio a verificar la Campaña siguiente</param>
         /// <returns>Tipo de dato Entero que representa la duración del banner siguiente</returns>
-        public int ObtenerDuracionBannerSiguiente(TimeSpan horaInicio)
+        public int ObtenerDuracionBannerSiguiente()
         {
+            DateTime fechaActual = DateTime.Now;
+            TimeSpan horaInicio = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
             int duracionResultado = 0;
             int indice = 0;
             if ((indice == this.iListaBannersActual.Count) ||

@@ -329,9 +329,8 @@ namespace Servicios
         /// <returns>Tipo de dato entero que reprsenta la duración del banner próximo</returns>
         public static int DuracionBannerSiguiente()
         {
-            DateTime fechaActual = DateTime.Now;
-            TimeSpan horaActual = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionBannerSiguiente(horaActual);
+           
+            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerDuracionBannerSiguiente();
         }
 
         /// <summary>
