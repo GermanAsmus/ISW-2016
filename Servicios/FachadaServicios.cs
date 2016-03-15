@@ -275,13 +275,18 @@ namespace Servicios
         public static Dominio.Banner ObtenerBannerSiguiente()
         {
             return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
+            if(IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
+            {
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                CargarDatosEnMemoria(DiaMañana);
+            }
         }
 
         /// <summary>
         /// Obtiene la campaña correspondiente con respecto a la fecha y a la hora
         /// </summary>
         /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
-        public static Dominio.Campaña ObtenerCampañaCorrespondiente()
+        public static Dominio.Campaña ObtenerCampañaSiguiente()
         {
             int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             Dominio.Campaña campañaSiguiente;

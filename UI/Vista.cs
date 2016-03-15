@@ -17,10 +17,7 @@ namespace UI
         Campaña iCampañaActual;
         Campaña iCampañaProxima;
         IEnumerator<Imagen> enumeradorImagenes;
-        int iDuracionCampañaActual;
-        int iDuracionCampañaProxima;
-        int iDuracionBannerProximo;
-        int iDuracionBannerActual;
+
         #endregion
 
         #region Inicialización y Carga
@@ -45,8 +42,6 @@ namespace UI
             this.timer_TextoDeslizante.Enabled = true;
             this.timer_ImagenesCampaña.Interval = 1000;
             this.timer_ImagenesCampaña.Enabled = true;
-            this.iDuracionBannerActual = 0;
-            this.iDuracionCampañaActual = 0;
             this.backgroundWorker_InicializarTimers.RunWorkerAsync();
         }
 
@@ -56,30 +51,17 @@ namespace UI
         public void ConfigurarBannerCampaña()
         {
             ///BANNER
-            FachadaServicios.ObtenerBannerSiguiente();
+            this.iBannerActual=FachadaServicios.ObtenerBannerSiguiente();
+            this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
+
+            ///CAMPAÑA
+            this.iCampañaActual=FachadaServicios.ObtenerCampañaSiguiente();
+            this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
         }
 
         #endregion
 
         #region Muestra del Banner
-        /// <summary>
-        /// Genera el Banner Nulo 
-        /// </summary>
-        /// <returns>Tipo de dato Banner que representa el Banner Nulo</returns>
-        private static Banner BannerNulo()
-        {
-            return FachadaServicios.BannerNulo();
-        }
-
-
-        /// <summary>
-        /// Devuelve el texto del banner correspondiente, ya sea el RSS o el Texto
-        /// </summary>
-        /// <returns>Devuelve una cadena con el texto correspondiente</returns>
-        private string TextoBannerActual()
-        {
-
-        }
 
         /// <summary>
         /// Evento que surge cuando el timer del texto Deslizante hace un tick
@@ -102,7 +84,19 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            bool resultado = false;
+            if(!(this.iBannerActual.Equals(this.iBannerProximo)))
+            {
+                this.iBannerActual = this.iBannerProximo;
+                this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
+                resultado = true;
+            }
+            else
+            {
+                this.iBannerActual = this.iBannerProximo;
+                this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
+            }
+            e.Result = resultado;
         }
 
         /// <summary>
@@ -112,17 +106,14 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
+            bool haceFaltaActualizar = (bool)e.Result;
+            if(haceFaltaActualizar)
+            {
+                this.ActualizarBanner();
+            }
 
         }
 
-        /// <summary>
-        /// Evento que surge cuando el proceso de chequeo de Banners reporta el progreso
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void backgroundWorker_ChequeoBanner_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-        }
 
         /// <summary>
         /// Cambia el valor de Label para que muestre el Banner Actual
@@ -130,24 +121,11 @@ namespace UI
         public void ActualizarBanner()
         {
             this.label_TextoBanner.Left = Screen.FromControl(this).Bounds.Width;
-            this.label_TextoBanner.Text = this.TextoBannerActual();
-            if(FachadaServicios.EsBannerNulo(this.iBannerActual))
-            {
-                this.iDuracionBannerActual = 0;
-            }
+            this.label_TextoBanner.Text = this.iBannerActual.Texto;
         }
         #endregion
 
         #region Muestra de la Campaña
-       
-        /// <summary>
-        /// Genera la campaña nula
-        /// </summary>
-        /// <returns>Tipo de dato Banner que representa el Banner Nulo</returns>
-        private static Campaña CampañaNula()
-        {
-            return FachadaServicios.CampañaNula();
-        }
 
         /// <summary>
         /// Devuelve la imagen de la campaña correspondiente
@@ -156,7 +134,18 @@ namespace UI
         /// <returns></returns>
         private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
-
+            Image imagen;
+            if(this.enumeradorImagenes.MoveNext())
+            {
+                imagen=this.enumeradorImagenes.Current.Picture;
+            }
+            else
+            {
+                this.enumeradorImagenes.Reset();
+                this.enumeradorImagenes.MoveNext();
+                imagen = this.enumeradorImagenes.Current.Picture;
+            }
+            return imagen;
         }
 
         /// <summary>
@@ -176,8 +165,13 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_DoWork(object sender, DoWorkEventArgs e)
         {
-            this.backgroundWorker_ChequeoCampaña.ReportProgress(0, Servicios.FachadaServicios.DuracionCampañaSiguiente());
-            e.Result = Servicios.FachadaServicios.ObtenerCampañaCorrespondiente();
+            bool resultado = false;
+            if (!(this.iCampañaActual.Equals(this.iCampañaProxima)))
+            {
+                this.iCampañaActual = this.iCampañaProxima;;
+                resultado = true;
+            }
+            e.Result = resultado;
         }
 
         /// <summary>
@@ -187,19 +181,12 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.iCampañaProxima = (Campaña)e.Result;
-            //this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
-            //this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(this.iCampañaActual);
-        }
-
-        /// <summary>
-        /// Evento que surge cuando el proceso de chequeo de Campaña reporta progreso
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void backgroundWorker_ChequeoCampaña_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            this.iDuracionCampañaProxima = (int)e.UserState;
+            this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
+            bool haceFaltaActualizar = (bool)e.Result;
+            if (haceFaltaActualizar)
+            {
+                this.ActualizarCampaña();
+            }
         }
 
         /// <summary>
@@ -289,15 +276,6 @@ namespace UI
             this.timer_TextoDeslizante.Enabled = false;
         }
 
-        /// <summary>
-        /// Evento que surge cuando el proceso en segundo plano carga los Banners y campañas dia siguiente
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void backgroundWorker_CargarDiaSiguiente_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-        }
 
         /// <summary>
         /// Evento que surge cuando el proceso de RSS comienza a ejecutarse

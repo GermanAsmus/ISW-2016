@@ -12,6 +12,8 @@ namespace Dominio
         SortedList<int, Banner> iListaBannersProxima;
         SortedList<int, int> iListaCampañaActual;
         SortedList<int, int> iListaCampañaProxima;
+        bool iActualizarListaBanners=false;
+        bool iActualizarListaCampaña=false;
 
         /// <summary>
         /// Constructor de la fachada
@@ -39,6 +41,8 @@ namespace Dominio
                 iListaCampañaActual[i] = CodigoCampañaNula();
                 iListaCampañaActual[i] = CodigoCampañaNula();
             }
+            this.iActualizarListaCampaña = false;
+            this.iActualizarListaBanners = false;
         }
 
 
@@ -57,6 +61,7 @@ namespace Dominio
         /// <param name="listaBanners">Lista de Banners a cargar</param>
         public void Cargar(List<Banner> listaBanners)
         {
+            this.InicializarListas();
             foreach (Banner pBanner in listaBanners)
             {
                 this.Agregar(pBanner, this.iListaBannersProxima);
@@ -260,6 +265,7 @@ namespace Dominio
         /// <returns>Tipo de dato Banner que representa el Banner siguiente</returns>
         public Banner ObtenerBannerSiguiente()
         {
+            Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second)).TotalMinutes;
             if (fechaActual.Date.CompareTo(this.iFechaActual) < 0)
@@ -269,8 +275,9 @@ namespace Dominio
             }
             
             int indice = 0;
-            Banner bannerResultado = this.iListaBannersActual.Values[indice];
+            bannerResultado = this.iListaBannersActual.Values[indice];
             this.Eliminar(bannerResultado);
+            this.ChequearCambioLista();
             return bannerResultado;
         }
 
@@ -307,7 +314,23 @@ namespace Dominio
         }
 
 
-         /// <summary>
+        public void ChequearCambioLista()
+        {
+            if(this.iListaBannersActual.Count==0 && this.iListaCampañaActual.Count == 0)
+            {
+                CambiarListas();
+                this.iActualizarListaBanners = true;
+                this.iActualizarListaCampaña = true;
+            }
+        }
+
+        public bool NecesitaActualizarListas()
+        {
+            return (this.iActualizarListaBanners && this.iActualizarListaCampaña);
+        }
+
+
+        /// <summary>
         /// Clase responsable de comparar dos RangosHorarios
         /// </summary>
         private class ComparadorRangosHorarios : IComparer<RangoHorario>
