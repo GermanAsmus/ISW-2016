@@ -274,12 +274,13 @@ namespace Servicios
         /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
         public static Dominio.Banner ObtenerBannerSiguiente()
         {
-            return IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
-            if(IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
+            Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
+            if (Fachada.NecesitaActualizarListas())
             {
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 CargarDatosEnMemoria(DiaMañana);
             }
+            return bannerSiguiente;
         }
 
         /// <summary>
@@ -299,6 +300,12 @@ namespace Servicios
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
                 campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
             }
+            if(Fachada.NecesitaActualizarListas())
+            {
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                CargarDatosEnMemoria(DiaMañana);
+            }
+            campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
             return campañaSiguiente;
         }
 
@@ -330,7 +337,8 @@ namespace Servicios
         /// </summary>
         public static void CargaInicial()
         {
-            IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListas();
+            IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaBanners();
+            IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaCampañas();
         }
     }
 }

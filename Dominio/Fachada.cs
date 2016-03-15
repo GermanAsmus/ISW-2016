@@ -25,24 +25,36 @@ namespace Dominio
             this.iListaCampañaActual = new SortedList<int, int>();
             this.iListaCampañaProxima = new SortedList<int, int>();
             this.iFechaActual = DateTime.Today.Date;
-            this.InicializarListas();
+            this.InicializarListaBanner();
+            this.InicializarListaCampaña();
         }
 
         /// <summary>
-        /// Inicializa las listas con Campañas y listas nulas
+        /// Inicializa la lista de Banners con Banners nulos
         /// </summary>
-        private void InicializarListas()
+        private void InicializarListaBanner()
         {
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
                 iListaBannersActual[i] = BannerNulo();
                 iListaBannersProxima[i] = BannerNulo();
+            }
+            this.iActualizarListaBanners = false;
+        }
+
+        /// <summary>
+        /// Inicializa la lista de Campaña con Campañas nulas
+        /// </summary>
+        private void InicializarListaCampaña()
+        {
+            int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
+            for (int i = 0; i <= totalMinutosDia; i++)
+            {
                 iListaCampañaActual[i] = CodigoCampañaNula();
                 iListaCampañaActual[i] = CodigoCampañaNula();
             }
             this.iActualizarListaCampaña = false;
-            this.iActualizarListaBanners = false;
         }
 
 
@@ -61,7 +73,8 @@ namespace Dominio
         /// <param name="listaBanners">Lista de Banners a cargar</param>
         public void Cargar(List<Banner> listaBanners)
         {
-            this.InicializarListas();
+            this.InicializarListaBanner();
+            this.InicializarListaCampaña();
             foreach (Banner pBanner in listaBanners)
             {
                 this.Agregar(pBanner, this.iListaBannersProxima);
@@ -268,16 +281,12 @@ namespace Dominio
             Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second)).TotalMinutes;
-            if (fechaActual.Date.CompareTo(this.iFechaActual) < 0)
+            bannerResultado = this.iListaBannersActual.Values[horaInicio];
+            if(horaInicio==1439)//Serían las 23:59
             {
-                this.CambiarListas();
-                this.EstablecerFecha(fechaActual);
+                this.CambiarListaBanners();
+                this.iActualizarListaBanners = true;
             }
-            
-            int indice = 0;
-            bannerResultado = this.iListaBannersActual.Values[indice];
-            this.Eliminar(bannerResultado);
-            this.ChequearCambioLista();
             return bannerResultado;
         }
 
@@ -288,43 +297,41 @@ namespace Dominio
         public int ObtenerCampañaSiguiente()
         {
             DateTime fechaActual = DateTime.Now;
-            TimeSpan horaInicio = new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second);
-            if (fechaActual.Date.CompareTo(this.iFechaActual) < 0)
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second).TotalMinutes);
+            if (horaInicio == 1439)//Serían las 23:59
             {
-                this.CambiarListas();
-                this.EstablecerFecha(fechaActual);
+                this.CambiarListaCampañas();
+                this.iActualizarListaCampaña = true;
             }
-            
-            int indice = 0;
-            int campañaResultado = this.iListaCampañaActual.Values[indice];
-            this.iListaCampañaActual.RemoveAt(indice);
+            int campañaResultado = this.iListaCampañaActual.Values[horaInicio];
             return campañaResultado;
         }
 
         /// <summary>
-        /// Cambia las listas de Banners y Campañas
+        /// Cambia las listas de Banners
         /// </summary>
-        public void CambiarListas()
+        public void CambiarListaBanners()
         {
             SortedList<int, Banner> listaAuxBanner = this.iListaBannersProxima;
-            SortedList<int, int> listaAuxCampaña = this.iListaCampañaProxima;
-            this.InicializarListas();
+            this.InicializarListaBanner();
             this.iListaBannersActual = listaAuxBanner;
+        }
+
+        /// <summary>
+        /// Cambia las listas de Campañas
+        /// </summary>
+        public void CambiarListaCampañas()
+        {
+            SortedList<int, int> listaAuxCampaña = this.iListaCampañaProxima;
+            this.InicializarListaCampaña();
             this.iListaCampañaActual = listaAuxCampaña;
         }
 
-
-        public void ChequearCambioLista()
-        {
-            if(this.iListaBannersActual.Count==0 && this.iListaCampañaActual.Count == 0)
-            {
-                CambiarListas();
-                this.iActualizarListaBanners = true;
-                this.iActualizarListaCampaña = true;
-            }
-        }
-
-        public bool NecesitaActualizarListas()
+        /// <summary>
+        /// Si se desea saber si hay que actualizar las listas o no.
+        /// </summary>
+        /// <returns>tipo booleano, verdadero en caso de que se necesite</returns>
+        public static bool NecesitaActualizarListas()
         {
             return (this.iActualizarListaBanners && this.iActualizarListaCampaña);
         }
