@@ -84,19 +84,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-            bool resultado = false;
-            if(!(this.iBannerActual.Equals(this.iBannerProximo)))
-            {
-                this.iBannerActual = this.iBannerProximo;
-                this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
-                resultado = true;
-            }
-            else
-            {
-                this.iBannerActual = this.iBannerProximo;
-                this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
-            }
-            e.Result = resultado;
+            e.Result = FachadaServicios.ObtenerBannerSiguiente();
         }
 
         /// <summary>
@@ -106,12 +94,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            bool haceFaltaActualizar = (bool)e.Result;
-            if(haceFaltaActualizar)
-            {
-                this.ActualizarBanner();
-            }
-
+            this.iBannerProximo = (Banner)e.Result;
         }
 
 
@@ -165,13 +148,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_DoWork(object sender, DoWorkEventArgs e)
         {
-            bool resultado = false;
-            if (!(this.iCampañaActual.Equals(this.iCampañaProxima)))
-            {
-                this.iCampañaActual = this.iCampañaProxima;;
-                resultado = true;
-            }
-            e.Result = resultado;
+            e.Result = FachadaServicios.ObtenerCampañaSiguiente();
         }
 
         /// <summary>
@@ -181,12 +158,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
-            bool haceFaltaActualizar = (bool)e.Result;
-            if (haceFaltaActualizar)
-            {
-                this.ActualizarCampaña();
-            }
+            this.iCampañaProxima = (Campaña)e.Result;
         }
 
         /// <summary>
@@ -250,7 +222,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void timer_Chequeo_Tick(object sender, EventArgs e)
         {
-         
+            backgroundWorker_ChequeoBanner.RunWorkerAsync();
+            backgroundWorker_ChequeoCampaña.RunWorkerAsync();
         }
 
         /// <summary>
@@ -260,7 +233,17 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void timer_Cambio_Tick(object sender, EventArgs e)
         {
-   
+            if(!iBannerActual.Equals(iBannerProximo))
+            {
+                iBannerActual = iBannerProximo;
+                this.ActualizarBanner();
+            }
+
+            if (!iCampañaActual.Equals(iCampañaProxima))
+            {
+                iCampañaActual = iCampañaProxima;
+                this.ActualizarCampaña();
+            }
         }
 
         /// <summary>

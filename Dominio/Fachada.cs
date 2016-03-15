@@ -280,7 +280,7 @@ namespace Dominio
         {
             Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
-            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second)).TotalMinutes;
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second)).TotalMinutes + 1;
             bannerResultado = this.iListaBannersActual.Values[horaInicio];
             if(horaInicio==1439)//Serían las 23:59
             {
@@ -297,8 +297,8 @@ namespace Dominio
         public int ObtenerCampañaSiguiente()
         {
             DateTime fechaActual = DateTime.Now;
-            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second).TotalMinutes);
-            if (horaInicio == 1439)//Serían las 23:59
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second).TotalMinutes)+1;
+            if (horaInicio == 1439)//Serían a las 23:59
             {
                 this.CambiarListaCampañas();
                 this.iActualizarListaCampaña = true;
@@ -331,9 +331,9 @@ namespace Dominio
         /// Si se desea saber si hay que actualizar las listas o no.
         /// </summary>
         /// <returns>tipo booleano, verdadero en caso de que se necesite</returns>
-        public static bool NecesitaActualizarListas()
+        public bool NecesitaActualizarListas()
         {
-            return (this.iActualizarListaBanners && this.iActualizarListaCampaña);
+            return (iActualizarListaBanners && iActualizarListaCampaña);
         }
 
 

@@ -275,7 +275,7 @@ namespace Servicios
         public static Dominio.Banner ObtenerBannerSiguiente()
         {
             Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
-            if (Fachada.NecesitaActualizarListas())
+            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 CargarDatosEnMemoria(DiaMañana);
@@ -300,7 +300,7 @@ namespace Servicios
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
                 campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
             }
-            if(Fachada.NecesitaActualizarListas())
+            if(IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 CargarDatosEnMemoria(DiaMañana);

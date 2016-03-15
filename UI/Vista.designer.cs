@@ -109,7 +109,6 @@
             // 
             this.backgroundWorker_ChequeoBanner.WorkerReportsProgress = true;
             this.backgroundWorker_ChequeoBanner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_ChequeoBanner_DoWork);
-            this.backgroundWorker_ChequeoBanner.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ChequeoBanner_ProgressChanged);
             this.backgroundWorker_ChequeoBanner.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_ChequeoBanner_Completed);
             // 
             // timer_Chequeo
@@ -124,7 +123,6 @@
             // 
             this.backgroundWorker_ChequeoCampaña.WorkerReportsProgress = true;
             this.backgroundWorker_ChequeoCampaña.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_ChequeoCampaña_DoWork);
-            this.backgroundWorker_ChequeoCampaña.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ChequeoCampaña_ProgressChanged);
             this.backgroundWorker_ChequeoCampaña.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_ChequeoCampaña_RunWorkerCompleted);
             // 
             // backgroundWorker_InicializarTimers
@@ -139,7 +137,6 @@
             // 
             // backgroundWorker_CargarDiaSiguiente
             // 
-            this.backgroundWorker_CargarDiaSiguiente.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_CargarDiaSiguiente_DoWork);
             // 
             // backgroundWorker_RSS
             // 

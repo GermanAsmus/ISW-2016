@@ -380,7 +380,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Servicios.FachadaServicios.OperacionesRSS((string)e.Argument);
+            //e.Result = Servicios.FachadaServicios.OperacionesRSS((string)e.Argument);
         }
 
         /// <summary>
