@@ -35,6 +35,7 @@
             this.campañaPublicitariaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vistaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fuentesRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,7 +70,8 @@
             // 
             this.configuraciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.campañaPublicitariaToolStripMenuItem,
-            this.bannerToolStripMenuItem});
+            this.bannerToolStripMenuItem,
+            this.fuentesRSSToolStripMenuItem});
             this.configuraciónToolStripMenuItem.Name = "configuraciónToolStripMenuItem";
             this.configuraciónToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
             this.configuraciónToolStripMenuItem.Text = "&Configuración";
@@ -94,6 +96,13 @@
             this.vistaToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.vistaToolStripMenuItem.Text = "&Vista";
             this.vistaToolStripMenuItem.Click += new System.EventHandler(this.vistaToolStripMenuItem_Click);
+            // 
+            // fuentesRSSToolStripMenuItem
+            // 
+            this.fuentesRSSToolStripMenuItem.Name = "fuentesRSSToolStripMenuItem";
+            this.fuentesRSSToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.fuentesRSSToolStripMenuItem.Text = "&Fuentes RSS";
+            this.fuentesRSSToolStripMenuItem.Click += new System.EventHandler(this.fuentesRSSToolStripMenuItem_Click);
             // 
             // Principal
             // 
@@ -123,6 +132,7 @@
         private System.Windows.Forms.ToolStripMenuItem campañaPublicitariaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vistaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fuentesRSSToolStripMenuItem;
     }
 }
 

@@ -52,5 +52,15 @@ namespace Dominio
         {
             return this.iTexto;
         }
+
+        /// <summary>
+        /// Determina si dos fuentes son iguales
+        /// </summary>
+        /// <param name="other">Otra Fuente a comparar</param>
+        /// <returns>Tipo de dato bool que representa si dos Fuentes son iguales</returns>
+        public bool Equals(Fuente other)
+        {
+            return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
+        }
     }
 }
