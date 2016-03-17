@@ -107,5 +107,11 @@ namespace Persistencia
             FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
             return fachadaFuente.GetAll();
         }
+
+        public List<Imagen> ObtenerImagenesCampaña(int pCodigoCamapaña)
+        {
+            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
+            return (fachadaCampaña.GetByCodigo(pCodigoCamapaña).Imagenes);
+        }
     }
 }

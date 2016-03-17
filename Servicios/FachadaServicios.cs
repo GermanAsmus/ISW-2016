@@ -155,11 +155,10 @@ namespace Servicios
         /// </summary>
         /// <param name="pCodigoCamapaña">Código de la Campaña</param>
         /// <returns>Tipo de dato Lista de Imágenes que representa la lista de imágenes de la campaña</returns>
-        public static List<Dominio.Imagen> ObtenerImagenesCampaña(int pCodigoCamapaña)
+        public static List<Dominio.Imagen> ObtenerImagenesCampaña(int pCodigoCampaña)
         {
-            FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-            return AutoMapper.Map<List<Persistencia.Imagen>, List<Dominio.Imagen>>
-                            (fachadaCampaña.GetByCodigo(pCodigoCamapaña).Imagenes);
+                return AutoMapper.Map<List<Persistencia.Imagen>, List<Dominio.Imagen>>
+                            (IoCContainerLocator.GetType<Persistencia.Fachada>().ObtenerImagenesCampaña(pCodigoCampaña));
         }
 
         /// <summary>
@@ -278,13 +277,13 @@ namespace Servicios
             {
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
                 campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
+                campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
             }
             if(IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 CargarDatosEnMemoria(DiaMañana);
             }
-            campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
             return campañaSiguiente;
         }
 

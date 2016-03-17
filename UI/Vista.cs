@@ -53,10 +53,12 @@ namespace UI
         {
             ///BANNER
             this.iBannerActual=FachadaServicios.ObtenerBannerSiguiente();
+            this.label_TextoBanner.Text = iBannerActual.Texto;
             this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
 
             ///CAMPAÑA
             this.iCampañaActual=FachadaServicios.ObtenerCampañaSiguiente();
+            enumeradorImagenes = iCampañaActual.ListaImagenes.GetEnumerator();
             this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
         }
 
