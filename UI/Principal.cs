@@ -49,14 +49,13 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void campañaPublicitariaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             Form_Campaña camapañaConfiguracion = new Form_Campaña();
             camapañaConfiguracion.Owner = this;
             camapañaConfiguracion.ShowDialog();
         }
 
         /// <summary>
-        /// Evento que surge al hacer clic sobre el menú de Información Adicional
+        /// Evento que surge al hacer clic sobre el menú de Vista
         /// </summary>
         /// <param name="sender">Objeto que  envía el evento</param>
         /// <param name="e">Argumentos del evento</param>
@@ -64,6 +63,18 @@ namespace UI
         {
             Vista ventanaVista = new Vista();
             ventanaVista.ShowDialog();
+        }
+
+        /// <summary>
+        /// Evento que surge al hacer clic sobre el menú de Fuentes RSS
+        /// </summary>
+        /// <param name="sender">Objeto que  envía el evento</param>
+        /// <param name="e">Argumentos del evento</param>
+        private void fuentesRSSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_FuentesRSS fuenteAdministracion = new Form_FuentesRSS();
+            fuenteAdministracion.Owner = this;
+            fuenteAdministracion.ShowDialog();
         }
     }
 }

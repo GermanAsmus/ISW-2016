@@ -62,7 +62,7 @@ namespace Persistencia
         /// Elmina los Banners Asociados con la Fuente dada por parámetro
         /// </summary>
         /// <param name="pFuente">Fuente suministrada por parámetro</param>
-        public virtual void EliminarBannersAsociados(Fuente pFuente)
+        private void EliminarBannersAsociados(Fuente pFuente)
         {
             using(UnitOfWork pUnitOfWork = new UnitOfWork())
             {
@@ -102,7 +102,7 @@ namespace Persistencia
             {
                 IQueryable<Fuente> result = from Fuente in pUnitOfWork.FuenteRepository.Queryable
                                             select Fuente;
-                return result.ToList();
+                return result.ToList().FindAll(fuente => fuente.GetType() == fuenteTipo as Type);
             }
         }
 

@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdmFuentesRSS.cs">
+    <Compile Include="Form_FuentesRSS.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdmFuentesRSS.designer.cs">
-      <DependentUpon>AdmFuentesRSS.cs</DependentUpon>
+    <Compile Include="Form_FuentesRSS.designer.cs">
+      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Campaña.cs">
       <SubType>Form</SubType>
@@ -108,8 +108,8 @@
     <Compile Include="Vista.designer.cs">
       <DependentUpon>Vista.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AdmFuentesRSS.resx">
-      <DependentUpon>AdmFuentesRSS.cs</DependentUpon>
+    <EmbeddedResource Include="Form_FuentesRSS.resx">
+      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Campaña.resx">
       <DependentUpon>Form_Campaña.cs</DependentUpon>

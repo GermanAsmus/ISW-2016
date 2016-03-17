@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -86,6 +87,16 @@ namespace Dominio
                 resultado.Append(pItem.Title + " // ");
             }
             return resultado.ToString();
+        }
+
+        /// <summary>
+        /// Determina si dos fuentes son iguales
+        /// </summary>
+        /// <param name="other">Otra Fuente a comparar</param>
+        /// <returns>Tipo de dato bool que representa si dos Fuentes son iguales</returns>
+        public bool Equals(Fuente other)
+        {
+            return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
         }
     }
 }

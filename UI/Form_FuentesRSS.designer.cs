@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    partial class AdmFuentesRSS
+    partial class Form_FuentesRSS
     {
         /// <summary>
         /// Required designer variable.
@@ -38,6 +38,8 @@
             this.button_Eliminar = new System.Windows.Forms.Button();
             this.button_Volver = new System.Windows.Forms.Button();
             this.button_Aceptar = new System.Windows.Forms.Button();
+            this.backgroundWorker_Fuentes = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker_ObtenerRSS = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,7 +147,17 @@
             this.button_Aceptar.UseVisualStyleBackColor = true;
             this.button_Aceptar.Click += new System.EventHandler(this.button_Aceptar_Click);
             // 
-            // AdmFuentesRSS
+            // backgroundWorker_Fuentes
+            // 
+            this.backgroundWorker_Fuentes.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Fuentes_DoWork);
+            this.backgroundWorker_Fuentes.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Fuentes_RunWorkerCompleted);
+            // 
+            // backgroundWorker_ObtenerRSS
+            // 
+            this.backgroundWorker_ObtenerRSS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_ObtenerRSS_DoWork);
+            this.backgroundWorker_ObtenerRSS.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_ObtenerRSS_RunWorkerCompleted);
+            // 
+            // Form_FuentesRSS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -161,7 +173,7 @@
             this.Controls.Add(this.label_URL);
             this.Controls.Add(this.button_Agregar);
             this.MinimumSize = new System.Drawing.Size(740, 436);
-            this.Name = "AdmFuentesRSS";
+            this.Name = "Form_FuentesRSS";
             this.Text = "Administrador de Fuentes RSS";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -180,5 +192,7 @@
         private System.Windows.Forms.Button button_Eliminar;
         private System.Windows.Forms.Button button_Volver;
         private System.Windows.Forms.Button button_Aceptar;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_Fuentes;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_ObtenerRSS;
     }
 }

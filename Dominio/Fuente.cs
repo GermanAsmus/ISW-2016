@@ -1,6 +1,8 @@
-﻿namespace Dominio
+﻿using System;
+
+namespace Dominio
 {
-    interface Fuente
+    interface Fuente : IEquatable<Fuente>
     {
         /// <summary>
         /// Texto de la fuente
