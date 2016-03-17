@@ -37,7 +37,6 @@ namespace Dominio
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaBannersActual[i] = BannerNulo();
                 iListaBannersProxima[i] = BannerNulo();
             }
             this.iActualizarListaBanners = false;
@@ -51,8 +50,7 @@ namespace Dominio
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaCampañaActual[i] = CodigoCampañaNula();
-                iListaCampañaActual[i] = CodigoCampañaNula();
+                iListaCampañaProxima[i] = CodigoCampañaNula();
             }
             this.iActualizarListaCampaña = false;
         }
@@ -325,6 +323,7 @@ namespace Dominio
             SortedList<int, int> listaAuxCampaña = this.iListaCampañaProxima;
             this.InicializarListaCampaña();
             this.iListaCampañaActual = listaAuxCampaña;
+
         }
 
         /// <summary>
@@ -361,10 +360,7 @@ namespace Dominio
         /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
         private static Dominio.Banner BannerNulo()
         {
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo()
-            {
-                Valor = ""
-            };
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí"};
             return new Dominio.Banner()
             {
                 Codigo = -1,
