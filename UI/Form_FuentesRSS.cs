@@ -164,7 +164,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ObtenerRSS_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            e.Result = FachadaServicios.ObtenerFuentes(typeof(FuenteRSS));
         }
 
         /// <summary>
@@ -174,7 +174,11 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ObtenerRSS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            if(e.Error == null)
+            {
+                this.iListaFuenteRSS = (List<FuenteRSS>)e.Result;
+                this.ActualizarDGV();
+            }
         }
     }
 }
