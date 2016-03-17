@@ -17,12 +17,32 @@ namespace UI
             InitializeComponent();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button_Modificar_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button_Eliminar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Agregar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Aceptar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Volver_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
 
         }

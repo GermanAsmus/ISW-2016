@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Ítem RSS.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Implementación de base del lector de RSS.

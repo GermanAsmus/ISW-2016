@@ -95,13 +95,14 @@ namespace Servicios
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Banners</param>
         /// <returns>Tipo de dato Lista que representa los Banners filtrados</returns>
-        public static List<Dominio.Banner> ObtenerBanners(Dictionary<string, object> argumentosFiltrado)
+        public static List<Dominio.Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado)
         {
             FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
-            if (argumentosFiltrado.ContainsKey("Rango Fecha"))
+            Type tipoDeFiltrado = typeof(Dominio.RangoFecha);
+            if (argumentosFiltrado.ContainsKey(tipoDeFiltrado))
             {
-                argumentosFiltrado["Rango Fecha"] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado["Rango Fecha"]);
+                argumentosFiltrado[tipoDeFiltrado] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[tipoDeFiltrado]);
             }
             return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachadaBanner.GetAll(argumentosFiltrado)));
         }
@@ -113,11 +114,11 @@ namespace Servicios
         /// <returns>Tipo de dato Lista de Rangos Horarios que representa los rangos horarios ocupados</returns>
         public static List<Dominio.RangoHorario> RangosHorariosOcupadosBanner(Dominio.RangoFecha pRangoFecha)
         {
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
-            argumentos.Add("Nombre", "");
-            argumentos.Add("URL", "");
-            argumentos.Add("Texto", "");
-            argumentos.Add("Rango Fecha", pRangoFecha);
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
+            argumentos.Add(typeof(string), "");
+            argumentos.Add(typeof(Dominio.FuenteRSS), "");
+            argumentos.Add(typeof(Dominio.FuenteTextoFijo), "");
+            argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
             List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
             FachadaCRUDBanner fachada = new FachadaCRUDBanner();
             foreach (Dominio.Banner pBanner in ObtenerBanners(argumentos))
@@ -190,22 +191,23 @@ namespace Servicios
         /// <returns>Tipo de dato Lista de las Campañas que están en la base de datos (TODAS)</returns>
         public static List<Dominio.Campaña> ObtenerCampañas()
         {
-            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            return (AutoMapper.Map<List<Persistencia.Campaña>, List<Dominio.Campaña>>(fachadaCampaña.GetAll()));
+            Persistencia.Fachada fachadaPersistencia = new Persistencia.Fachada();
+            return (AutoMapper.Map<List<Persistencia.Campaña>,List<Dominio.Campaña>>(fachadaPersistencia.ObtenerCampañas()));
         }
+
 
         /// <summary>
         /// Obtiene todos las Campañas que cumplen con un determinado filtro
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Campañas</param>
         /// <returns>Tipo de dato Lista que representa las Campañas filtradas</returns>
-        public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<string, object> argumentosFiltrado)
+        public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado)
         {
             FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            if(argumentosFiltrado.ContainsKey("Rango Fecha"))
+            if(argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
             {
-                argumentosFiltrado["Rango Fecha"] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado["Rango Fecha"]);
+                argumentosFiltrado[typeof(Dominio.RangoFecha)] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]);
             }
             return (AutoMapper.Map<List<Persistencia.Campaña>, List<Dominio.Campaña>>(fachadaCampaña.GetAll(argumentosFiltrado)));
         }
@@ -217,9 +219,9 @@ namespace Servicios
         /// <returns>Tipo de dato Lista de Rangos Horarios que representa los rangos horarios ocupados</returns>
         public static List<Dominio.RangoHorario> RangosHorariosOcupadosCampaña(Dominio.RangoFecha pRangoFecha)
         {
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
-            argumentos.Add("Nombre", "");
-            argumentos.Add("Rango Fecha", pRangoFecha);
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
+            argumentos.Add(typeof(string), "");
+            argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
             List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
             FachadaCRUDCampaña fachada = new FachadaCRUDCampaña();
             foreach (Dominio.Campaña pCampaña in ObtenerCampañas(argumentos))
@@ -291,9 +293,9 @@ namespace Servicios
         {
             int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             Dominio.Campaña campañaSiguiente;
-            if (Fachada.EsCampañaNula(codigoCampaña))
+            if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
             {
-                campañaSiguiente = Fachada.CampañaNula();
+                campañaSiguiente = Dominio.Fachada.CampañaNula();
             }
             else
             {
@@ -316,16 +318,16 @@ namespace Servicios
         public static void CargarDatosEnMemoria(DateTime pFecha)
         {
             //Argumentos de filtrado de Banner
-            Dictionary<string, object> argumentosBanner = new Dictionary<string, object>();
-            argumentosBanner.Add("Nombre", "");
-            argumentosBanner.Add("URL", "");
-            argumentosBanner.Add("Texto", "");
+            Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
+            argumentosBanner.Add(typeof(string), "");
+            argumentosBanner.Add(typeof(Dominio.FuenteRSS), "");
+            argumentosBanner.Add(typeof(Dominio.FuenteTextoFijo), "");
             Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
-            argumentosBanner.Add("Rango Fecha", pRF);
+            argumentosBanner.Add(typeof(Dominio.RangoFecha), pRF);
             //Argumentos de filtrado de Campaña
-            Dictionary<string, object> argumentosCampaña = new Dictionary<string, object>();
-            argumentosCampaña.Add("Nombre", "");
-            argumentosCampaña.Add("Rango Fecha", pRF);
+            Dictionary<Type, object> argumentosCampaña = new Dictionary<Type, object>();
+            argumentosCampaña.Add(typeof(string), "");
+            argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
             Dominio.Fachada fachada = IoCContainerLocator.GetType<Dominio.Fachada>();
             fachada.EstablecerFecha(pFecha.Date);
             fachada.Cargar(ObtenerCampañas(argumentosCampaña));

@@ -42,13 +42,11 @@
             this.groupBox_Filtro = new System.Windows.Forms.GroupBox();
             this.pictureBox_Hasta = new System.Windows.Forms.PictureBox();
             this.pictureBox_Desde = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Tipo = new System.Windows.Forms.PictureBox();
             this.pictureBox_Nombre = new System.Windows.Forms.PictureBox();
             this.dateTimePicker_FechaHasta = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_FechaDesde = new System.Windows.Forms.DateTimePicker();
             this.label_Hasta = new System.Windows.Forms.Label();
             this.label_Desde = new System.Windows.Forms.Label();
-            this.textBox_Tipo = new System.Windows.Forms.TextBox();
             this.radioButton_RSS = new System.Windows.Forms.RadioButton();
             this.radioButton_Texto = new System.Windows.Forms.RadioButton();
             this.checkBox_RangoFechas = new System.Windows.Forms.CheckBox();
@@ -57,13 +55,14 @@
             this.checkBox_Nombre = new System.Windows.Forms.CheckBox();
             this.button_Mostrar = new System.Windows.Forms.Button();
             this.backgroundWorker_Eliminar = new System.ComponentModel.BackgroundWorker();
+            this.pictureBox_Tipo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tableLayoutPanel_Banner.SuspendLayout();
             this.groupBox_Filtro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Hasta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Desde)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView
@@ -199,7 +198,6 @@
             this.groupBox_Filtro.Controls.Add(this.dateTimePicker_FechaDesde);
             this.groupBox_Filtro.Controls.Add(this.label_Hasta);
             this.groupBox_Filtro.Controls.Add(this.label_Desde);
-            this.groupBox_Filtro.Controls.Add(this.textBox_Tipo);
             this.groupBox_Filtro.Controls.Add(this.radioButton_RSS);
             this.groupBox_Filtro.Controls.Add(this.radioButton_Texto);
             this.groupBox_Filtro.Controls.Add(this.checkBox_RangoFechas);
@@ -229,14 +227,6 @@
             this.pictureBox_Desde.Size = new System.Drawing.Size(17, 17);
             this.pictureBox_Desde.TabIndex = 19;
             this.pictureBox_Desde.TabStop = false;
-            // 
-            // pictureBox_Tipo
-            // 
-            this.pictureBox_Tipo.Location = new System.Drawing.Point(297, 93);
-            this.pictureBox_Tipo.Name = "pictureBox_Tipo";
-            this.pictureBox_Tipo.Size = new System.Drawing.Size(17, 17);
-            this.pictureBox_Tipo.TabIndex = 18;
-            this.pictureBox_Tipo.TabStop = false;
             // 
             // pictureBox_Nombre
             // 
@@ -286,25 +276,13 @@
             this.label_Desde.TabIndex = 11;
             this.label_Desde.Text = "&Desde";
             // 
-            // textBox_Tipo
-            // 
-            this.textBox_Tipo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Tipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Tipo.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox_Tipo.Location = new System.Drawing.Point(9, 91);
-            this.textBox_Tipo.Name = "textBox_Tipo";
-            this.textBox_Tipo.Size = new System.Drawing.Size(285, 20);
-            this.textBox_Tipo.TabIndex = 9;
-            this.textBox_Tipo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Tipo_KeyPress);
-            this.textBox_Tipo.Leave += new System.EventHandler(this.textBox_Tipo_Leave);
-            // 
             // radioButton_RSS
             // 
             this.radioButton_RSS.AutoSize = true;
-            this.radioButton_RSS.Location = new System.Drawing.Point(195, 62);
+            this.radioButton_RSS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.radioButton_RSS.Location = new System.Drawing.Point(185, 93);
             this.radioButton_RSS.Name = "radioButton_RSS";
-            this.radioButton_RSS.Size = new System.Drawing.Size(83, 17);
+            this.radioButton_RSS.Size = new System.Drawing.Size(91, 19);
             this.radioButton_RSS.TabIndex = 8;
             this.radioButton_RSS.Text = "Fuente RSS";
             this.radioButton_RSS.UseVisualStyleBackColor = true;
@@ -313,12 +291,13 @@
             // 
             this.radioButton_Texto.AutoSize = true;
             this.radioButton_Texto.Checked = true;
-            this.radioButton_Texto.Location = new System.Drawing.Point(91, 62);
+            this.radioButton_Texto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.radioButton_Texto.Location = new System.Drawing.Point(46, 93);
             this.radioButton_Texto.Name = "radioButton_Texto";
-            this.radioButton_Texto.Size = new System.Drawing.Size(71, 17);
+            this.radioButton_Texto.Size = new System.Drawing.Size(119, 19);
             this.radioButton_Texto.TabIndex = 7;
             this.radioButton_Texto.TabStop = true;
-            this.radioButton_Texto.Text = "Texto Fijo";
+            this.radioButton_Texto.Text = "Fuente Texto Fijo";
             this.radioButton_Texto.UseVisualStyleBackColor = true;
             // 
             // checkBox_RangoFechas
@@ -389,6 +368,14 @@
             this.backgroundWorker_Eliminar.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Eliminar_DoWork);
             this.backgroundWorker_Eliminar.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Eliminar_RunWorkerCompleted);
             // 
+            // pictureBox_Tipo
+            // 
+            this.pictureBox_Tipo.Location = new System.Drawing.Point(296, 94);
+            this.pictureBox_Tipo.Name = "pictureBox_Tipo";
+            this.pictureBox_Tipo.Size = new System.Drawing.Size(17, 17);
+            this.pictureBox_Tipo.TabIndex = 18;
+            this.pictureBox_Tipo.TabStop = false;
+            // 
             // Form_Banner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -410,8 +397,8 @@
             this.groupBox_Filtro.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Hasta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Desde)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -430,7 +417,6 @@
         private System.Windows.Forms.GroupBox groupBox_Filtro;
         private System.Windows.Forms.Label label_Hasta;
         private System.Windows.Forms.Label label_Desde;
-        private System.Windows.Forms.TextBox textBox_Tipo;
         private System.Windows.Forms.RadioButton radioButton_RSS;
         private System.Windows.Forms.RadioButton radioButton_Texto;
         private System.Windows.Forms.CheckBox checkBox_RangoFechas;
@@ -443,7 +429,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker_FechaDesde;
         private System.Windows.Forms.PictureBox pictureBox_Hasta;
         private System.Windows.Forms.PictureBox pictureBox_Desde;
-        private System.Windows.Forms.PictureBox pictureBox_Tipo;
         private System.Windows.Forms.PictureBox pictureBox_Nombre;
+        private System.Windows.Forms.PictureBox pictureBox_Tipo;
     }
 }

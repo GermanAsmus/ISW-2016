@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Servicios;
 using System.Collections.Generic;
 using System.Drawing;
+using Servicios;
 
 namespace Testings
 {
@@ -17,135 +17,101 @@ namespace Testings
         }
         #endregion
 
-        #region Banner
-
-       
-
+        #region Fuente
         [TestMethod]
-        public void PruebaAutoMapperBannerDominioPersistencia()
+        public void FuenteRSSPersistenciaDominio()
         {
             AutoMapper.Configurar();
-            Dominio.RangoHorario rangoHorario = new Dominio.RangoHorario()
+            Persistencia.FuenteRSS persistenciaObjeto = new Persistencia.FuenteRSS()
             {
                 Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
+                Valor = "Diario Google",
+                URL = "www.google.com.ar",
+                Descripcion = "Página oficial del Diario Google"
             };
-            List<Dominio.RangoHorario> listaRangosHorarios = new List<Dominio.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            Dominio.RangoFecha rangoFecha = new Dominio.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                ListaRangosHorario = listaRangosHorarios
-            };
-            List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            Dominio.Banner bannerUI = new Dominio.Banner()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                ListaRangosFecha = listaRangosFechas
-            };
-            //Dominio a Persistencia
-            Persistencia.Banner bannerPersistencia = (Persistencia.Banner) Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerUI);
-            //Persistencia a Dominio
-            Dominio.Banner bannerUICopia = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
-            bool resul = Equality.Equals(bannerUI, bannerUICopia);
+            Dominio.FuenteRSS dominioObjeto =
+                AutoMapper.Map<Persistencia.FuenteRSS, Dominio.FuenteRSS>(persistenciaObjeto);
+            Persistencia.FuenteRSS persitenciaAuxiliar =
+                AutoMapper.Map<Dominio.FuenteRSS, Persistencia.FuenteRSS>(dominioObjeto);
+            bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
             Assert.IsTrue(resul);
         }
 
         [TestMethod]
-        public void PruebaAutoMapperBannerPersistenciaDominio()
+        public void FuenteTextoFijoPersistenciaDominio()
         {
             AutoMapper.Configurar();
-            Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
+            Persistencia.FuenteTextoFijo persistenciaObjeto = new Persistencia.FuenteTextoFijo()
             {
                 Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
+                Valor = "Publicite Aquí"
             };
-            List<Persistencia.RangoHorario> listaRangosHorarios = new List<Persistencia.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            Persistencia.RangoFecha rangoFecha = new Persistencia.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                RangosHorario = listaRangosHorarios
-            };
-            List<Persistencia.RangoFecha> listaRangosFechas = new List<Persistencia.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            Persistencia.Banner bannerPersistencia = new Persistencia.Banner()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                //Texto = "Hola",
-                URL = "",
-                RangosFecha = listaRangosFechas
-            };
-            //Persistencia a Dominio
-            Dominio.Banner bannerModelo = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
-            //Dominio a Persistencia
-            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerModelo);
-            bool resul = Equality.Equals(bannerPersistencia, bannerPersistenciaCopia);
-            Assert.IsTrue(resul);
-        }
-
-        [TestMethod]
-        public void PruebaAutoMapperBannerPersistenciaDominio2()
-        {
-            AutoMapper.Configurar();
-            Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
-            {
-                Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
-            };
-            List<Persistencia.RangoHorario> listaRangosHorarios = new List<Persistencia.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
-            Persistencia.RangoFecha rangoFecha = new Persistencia.RangoFecha()
-            {
-                Codigo = 1,
-                FechaFin = DateTime.Today,
-                FechaInicio = DateTime.Today.AddDays(-10),
-                RangosHorario = listaRangosHorarios
-            };
-            List<Persistencia.RangoFecha> listaRangosFechas = new List<Persistencia.RangoFecha>();
-            listaRangosFechas.Add(rangoFecha);
-            Persistencia.Banner bannerPersistencia = new Persistencia.Banner()
-            {
-                Codigo = 1,
-                Nombre = "Prueba",
-                //Texto = "",
-                URL = "Hola",
-                RangosFecha = listaRangosFechas
-            };
-            //Persistencia a Dominio
-            Dominio.Banner bannerModelo = (Dominio.Banner)Servicios.AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(bannerPersistencia);
-            //Modelo a Persistencia
-            Persistencia.Banner bannerPersistenciaCopia = (Persistencia.Banner)Servicios.AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(bannerModelo);
-            bool resul = Equality.Equals(bannerPersistencia, bannerPersistenciaCopia);
+            Dominio.FuenteTextoFijo dominioObjeto =
+                AutoMapper.Map<Persistencia.FuenteTextoFijo, Dominio.FuenteTextoFijo>(persistenciaObjeto);
+            Persistencia.FuenteTextoFijo persitenciaAuxiliar =
+                AutoMapper.Map<Dominio.FuenteTextoFijo,Persistencia.FuenteTextoFijo> (dominioObjeto);
+            bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
             Assert.IsTrue(resul);
         }
         #endregion
-        
-        #region Campaña
-        
-     
+
+        #region Banner
         [TestMethod]
-        public void PruebaAutoMapperCampañaDominioPersistencia()
+        public void BannerPersistenciaDominio()
         {
             AutoMapper.Configurar();
-            Dominio.Imagen imagen = new Dominio.Imagen
+            Persistencia.FuenteTextoFijo pFuente = new Persistencia.FuenteTextoFijo()
             {
                 Codigo = 1,
-                Tiempo = 10,
-                Picture = Image.FromFile(@"F:/Lucho/Varios/Salida.jpg", true)
+                Valor = "Publicite Aquí"
             };
-            List<Dominio.Imagen> listaImagenes = new List<Dominio.Imagen>();
-            listaImagenes.Add(imagen);
+            Persistencia.Banner persistenciaObjeto = new Persistencia.Banner()
+            {
+                Codigo = 1,
+                Nombre = "Prueba",
+                Fuente = pFuente,
+                Fuente_Codigo = pFuente.Codigo
+            };
+            Persistencia.RangoFecha rangoFecha = new Persistencia.RangoFecha()
+            {
+                Codigo = 1,
+                FechaFin = DateTime.Today,
+                FechaInicio = DateTime.Today.AddDays(-10),
+                Principal = persistenciaObjeto,
+                Principal_Codigo = persistenciaObjeto.Codigo
+            };
+            Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
+            {
+                Codigo = 1,
+                HoraFin = DateTime.Now.TimeOfDay,
+                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay,
+                RangoFecha = rangoFecha,
+                RangoFecha_Codigo = rangoFecha.Codigo
+            };
+            List<Persistencia.RangoHorario> listaRangosHorarios = new List<Persistencia.RangoHorario>();
+            listaRangosHorarios.Add(rangoHorario);
+            rangoFecha.RangosHorario = listaRangosHorarios;
+            List<Persistencia.RangoFecha> listaRangosFechas = new List<Persistencia.RangoFecha>();
+            listaRangosFechas.Add(rangoFecha);
+            persistenciaObjeto.RangosFecha = listaRangosFechas;
+            Dominio.Banner dominioObjeto =
+                AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(persistenciaObjeto);
+            Persistencia.Banner persitenciaAuxiliar =
+                AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(dominioObjeto);
+            bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
+            Assert.IsTrue(resul);
+        }
+
+        [TestMethod]
+        public void BannerDominioPersistencia()
+        {
+            AutoMapper.Configurar();
+            Dominio.FuenteRSS pFuente = new Dominio.FuenteRSS()
+            {
+                Codigo = 1,
+                URL = "www.google.com.ar",
+                Descripcion = "Página oficial del Diario Google"
+            };
             Dominio.RangoHorario rangoHorario = new Dominio.RangoHorario()
             {
                 Codigo = 1,
@@ -163,64 +129,126 @@ namespace Testings
             };
             List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            Dominio.Campaña CampañaUI = new Dominio.Campaña()
+            Dominio.Banner dominioObjeto = new Dominio.Banner()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
-                IntervaloTiempo = 12,
-                ListaImagenes = listaImagenes,
+                InstanciaFuente = pFuente,
                 ListaRangosFecha = listaRangosFechas
             };
-            //Dominio a Persistencia
-            Persistencia.Campaña CampañaPersistencia = (Persistencia.Campaña)Servicios.AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(CampañaUI);
-            //Persistencia a Dominio
-            Dominio.Campaña CampañaUICopia = (Dominio.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(CampañaPersistencia);
-            bool resul = Equality.Equals(CampañaUI, CampañaUICopia);
+            Persistencia.Banner persistenciaObjeto =
+                AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(dominioObjeto);
+            Dominio.Banner dominioAuxiliar =
+                AutoMapper.Map<Persistencia.Banner, Dominio.Banner >(persistenciaObjeto);
+            bool resul = Equality.Equals(dominioObjeto, dominioAuxiliar);
             Assert.IsTrue(resul);
         }
+        #endregion
 
+        #region Campaña
         [TestMethod]
-        public void PruebaAutoMapperCampañaPersistenciaDominio()
+        public void CampañaPersistenciaDominio()
         {
             AutoMapper.Configurar();
-            Persistencia.Imagen imagen = new Persistencia.Imagen
+            Persistencia.FuenteTextoFijo pFuente = new Persistencia.FuenteTextoFijo()
             {
                 Codigo = 1,
+                Valor = "Publicite Aquí"
+            };
+            Persistencia.Campaña persistenciaObjeto = new Persistencia.Campaña()
+            {
+                Codigo = 1,
+                Nombre = "Prueba",
+                IntervaloTiempo = 20
+            };
+            Persistencia.Imagen pImagen = new Persistencia.Imagen()
+            {
+                Codigo = 1,
+                Picture = ImagenServices.ImageToByteArray(Image.FromFile(@"F:\Lucho\Varios\Salida.jpg")),
                 Tiempo = 10,
-                Picture = ImagenServices.ImageToByteArray(Image.FromFile(@"F:/Lucho/Varios/Salida.jpg", true))
+                Campaña = persistenciaObjeto,
+                Campaña_Codigo = persistenciaObjeto.Codigo
             };
             List<Persistencia.Imagen> listaImagenes = new List<Persistencia.Imagen>();
-            listaImagenes.Add(imagen);
-            Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
-            {
-                Codigo = 1,
-                HoraFin = DateTime.Now.TimeOfDay,
-                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
-            };
-            List<Persistencia.RangoHorario> listaRangosHorarios = new List<Persistencia.RangoHorario>();
-            listaRangosHorarios.Add(rangoHorario);
+            listaImagenes.Add(pImagen);
             Persistencia.RangoFecha rangoFecha = new Persistencia.RangoFecha()
             {
                 Codigo = 1,
                 FechaFin = DateTime.Today,
                 FechaInicio = DateTime.Today.AddDays(-10),
-                RangosHorario = listaRangosHorarios
+                Principal = persistenciaObjeto,
+                Principal_Codigo = persistenciaObjeto.Codigo
             };
+            Persistencia.RangoHorario rangoHorario = new Persistencia.RangoHorario()
+            {
+                Codigo = 1,
+                HoraFin = DateTime.Now.TimeOfDay,
+                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay,
+                RangoFecha = rangoFecha,
+                RangoFecha_Codigo = rangoFecha.Codigo
+            };
+            List<Persistencia.RangoHorario> listaRangosHorarios = new List<Persistencia.RangoHorario>();
+            listaRangosHorarios.Add(rangoHorario);
+            rangoFecha.RangosHorario = listaRangosHorarios;
             List<Persistencia.RangoFecha> listaRangosFechas = new List<Persistencia.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            Persistencia.Campaña CampañaPersistencia = new Persistencia.Campaña()
+            persistenciaObjeto.RangosFecha = listaRangosFechas;
+            persistenciaObjeto.Imagenes = listaImagenes;
+            Dominio.Campaña dominioObjeto =
+                AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(persistenciaObjeto);
+            Persistencia.Campaña persitenciaAuxiliar =
+                AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(dominioObjeto);
+            bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
+            Assert.IsTrue(resul);
+        }
+
+        [TestMethod]
+        public void CampañaDominioPersistencia()
+        {
+            AutoMapper.Configurar();
+            Dominio.FuenteTextoFijo pFuente = new Dominio.FuenteTextoFijo()
+            {
+                Codigo = 1,
+                Valor = "Publicite Aquí"
+            };
+            Dominio.Imagen pImagen = new Dominio.Imagen()
+            {
+                Codigo = 1,
+                Picture = Image.FromFile(@"F:\Lucho\Varios\Salida.jpg"),
+                Tiempo = 10
+            };
+            List<Dominio.Imagen> listaImagenes = new List<Dominio.Imagen>();
+            listaImagenes.Add(pImagen);
+            Dominio.RangoHorario rangoHorario = new Dominio.RangoHorario()
+            {
+                Codigo = 1,
+                HoraFin = DateTime.Now.TimeOfDay,
+                HoraInicio = DateTime.Now.AddMilliseconds(122222222).TimeOfDay
+            };
+            List<Dominio.RangoHorario> listaRangosHorarios = new List<Dominio.RangoHorario>();
+            listaRangosHorarios.Add(rangoHorario);
+            Dominio.RangoFecha rangoFecha = new Dominio.RangoFecha()
+            {
+                Codigo = 1,
+                FechaFin = DateTime.Today,
+                FechaInicio = DateTime.Today.AddDays(-10),
+                ListaRangosHorario = listaRangosHorarios
+            };
+            List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
+            listaRangosFechas.Add(rangoFecha);
+            Dominio.Campaña dominioObjeto = new Dominio.Campaña()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
-                IntervaloTiempo = 12,
-                Imagenes = listaImagenes,
-                RangosFecha = listaRangosFechas
+                ListaImagenes = listaImagenes,
+                IntervaloTiempo = 20,
+                ListaRangosFecha = listaRangosFechas
             };
-            //Persistencia a Dominio
-            Dominio.Campaña CampañaModelo = (Dominio.Campaña)Servicios.AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(CampañaPersistencia);
-            //Dominio a Persistencia
-            Persistencia.Campaña CampañaPersistenciaCopia = (Persistencia.Campaña)Servicios.AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(CampañaModelo);
-            bool resul = Equality.EqualsDesdeModelo(CampañaPersistencia, CampañaPersistenciaCopia);
+            Persistencia.Campaña persistenciaObjeto =
+                AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(dominioObjeto);
+            Dominio.Campaña dominioAuxiliar =
+                AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(persistenciaObjeto);
+            bool resul = Equality.Equals(dominioObjeto, dominioAuxiliar);
             Assert.IsTrue(resul);
         }
         #endregion

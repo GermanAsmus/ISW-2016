@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Persistencia
 {
@@ -9,6 +10,9 @@ namespace Persistencia
         public int Codigo { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
+        public virtual RangoFecha RangoFecha { get; set; }
+        [ForeignKey("RangoFecha")]
+        public int RangoFecha_Codigo { get; set; }
 
         /// <summary>
         /// Determina si dos Rango Horarios son iguales por código

@@ -55,9 +55,14 @@
     <Compile Include="DTOs\Campaña.cs" />
     <Compile Include="CarteleriaContext.cs" />
     <Compile Include="DTOs\Fuente.cs" />
+    <Compile Include="DTOs\FuenteRSS.cs" />
+    <Compile Include="DTOs\FuenteTextoFijo.cs" />
+    <Compile Include="DTOs\RangoFecheable.cs" />
     <Compile Include="ExtensionLista.cs" />
+    <Compile Include="Fachada.cs" />
     <Compile Include="FachadaCRUDBanner.cs" />
     <Compile Include="FachadaCRUDCampaña.cs" />
+    <Compile Include="FachadaCRUDFuente.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="DTOs\Imagen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +75,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

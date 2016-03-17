@@ -28,145 +28,157 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.button_Agregar = new System.Windows.Forms.Button();
+            this.label_URL = new System.Windows.Forms.Label();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.label_Descripcion = new System.Windows.Forms.Label();
+            this.textBox_URL = new System.Windows.Forms.TextBox();
+            this.textBox_Descripcion = new System.Windows.Forms.TextBox();
+            this.button_Modificar = new System.Windows.Forms.Button();
+            this.button_Eliminar = new System.Windows.Forms.Button();
+            this.button_Volver = new System.Windows.Forms.Button();
+            this.button_Aceptar = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // button_Agregar
             // 
-            this.button1.Location = new System.Drawing.Point(468, 47);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(78, 29);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Agregar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_Agregar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Agregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.button_Agregar.Location = new System.Drawing.Point(436, 28);
+            this.button_Agregar.Name = "button_Agregar";
+            this.button_Agregar.Size = new System.Drawing.Size(82, 31);
+            this.button_Agregar.TabIndex = 3;
+            this.button_Agregar.Text = "A&gregar";
+            this.button_Agregar.UseVisualStyleBackColor = true;
+            this.button_Agregar.Click += new System.EventHandler(this.button_Agregar_Click);
             // 
-            // label1
+            // label_URL
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(57, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "URL:";
+            this.label_URL.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_URL.AutoSize = true;
+            this.label_URL.Location = new System.Drawing.Point(57, 16);
+            this.label_URL.Name = "label_URL";
+            this.label_URL.Size = new System.Drawing.Size(32, 13);
+            this.label_URL.TabIndex = 4;
+            this.label_URL.Text = "&URL:";
             // 
-            // dataGridView1
+            // dataGridView
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 82);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(700, 259);
-            this.dataGridView1.TabIndex = 5;
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(1, 65);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(722, 283);
+            this.dataGridView.TabIndex = 5;
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 
-            // label2
+            // label_Descripcion
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Descripción:";
+            this.label_Descripcion.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_Descripcion.AutoSize = true;
+            this.label_Descripcion.Location = new System.Drawing.Point(23, 42);
+            this.label_Descripcion.Name = "label_Descripcion";
+            this.label_Descripcion.Size = new System.Drawing.Size(66, 13);
+            this.label_Descripcion.TabIndex = 6;
+            this.label_Descripcion.Text = "&Descripción:";
             // 
-            // textBox1
+            // textBox_URL
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(104, 26);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(300, 20);
-            this.textBox1.TabIndex = 7;
+            this.textBox_URL.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textBox_URL.Location = new System.Drawing.Point(104, 13);
+            this.textBox_URL.Name = "textBox_URL";
+            this.textBox_URL.Size = new System.Drawing.Size(300, 20);
+            this.textBox_URL.TabIndex = 5;
             // 
-            // textBox2
+            // textBox_Descripcion
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(104, 52);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(300, 20);
-            this.textBox2.TabIndex = 8;
+            this.textBox_Descripcion.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textBox_Descripcion.Location = new System.Drawing.Point(104, 39);
+            this.textBox_Descripcion.Name = "textBox_Descripcion";
+            this.textBox_Descripcion.Size = new System.Drawing.Size(300, 20);
+            this.textBox_Descripcion.TabIndex = 7;
             // 
-            // button2
+            // button_Modificar
             // 
-            this.button2.Location = new System.Drawing.Point(552, 47);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 29);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Modificar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_Modificar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Modificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.button_Modificar.Location = new System.Drawing.Point(536, 28);
+            this.button_Modificar.Name = "button_Modificar";
+            this.button_Modificar.Size = new System.Drawing.Size(82, 31);
+            this.button_Modificar.TabIndex = 9;
+            this.button_Modificar.Text = "&Modificar";
+            this.button_Modificar.UseVisualStyleBackColor = true;
+            this.button_Modificar.Click += new System.EventHandler(this.button_Modificar_Click);
             // 
-            // button3
+            // button_Eliminar
             // 
-            this.button3.Location = new System.Drawing.Point(636, 47);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(78, 29);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Eliminar";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button_Eliminar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Eliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.button_Eliminar.Location = new System.Drawing.Point(636, 28);
+            this.button_Eliminar.Name = "button_Eliminar";
+            this.button_Eliminar.Size = new System.Drawing.Size(82, 31);
+            this.button_Eliminar.TabIndex = 10;
+            this.button_Eliminar.Text = "&Eliminar";
+            this.button_Eliminar.UseVisualStyleBackColor = true;
+            this.button_Eliminar.Click += new System.EventHandler(this.button_Eliminar_Click);
             // 
-            // button4
+            // button_Volver
             // 
-            this.button4.Location = new System.Drawing.Point(614, 347);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 38);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "Volver";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button_Volver.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Volver.Location = new System.Drawing.Point(636, 354);
+            this.button_Volver.Name = "button_Volver";
+            this.button_Volver.Size = new System.Drawing.Size(82, 31);
+            this.button_Volver.TabIndex = 11;
+            this.button_Volver.Text = "&Volver";
+            this.button_Volver.UseVisualStyleBackColor = true;
+            this.button_Volver.Click += new System.EventHandler(this.button_Volver_Click);
             // 
-            // button5
+            // button_Aceptar
             // 
-            this.button5.Location = new System.Drawing.Point(508, 347);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(100, 38);
-            this.button5.TabIndex = 12;
-            this.button5.Text = "Aceptar";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button_Aceptar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Aceptar.Location = new System.Drawing.Point(536, 354);
+            this.button_Aceptar.Name = "button_Aceptar";
+            this.button_Aceptar.Size = new System.Drawing.Size(82, 31);
+            this.button_Aceptar.TabIndex = 12;
+            this.button_Aceptar.Text = "&Aceptar";
+            this.button_Aceptar.UseVisualStyleBackColor = true;
+            this.button_Aceptar.Click += new System.EventHandler(this.button_Aceptar_Click);
             // 
             // AdmFuentesRSS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 397);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_Aceptar);
+            this.Controls.Add(this.button_Volver);
+            this.Controls.Add(this.button_Eliminar);
+            this.Controls.Add(this.button_Modificar);
+            this.Controls.Add(this.textBox_Descripcion);
+            this.Controls.Add(this.textBox_URL);
+            this.Controls.Add(this.label_Descripcion);
+            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.label_URL);
+            this.Controls.Add(this.button_Agregar);
             this.MinimumSize = new System.Drawing.Size(740, 436);
             this.Name = "AdmFuentesRSS";
             this.Text = "Administrador de Fuentes RSS";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button_Agregar;
+        private System.Windows.Forms.Label label_URL;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.Label label_Descripcion;
+        private System.Windows.Forms.TextBox textBox_URL;
+        private System.Windows.Forms.TextBox textBox_Descripcion;
+        private System.Windows.Forms.Button button_Modificar;
+        private System.Windows.Forms.Button button_Eliminar;
+        private System.Windows.Forms.Button button_Volver;
+        private System.Windows.Forms.Button button_Aceptar;
     }
 }

@@ -19,7 +19,8 @@ namespace Dominio
         /// </summary>
         public Campaña()
         {
-
+            this.iListaRangosFecha = new List<RangoFecha>();
+            this.iListaImagenes = new List<Imagen>();
         }
 
         /// <summary>

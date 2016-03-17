@@ -7,8 +7,6 @@ namespace Persistencia
 {
     class FachadaCRUDCampaña
     {
-        private UnitOfWork iUnitOfWork;
-
         /// <summary>
         /// Constructor del CRUDFacade
         /// </summary>
@@ -26,9 +24,8 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                this.iUnitOfWork.CampañaRepository.Insert(pCampaña);
-                this.iUnitOfWork.Save();
+                pUnitOfWork.CampañaRepository.Insert(pCampaña);
+                pUnitOfWork.Save();
                 return pCampaña.Codigo;
             }
         }
@@ -39,55 +36,64 @@ namespace Persistencia
         /// <param name="pCampaña">Campaña a actualizar</param>
         public virtual void Update(Campaña pCampaña)
         {
-            Campaña databaseCampaña = this.GetByCodigo(pCampaña.Codigo);
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                //IMÁGENES
+                Campaña databaseCampaña = this.GetByCodigo(pCampaña.Codigo);
+                pUnitOfWork.CampañaRepository.Update(databaseCampaña);
+                pUnitOfWork.CampañaRepository.ChangeValues(databaseCampaña, pCampaña);
+                //Imágenes
                 List<Imagen> imagenesEliminadas = ExtesionLista.GetDeleted<Imagen>(databaseCampaña.Imagenes, pCampaña.Imagenes);
                 List<Imagen> imagenesModificadas = ExtesionLista.GetModified<Imagen>(databaseCampaña.Imagenes, pCampaña.Imagenes);
                 List<Imagen> imagenesAInsertar = ExtesionLista.GetNew<Imagen>(databaseCampaña.Imagenes, pCampaña.Imagenes);
                 foreach (Imagen pImagen in imagenesModificadas)
                 {
-                    this.iUnitOfWork.ImagenRepository.Update(pImagen);
+                    Imagen imagenOriginal = databaseCampaña.Imagenes.Find(x => x.Equals(pImagen));
+                    pUnitOfWork.ImagenRepository.ChangeValues(imagenOriginal, pImagen);
                 }
                 foreach (Imagen pImagen in imagenesEliminadas)
                 {
-                    this.iUnitOfWork.ImagenRepository.Delete(pImagen);
+                    //Para que no lance excepción
+                    pImagen.Campaña = null;
+                    pUnitOfWork.ImagenRepository.DeleteWithRelated(pImagen);
                 }
                 foreach (Imagen pImagen in imagenesAInsertar)
                 {
-                    this.iUnitOfWork.ImagenRepository.Insert(pImagen);
+                    //Para que no cree otra campaña
+                    pImagen.Campaña = null;
+                    pUnitOfWork.ImagenRepository.Insert(pImagen);
                 }
-                //RANGOS FECHA y HORARIO
+                //Rangos Fecha
                 List<RangoFecha> rangosFechaEliminados = ExtesionLista.GetDeleted<RangoFecha>(databaseCampaña.RangosFecha, pCampaña.RangosFecha);
                 List<RangoFecha> rangosFechaModificados = ExtesionLista.GetModified<RangoFecha>(databaseCampaña.RangosFecha, pCampaña.RangosFecha);
                 List<RangoFecha> rangosFechaAInsertar = ExtesionLista.GetNew<RangoFecha>(databaseCampaña.RangosFecha, pCampaña.RangosFecha);
                 foreach (RangoFecha pRangoFecha in rangosFechaEliminados)
                 {
-                    this.iUnitOfWork.RangoFechaRepository.Delete(pRangoFecha);
+                    pRangoFecha.Principal = null;
+                    pUnitOfWork.RangoFechaRepository.DeleteWithRelated(pRangoFecha);
                 }
                 foreach (RangoFecha pRangoFecha in rangosFechaAInsertar)
                 {
-                    this.iUnitOfWork.RangoFechaRepository.Insert(pRangoFecha);
+                    pRangoFecha.Principal = null;
+                    pUnitOfWork.RangoFechaRepository.Insert(pRangoFecha);
                 }
                 foreach (RangoFecha pRangoFecha in rangosFechaModificados)
                 {
+                    //Actualizar Rango Fecha
+                    RangoFecha rangoFechaOriginal = databaseCampaña.RangosFecha.Find(x => x.Equals(pRangoFecha));
+                    pUnitOfWork.RangoFechaRepository.ChangeValues(rangoFechaOriginal, pRangoFecha);
                     //Rangos Horarios
-                    List<RangoHorario> rangosHorariosEliminados = databaseCampaña.RangosFecha.Find(x => x.Equals(pRangoFecha)).RangosHorario;
                     List<RangoHorario> rangosHorariosAInsertar = pRangoFecha.RangosHorario;
-                    foreach (RangoHorario pRangoHorario in rangosHorariosEliminados)
+                    for (int i = rangoFechaOriginal.RangosHorario.Count - 1; i >= 0; i--)
                     {
-                        this.iUnitOfWork.RangoHorarioRepository.Delete(pRangoHorario);
+                        pUnitOfWork.RangoHorarioRepository.Delete(rangoFechaOriginal.RangosHorario[i]);
                     }
                     foreach (RangoHorario pRangoHorario in rangosHorariosAInsertar)
                     {
-                        this.iUnitOfWork.RangoHorarioRepository.Insert(pRangoHorario);
+                        pRangoHorario.RangoFecha = null;
+                        pUnitOfWork.RangoHorarioRepository.Insert(pRangoHorario);
                     }
-                    this.iUnitOfWork.RangoFechaRepository.Update(pRangoFecha);
                 }
-                this.iUnitOfWork.CampañaRepository.Update(pCampaña);
-                this.iUnitOfWork.Save();
+                pUnitOfWork.Save();
             }
         }
 
@@ -99,9 +105,28 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = new UnitOfWork();
-                this.iUnitOfWork.CampañaRepository.Delete(pCampaña);
-                this.iUnitOfWork.Save();
+                pUnitOfWork.CampañaRepository.DeleteWithRelated(pCampaña);
+                pUnitOfWork.Save();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene una instancia de Campaña
+        /// </summary>
+        /// <param name="pCampañaCodigo">Código de la Campaña que se desea obtener</param>
+        /// <returns>Tipo de dato Campaña que representa la buscada por código</returns>
+        public virtual Campaña GetByCodigo(int pCampañaCodigo)
+        {
+            using (UnitOfWork pUnitOfWork = new UnitOfWork())
+            {
+                Campaña campaña = pUnitOfWork.CampañaRepository.GetByCodigo(pCampañaCodigo);
+                foreach (RangoFecha rangoFecha in campaña.RangosFecha)
+                {
+                    RangoFecha aux = pUnitOfWork.RangoFechaRepository.GetByCodigo(rangoFecha.Codigo);
+                    rangoFecha.RangosHorario = aux.RangosHorario;
+                    rangoFecha.Principal = aux.Principal;
+                }
+                return campaña;
             }
         }
 
@@ -113,40 +138,18 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                List<Campaña> listaCampañas = this.iUnitOfWork.CampañaRepository.context.Campañas.ToList<Campaña>();
+                List<Campaña> listaCampañas = pUnitOfWork.CampañaRepository.GetAll();
                 foreach (Campaña campaña in listaCampañas)
                 {
                     //Por razones de eficiencia no cargamos las imágenes de todas las campañas sólo lo hacemos con el GetByCodigo
-                    //this.iUnitOfWork.CampañaRepository.Queryable.Include("Imagen").ToList();
-                    this.iUnitOfWork.CampañaRepository.Queryable.Include("RangosFecha").ToList();
+                    //pUnitOfWork.CampañaRepository.Queryable.Include("Imagen").ToList();
+                    pUnitOfWork.CampañaRepository.Queryable.Include("RangosFecha").ToList();
                     foreach (RangoFecha rangoFecha in campaña.RangosFecha)
                     {
-                        this.iUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
+                        pUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
                     }
                 }
                 return listaCampañas;
-            }
-        }
-
-        /// <summary>
-        /// Obtiene una instancia de Campaña
-        /// </summary>
-        /// <param name="pCampañaCodigo">Código de la Campaña que se desea obtener</param>
-        /// <returns></returns>
-        public virtual Campaña GetByCodigo(int pCampañaCodigo)
-        {
-            using (UnitOfWork pUnitOfWork = new UnitOfWork())
-            {
-                this.iUnitOfWork = pUnitOfWork;
-                Campaña campaña = this.iUnitOfWork.CampañaRepository.GetByCodigo(pCampañaCodigo);
-                this.iUnitOfWork.CampañaRepository.context.Entry(campaña).Collection("Imagenes").Load();
-                this.iUnitOfWork.CampañaRepository.context.Entry(campaña).Collection("RangosFecha").Load();
-                foreach(RangoFecha rangoFecha in campaña.RangosFecha)
-                {
-                    this.iUnitOfWork.RangoFechaRepository.context.Entry(rangoFecha).Collection("RangosHorario").Load();
-                }
-                return campaña;
             }
         }
 
@@ -155,24 +158,23 @@ namespace Persistencia
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar campañas</param>
         /// <returns>Tipo de dato Lista de campañas a filtrar</returns>
-        public virtual List<Campaña> GetAll(Dictionary<string, object> argumentosFiltrado)
+        public virtual List<Campaña> GetAll(Dictionary<Type, object> argumentosFiltrado)
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                string nombre = (string)argumentosFiltrado["Nombre"];
-                var result = from campaña in this.iUnitOfWork.CampañaRepository.Queryable.Include("RangosFecha")
+                string nombre = (string)argumentosFiltrado[typeof(string)];
+                var result = from campaña in pUnitOfWork.CampañaRepository.Queryable.Include("RangosFecha")
                              where campaña.Nombre.Contains(nombre)
                              select campaña;
                 List<Campaña> resultado = new List<Campaña>();
-                if (argumentosFiltrado.ContainsKey("Rango Fecha"))
+                if (argumentosFiltrado.ContainsKey(typeof(RangoFecha)))
                 {
-                    RangoFecha pRF = (RangoFecha)argumentosFiltrado["Rango Fecha"];
+                    RangoFecha pRF = (RangoFecha)argumentosFiltrado[typeof(RangoFecha)];
                     DateTime fechaI = pRF.FechaInicio;
                     DateTime fechaF = pRF.FechaFin;
-                    foreach (var banner in result)
+                    foreach (var campaña in result)
                     {
-                        IQueryable<RangoFecha> rangoFecha = banner.RangosFecha.AsQueryable<RangoFecha>();
+                        IQueryable<RangoFecha> rangoFecha = campaña.RangosFecha.AsQueryable<RangoFecha>();
                         var auxiliar = from rf in rangoFecha
                                        where ((rf.FechaInicio.Year <= fechaI.Year && rf.FechaInicio.Month <= fechaI.Month && rf.FechaInicio.Day <= fechaI.Day &&
                                               rf.FechaFin.Year >= fechaI.Year && rf.FechaFin.Month >= fechaI.Month && rf.FechaFin.Day >= fechaI.Day) ||
@@ -183,23 +185,26 @@ namespace Persistencia
                                        select rf;
                         if (auxiliar.ToList().Count != 0)
                         {
-                            resultado.Add(banner);
+                            resultado.Add(campaña);
                         }
                     }
                 }
                 else
                 {
+                    resultado = result.ToList();
+                    /*
                     foreach (Campaña campaña in result)
                     {
                         resultado.Add(campaña);
                     }
+                    */
                 }
                 //cargar Rangos Horarios
                 foreach (Campaña campaña in resultado)
                 {
                     foreach (RangoFecha rangoFecha in campaña.RangosFecha)
                     {
-                        this.iUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
+                        pUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
                     }
                 }
                 return resultado;

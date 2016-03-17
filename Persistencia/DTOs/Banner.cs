@@ -1,15 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Persistencia
 {
-    class Banner
+    class Banner : RangoFecheable
     {
-        [Key]
-        public int Codigo { get; set; }
         public string Nombre { get; set; }
-        public Fuente Texto { get; set; }
-        public string URL { get; set; }
-        public List<RangoFecha> RangosFecha { get; set; }
+        public Fuente Fuente { get; set; }
+        [ForeignKey("Fuente"), Column(Order = 2)]
+        public int Fuente_Codigo { get; set; }
+
+        /// <summary>
+        /// Constructor Banner
+        /// </summary>
+        public Banner()
+        {
+            this.RangosFecha = new List<RangoFecha>();
+        }
     }
 }

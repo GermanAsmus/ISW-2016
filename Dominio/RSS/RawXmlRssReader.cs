@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Lector de RSS que procesa directamente el XML en bruto de la fuente.

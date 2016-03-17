@@ -4,6 +4,6 @@
     {
         public string URL { get; set; }
         public string Descripcion { get; set; }
-        public string Valor { get; set; }
+        public override string Valor { get; set; }
     }
 }

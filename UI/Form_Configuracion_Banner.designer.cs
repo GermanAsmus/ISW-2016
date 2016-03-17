@@ -39,29 +39,22 @@
             this.backgroundWorker_BotonAceptar = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel_Pictures = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox_ComprobacionRH = new System.Windows.Forms.PictureBox();
-            this.pictureBox_ComprobacionTipo = new System.Windows.Forms.PictureBox();
+            this.pictureBox_ComprobacionFuente = new System.Windows.Forms.PictureBox();
             this.pictureBox_ComprobacionNombre = new System.Windows.Forms.PictureBox();
             this.label_ComprobacionNombre = new System.Windows.Forms.Label();
-            this.label_ComprobacionTipo = new System.Windows.Forms.Label();
+            this.label_ComprobacionFuente = new System.Windows.Forms.Label();
             this.label_ComprobacionRangosFecha = new System.Windows.Forms.Label();
             this.label_ComprobacionRangoHorario = new System.Windows.Forms.Label();
             this.pictureBox_ComprobacionRF = new System.Windows.Forms.PictureBox();
             this.timer_Prueba = new System.Windows.Forms.Timer(this.components);
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_ConfiguracionBasica = new System.Windows.Forms.TabPage();
-            this.label_Tipo = new System.Windows.Forms.Label();
+            this.tableLayoutPanel_Fuente = new System.Windows.Forms.TableLayoutPanel();
+            this.comboBox_Fuente = new System.Windows.Forms.ComboBox();
+            this.label_Fuente = new System.Windows.Forms.Label();
             this.label_Prueba = new System.Windows.Forms.Label();
             this.label_Nombre = new System.Windows.Forms.Label();
             this.textBox_Nombre = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel_Tipo = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox_RSS = new System.Windows.Forms.GroupBox();
-            this.label_URL_RSS = new System.Windows.Forms.Label();
-            this.textBox_URL = new System.Windows.Forms.TextBox();
-            this.groupBox_TextoFijo = new System.Windows.Forms.GroupBox();
-            this.textBox_TextoFijo = new System.Windows.Forms.TextBox();
-            this.label_Texto_TextoFijo = new System.Windows.Forms.Label();
-            this.radioButton_FuenteRSS = new System.Windows.Forms.RadioButton();
-            this.radioButton_TextoFijo = new System.Windows.Forms.RadioButton();
             this.panel_Prueba = new System.Windows.Forms.Panel();
             this.label_ValorPrueba = new System.Windows.Forms.Label();
             this.tabPage_RangosHorarios = new System.Windows.Forms.TabPage();
@@ -80,14 +73,11 @@
             this.backgroundWorker_RSS = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel_Pictures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionRH)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionTipo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionFuente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionNombre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionRF)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPage_ConfiguracionBasica.SuspendLayout();
-            this.tableLayoutPanel_Tipo.SuspendLayout();
-            this.groupBox_RSS.SuspendLayout();
-            this.groupBox_TextoFijo.SuspendLayout();
             this.panel_Prueba.SuspendLayout();
             this.tabPage_RangosHorarios.SuspendLayout();
             this.tableLayoutPanel_RangosFecha.SuspendLayout();
@@ -149,10 +139,10 @@
             this.tableLayoutPanel_Pictures.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel_Pictures.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_Pictures.Controls.Add(this.pictureBox_ComprobacionRH, 2, 1);
-            this.tableLayoutPanel_Pictures.Controls.Add(this.pictureBox_ComprobacionTipo, 0, 1);
+            this.tableLayoutPanel_Pictures.Controls.Add(this.pictureBox_ComprobacionFuente, 0, 1);
             this.tableLayoutPanel_Pictures.Controls.Add(this.pictureBox_ComprobacionNombre, 0, 0);
             this.tableLayoutPanel_Pictures.Controls.Add(this.label_ComprobacionNombre, 1, 0);
-            this.tableLayoutPanel_Pictures.Controls.Add(this.label_ComprobacionTipo, 1, 1);
+            this.tableLayoutPanel_Pictures.Controls.Add(this.label_ComprobacionFuente, 1, 1);
             this.tableLayoutPanel_Pictures.Controls.Add(this.label_ComprobacionRangosFecha, 3, 0);
             this.tableLayoutPanel_Pictures.Controls.Add(this.label_ComprobacionRangoHorario, 3, 1);
             this.tableLayoutPanel_Pictures.Controls.Add(this.pictureBox_ComprobacionRF, 2, 0);
@@ -175,16 +165,16 @@
             this.pictureBox_ComprobacionRH.TabIndex = 7;
             this.pictureBox_ComprobacionRH.TabStop = false;
             // 
-            // pictureBox_ComprobacionTipo
+            // pictureBox_ComprobacionFuente
             // 
-            this.pictureBox_ComprobacionTipo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBox_ComprobacionFuente.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_ComprobacionTipo.Location = new System.Drawing.Point(3, 31);
-            this.pictureBox_ComprobacionTipo.Name = "pictureBox_ComprobacionTipo";
-            this.pictureBox_ComprobacionTipo.Size = new System.Drawing.Size(21, 22);
-            this.pictureBox_ComprobacionTipo.TabIndex = 6;
-            this.pictureBox_ComprobacionTipo.TabStop = false;
+            this.pictureBox_ComprobacionFuente.Location = new System.Drawing.Point(3, 31);
+            this.pictureBox_ComprobacionFuente.Name = "pictureBox_ComprobacionFuente";
+            this.pictureBox_ComprobacionFuente.Size = new System.Drawing.Size(21, 22);
+            this.pictureBox_ComprobacionFuente.TabIndex = 6;
+            this.pictureBox_ComprobacionFuente.TabStop = false;
             // 
             // pictureBox_ComprobacionNombre
             // 
@@ -211,19 +201,19 @@
             this.label_ComprobacionNombre.Text = "Nombre";
             this.label_ComprobacionNombre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label_ComprobacionTipo
+            // label_ComprobacionFuente
             // 
-            this.label_ComprobacionTipo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label_ComprobacionFuente.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.label_ComprobacionTipo.AutoSize = true;
-            this.label_ComprobacionTipo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ComprobacionTipo.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label_ComprobacionTipo.Location = new System.Drawing.Point(30, 28);
-            this.label_ComprobacionTipo.Name = "label_ComprobacionTipo";
-            this.label_ComprobacionTipo.Size = new System.Drawing.Size(31, 28);
-            this.label_ComprobacionTipo.TabIndex = 1;
-            this.label_ComprobacionTipo.Text = "Tipo";
-            this.label_ComprobacionTipo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_ComprobacionFuente.AutoSize = true;
+            this.label_ComprobacionFuente.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ComprobacionFuente.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.label_ComprobacionFuente.Location = new System.Drawing.Point(30, 28);
+            this.label_ComprobacionFuente.Name = "label_ComprobacionFuente";
+            this.label_ComprobacionFuente.Size = new System.Drawing.Size(45, 28);
+            this.label_ComprobacionFuente.TabIndex = 1;
+            this.label_ComprobacionFuente.Text = "Fuente";
+            this.label_ComprobacionFuente.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label_ComprobacionRangosFecha
             // 
@@ -288,11 +278,12 @@
             // tabPage_ConfiguracionBasica
             // 
             this.tabPage_ConfiguracionBasica.BackColor = System.Drawing.Color.White;
-            this.tabPage_ConfiguracionBasica.Controls.Add(this.label_Tipo);
+            this.tabPage_ConfiguracionBasica.Controls.Add(this.tableLayoutPanel_Fuente);
+            this.tabPage_ConfiguracionBasica.Controls.Add(this.comboBox_Fuente);
+            this.tabPage_ConfiguracionBasica.Controls.Add(this.label_Fuente);
             this.tabPage_ConfiguracionBasica.Controls.Add(this.label_Prueba);
             this.tabPage_ConfiguracionBasica.Controls.Add(this.label_Nombre);
             this.tabPage_ConfiguracionBasica.Controls.Add(this.textBox_Nombre);
-            this.tabPage_ConfiguracionBasica.Controls.Add(this.tableLayoutPanel_Tipo);
             this.tabPage_ConfiguracionBasica.Controls.Add(this.panel_Prueba);
             this.tabPage_ConfiguracionBasica.Location = new System.Drawing.Point(4, 25);
             this.tabPage_ConfiguracionBasica.Name = "tabPage_ConfiguracionBasica";
@@ -301,17 +292,42 @@
             this.tabPage_ConfiguracionBasica.TabIndex = 0;
             this.tabPage_ConfiguracionBasica.Text = "Configuración Básica";
             // 
-            // label_Tipo
+            // tableLayoutPanel_Fuente
             // 
-            this.label_Tipo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanel_Fuente.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_Tipo.AutoSize = true;
-            this.label_Tipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.label_Tipo.Location = new System.Drawing.Point(14, 79);
-            this.label_Tipo.Name = "label_Tipo";
-            this.label_Tipo.Size = new System.Drawing.Size(46, 22);
-            this.label_Tipo.TabIndex = 2;
-            this.label_Tipo.Text = "Tipo";
+            this.tableLayoutPanel_Fuente.ColumnCount = 1;
+            this.tableLayoutPanel_Fuente.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_Fuente.Location = new System.Drawing.Point(111, 122);
+            this.tableLayoutPanel_Fuente.Name = "tableLayoutPanel_Fuente";
+            this.tableLayoutPanel_Fuente.RowCount = 1;
+            this.tableLayoutPanel_Fuente.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_Fuente.Size = new System.Drawing.Size(617, 183);
+            this.tableLayoutPanel_Fuente.TabIndex = 21;
+            // 
+            // comboBox_Fuente
+            // 
+            this.comboBox_Fuente.FormattingEnabled = true;
+            this.comboBox_Fuente.Items.AddRange(new object[] {
+            "Fuente RSS (contenido Web)",
+            "Fuente Texto Fijo"});
+            this.comboBox_Fuente.Location = new System.Drawing.Point(111, 79);
+            this.comboBox_Fuente.Name = "comboBox_Fuente";
+            this.comboBox_Fuente.Size = new System.Drawing.Size(174, 24);
+            this.comboBox_Fuente.TabIndex = 20;
+            this.comboBox_Fuente.SelectedIndexChanged += new System.EventHandler(this.comboBox_Fuente_SelectedIndexChanged);
+            // 
+            // label_Fuente
+            // 
+            this.label_Fuente.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_Fuente.AutoSize = true;
+            this.label_Fuente.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
+            this.label_Fuente.Location = new System.Drawing.Point(14, 79);
+            this.label_Fuente.Name = "label_Fuente";
+            this.label_Fuente.Size = new System.Drawing.Size(66, 22);
+            this.label_Fuente.TabIndex = 2;
+            this.label_Fuente.Text = "&Fuente";
             // 
             // label_Prueba
             // 
@@ -347,140 +363,6 @@
             this.textBox_Nombre.TabIndex = 1;
             this.textBox_Nombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Nombre_KeyPress);
             this.textBox_Nombre.Leave += new System.EventHandler(this.textBox_Nombre_Leave);
-            // 
-            // tableLayoutPanel_Tipo
-            // 
-            this.tableLayoutPanel_Tipo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel_Tipo.AutoSize = true;
-            this.tableLayoutPanel_Tipo.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel_Tipo.ColumnCount = 2;
-            this.tableLayoutPanel_Tipo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel_Tipo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_Tipo.Controls.Add(this.groupBox_RSS, 1, 0);
-            this.tableLayoutPanel_Tipo.Controls.Add(this.groupBox_TextoFijo, 1, 1);
-            this.tableLayoutPanel_Tipo.Controls.Add(this.radioButton_FuenteRSS, 0, 0);
-            this.tableLayoutPanel_Tipo.Controls.Add(this.radioButton_TextoFijo, 0, 1);
-            this.tableLayoutPanel_Tipo.Location = new System.Drawing.Point(77, 76);
-            this.tableLayoutPanel_Tipo.Name = "tableLayoutPanel_Tipo";
-            this.tableLayoutPanel_Tipo.RowCount = 2;
-            this.tableLayoutPanel_Tipo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.18919F));
-            this.tableLayoutPanel_Tipo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.81081F));
-            this.tableLayoutPanel_Tipo.Size = new System.Drawing.Size(657, 219);
-            this.tableLayoutPanel_Tipo.TabIndex = 17;
-            this.tableLayoutPanel_Tipo.Leave += new System.EventHandler(this.tableLayoutPanelTipo_Leave);
-            // 
-            // groupBox_RSS
-            // 
-            this.groupBox_RSS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox_RSS.Controls.Add(this.label_URL_RSS);
-            this.groupBox_RSS.Controls.Add(this.textBox_URL);
-            this.groupBox_RSS.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_RSS.Location = new System.Drawing.Point(31, 4);
-            this.groupBox_RSS.Name = "groupBox_RSS";
-            this.groupBox_RSS.Size = new System.Drawing.Size(622, 78);
-            this.groupBox_RSS.TabIndex = 0;
-            this.groupBox_RSS.TabStop = false;
-            this.groupBox_RSS.Text = "RSS";
-            // 
-            // label_URL_RSS
-            // 
-            this.label_URL_RSS.AutoSize = true;
-            this.label_URL_RSS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.label_URL_RSS.Location = new System.Drawing.Point(6, 22);
-            this.label_URL_RSS.Name = "label_URL_RSS";
-            this.label_URL_RSS.Size = new System.Drawing.Size(32, 15);
-            this.label_URL_RSS.TabIndex = 3;
-            this.label_URL_RSS.Text = "&URL";
-            // 
-            // textBox_URL
-            // 
-            this.textBox_URL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_URL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_URL.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.textBox_URL.Location = new System.Drawing.Point(9, 40);
-            this.textBox_URL.Multiline = true;
-            this.textBox_URL.Name = "textBox_URL";
-            this.textBox_URL.Size = new System.Drawing.Size(610, 32);
-            this.textBox_URL.TabIndex = 4;
-            this.textBox_URL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            this.textBox_URL.Leave += new System.EventHandler(this.textBox_URL_Leave);
-            // 
-            // groupBox_TextoFijo
-            // 
-            this.groupBox_TextoFijo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox_TextoFijo.Controls.Add(this.textBox_TextoFijo);
-            this.groupBox_TextoFijo.Controls.Add(this.label_Texto_TextoFijo);
-            this.groupBox_TextoFijo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_TextoFijo.Location = new System.Drawing.Point(31, 89);
-            this.groupBox_TextoFijo.Name = "groupBox_TextoFijo";
-            this.groupBox_TextoFijo.Size = new System.Drawing.Size(622, 126);
-            this.groupBox_TextoFijo.TabIndex = 6;
-            this.groupBox_TextoFijo.TabStop = false;
-            this.groupBox_TextoFijo.Text = "Texto Fijo";
-            // 
-            // textBox_TextoFijo
-            // 
-            this.textBox_TextoFijo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_TextoFijo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TextoFijo.Location = new System.Drawing.Point(9, 40);
-            this.textBox_TextoFijo.Multiline = true;
-            this.textBox_TextoFijo.Name = "textBox_TextoFijo";
-            this.textBox_TextoFijo.Size = new System.Drawing.Size(610, 80);
-            this.textBox_TextoFijo.TabIndex = 4;
-            this.textBox_TextoFijo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
-            this.textBox_TextoFijo.Leave += new System.EventHandler(this.textBox_TextoFijo_Leave);
-            // 
-            // label_Texto_TextoFijo
-            // 
-            this.label_Texto_TextoFijo.AutoSize = true;
-            this.label_Texto_TextoFijo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.label_Texto_TextoFijo.Location = new System.Drawing.Point(6, 22);
-            this.label_Texto_TextoFijo.Name = "label_Texto_TextoFijo";
-            this.label_Texto_TextoFijo.Size = new System.Drawing.Size(37, 15);
-            this.label_Texto_TextoFijo.TabIndex = 5;
-            this.label_Texto_TextoFijo.Text = "&Texto";
-            // 
-            // radioButton_FuenteRSS
-            // 
-            this.radioButton_FuenteRSS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_FuenteRSS.AutoSize = true;
-            this.radioButton_FuenteRSS.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton_FuenteRSS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton_FuenteRSS.Location = new System.Drawing.Point(4, 4);
-            this.radioButton_FuenteRSS.Name = "radioButton_FuenteRSS";
-            this.radioButton_FuenteRSS.Size = new System.Drawing.Size(20, 78);
-            this.radioButton_FuenteRSS.TabIndex = 3;
-            this.radioButton_FuenteRSS.TabStop = true;
-            this.radioButton_FuenteRSS.UseVisualStyleBackColor = true;
-            this.radioButton_FuenteRSS.CheckedChanged += new System.EventHandler(this.radioButton_FuenteRSS_CheckedChanged);
-            // 
-            // radioButton_TextoFijo
-            // 
-            this.radioButton_TextoFijo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_TextoFijo.AutoSize = true;
-            this.radioButton_TextoFijo.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton_TextoFijo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton_TextoFijo.Location = new System.Drawing.Point(4, 89);
-            this.radioButton_TextoFijo.Name = "radioButton_TextoFijo";
-            this.radioButton_TextoFijo.Size = new System.Drawing.Size(20, 126);
-            this.radioButton_TextoFijo.TabIndex = 3;
-            this.radioButton_TextoFijo.TabStop = true;
-            this.radioButton_TextoFijo.UseVisualStyleBackColor = true;
-            this.radioButton_TextoFijo.CheckedChanged += new System.EventHandler(this.radioButton_TextoFijo_CheckedChanged);
             // 
             // panel_Prueba
             // 
@@ -736,18 +618,12 @@
             this.tableLayoutPanel_Pictures.ResumeLayout(false);
             this.tableLayoutPanel_Pictures.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionRH)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionTipo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionFuente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionNombre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionRF)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabPage_ConfiguracionBasica.ResumeLayout(false);
             this.tabPage_ConfiguracionBasica.PerformLayout();
-            this.tableLayoutPanel_Tipo.ResumeLayout(false);
-            this.tableLayoutPanel_Tipo.PerformLayout();
-            this.groupBox_RSS.ResumeLayout(false);
-            this.groupBox_RSS.PerformLayout();
-            this.groupBox_TextoFijo.ResumeLayout(false);
-            this.groupBox_TextoFijo.PerformLayout();
             this.panel_Prueba.ResumeLayout(false);
             this.panel_Prueba.PerformLayout();
             this.tabPage_RangosHorarios.ResumeLayout(false);
@@ -769,26 +645,17 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker_BotonAceptar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Pictures;
         private System.Windows.Forms.Label label_ComprobacionRangosFecha;
-        private System.Windows.Forms.Label label_ComprobacionTipo;
+        private System.Windows.Forms.Label label_ComprobacionFuente;
         private System.Windows.Forms.Label label_ComprobacionNombre;
         private System.Windows.Forms.Label label_ComprobacionRangoHorario;
         private System.Windows.Forms.PictureBox pictureBox_ComprobacionRH;
-        private System.Windows.Forms.PictureBox pictureBox_ComprobacionTipo;
+        private System.Windows.Forms.PictureBox pictureBox_ComprobacionFuente;
         private System.Windows.Forms.PictureBox pictureBox_ComprobacionRF;
         private System.Windows.Forms.PictureBox pictureBox_ComprobacionNombre;
         private System.Windows.Forms.Timer timer_Prueba;
-        private System.Windows.Forms.Label label_Tipo;
+        private System.Windows.Forms.Label label_Fuente;
         private System.Windows.Forms.Label label_Prueba;
         private System.Windows.Forms.TextBox textBox_Nombre;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Tipo;
-        private System.Windows.Forms.GroupBox groupBox_RSS;
-        private System.Windows.Forms.Label label_URL_RSS;
-        private System.Windows.Forms.TextBox textBox_URL;
-        private System.Windows.Forms.GroupBox groupBox_TextoFijo;
-        private System.Windows.Forms.TextBox textBox_TextoFijo;
-        private System.Windows.Forms.Label label_Texto_TextoFijo;
-        private System.Windows.Forms.RadioButton radioButton_FuenteRSS;
-        private System.Windows.Forms.RadioButton radioButton_TextoFijo;
         private System.Windows.Forms.Panel panel_Prueba;
         private System.Windows.Forms.Label label_ValorPrueba;
         private System.Windows.Forms.DataGridView dataGridView_Hora;
@@ -808,5 +675,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Button button_AgregarHora;
         private System.ComponentModel.BackgroundWorker backgroundWorker_RSS;
+        private System.Windows.Forms.ComboBox comboBox_Fuente;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Fuente;
     }
 }

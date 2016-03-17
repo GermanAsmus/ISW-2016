@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Persistencia
 {
@@ -9,6 +10,9 @@ namespace Persistencia
         public int Codigo { get; set; }
         public byte[] Picture { get; set; }
         public int Tiempo { get; set; }
+        public virtual Campaña Campaña { get; set; }
+        [ForeignKey("Campaña"),Column(Order = 0)]
+        public int Campaña_Codigo { get; set; }
 
         /// <summary>
         /// Determina si dos Imágenes son iguales por código

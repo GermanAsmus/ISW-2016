@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
 //Hace que sea visible para el Testing y los Servicios
 [assembly: InternalsVisibleTo("Testings")]
 [assembly: InternalsVisibleTo("Servicios")]
-
 namespace Persistencia
 {
     class FachadaCRUDBanner
     {
-        private UnitOfWork iUnitOfWork;
-
         /// <summary>
         /// Constructor del CRUDFacade
         /// </summary>
@@ -32,9 +29,9 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                this.iUnitOfWork.BannerRepository.Insert(pBanner);
-                this.iUnitOfWork.Save();
+                pBanner.Fuente = null;
+                pUnitOfWork.BannerRepository.Insert(pBanner);
+                pUnitOfWork.Save();
                 return pBanner.Codigo;
             }
         }
@@ -45,39 +42,43 @@ namespace Persistencia
         /// <param name="pBanner">Banner a actualizar de la base de datos</param>
         public virtual void Update(Banner pBanner)
         {
-            Banner databaseBanner = this.GetByCodigo(pBanner.Codigo);
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
+                Banner databaseBanner = this.GetByCodigo(pBanner.Codigo);
+                pUnitOfWork.BannerRepository.Update(databaseBanner);
+                pUnitOfWork.BannerRepository.ChangeValues(databaseBanner, pBanner);
                 //Rangos Fecha
                 List<RangoFecha> rangosFechaEliminados = ExtesionLista.GetDeleted<RangoFecha>(databaseBanner.RangosFecha, pBanner.RangosFecha);
                 List<RangoFecha> rangosFechaModificados = ExtesionLista.GetModified<RangoFecha>(databaseBanner.RangosFecha, pBanner.RangosFecha);
                 List<RangoFecha> rangosFechaAInsertar = ExtesionLista.GetNew<RangoFecha>(databaseBanner.RangosFecha, pBanner.RangosFecha);
                 foreach (RangoFecha pRangoFecha in rangosFechaEliminados)
                 {
-                    this.iUnitOfWork.RangoFechaRepository.Delete(pRangoFecha);
+                    pRangoFecha.Principal = null;
+                    pUnitOfWork.RangoFechaRepository.DeleteWithRelated(pRangoFecha);
                 }
                 foreach (RangoFecha pRangoFecha in rangosFechaAInsertar)
                 {
-                    this.iUnitOfWork.RangoFechaRepository.Insert(pRangoFecha);
+                    pRangoFecha.Principal = null;
+                    pUnitOfWork.RangoFechaRepository.Insert(pRangoFecha);
                 }
                 foreach (RangoFecha pRangoFecha in rangosFechaModificados)
                 {
+                    //Actualizar Rango Fecha
+                    RangoFecha rangoFechaOriginal = databaseBanner.RangosFecha.Find(x => x.Equals(pRangoFecha));
+                    pUnitOfWork.RangoFechaRepository.ChangeValues(rangoFechaOriginal, pRangoFecha);
                     //Rangos Horarios
-                    List<RangoHorario> rangosHorariosEliminados = databaseBanner.RangosFecha.Find(x => x.Equals(pRangoFecha)).RangosHorario;
                     List<RangoHorario> rangosHorariosAInsertar = pRangoFecha.RangosHorario;
-                    foreach (RangoHorario pRangoHorario in rangosHorariosEliminados)
+                    for (int i = rangoFechaOriginal.RangosHorario.Count - 1; i >= 0; i--) 
                     {
-                        this.iUnitOfWork.RangoHorarioRepository.Delete(pRangoHorario);
+                        pUnitOfWork.RangoHorarioRepository.Delete(rangoFechaOriginal.RangosHorario[i]);
                     }
                     foreach (RangoHorario pRangoHorario in rangosHorariosAInsertar)
                     {
-                        this.iUnitOfWork.RangoHorarioRepository.Insert(pRangoHorario);
+                        pRangoHorario.RangoFecha = null;
+                        pUnitOfWork.RangoHorarioRepository.Insert(pRangoHorario);
                     }
-                    this.iUnitOfWork.RangoFechaRepository.Update(pRangoFecha);
-                    this.iUnitOfWork.BannerRepository.Update(pBanner);
-                    this.iUnitOfWork.Save();
                 }
+                pUnitOfWork.Save();
             }
         }
 
@@ -89,12 +90,31 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = new UnitOfWork();
-                this.iUnitOfWork.BannerRepository.Delete(pBanner);
-                this.iUnitOfWork.Save();
+                pUnitOfWork.BannerRepository.DeleteWithRelated(pBanner);
+                pUnitOfWork.Save();
             }
         }
 
+        /// <summary>
+        /// Obtiene una instancia de Banner
+        /// </summary>
+        /// <param name="pBannerCodigo">Código del Banner que se desea obtener</param>
+        /// <returns>Tipo de dato Banner que representa el buscado por código</returns>
+        public virtual Banner GetByCodigo(int pBannerCodigo)
+        {
+            using (UnitOfWork pUnitOfWork = new UnitOfWork())
+            {
+                Banner banner = pUnitOfWork.BannerRepository.GetByCodigo(pBannerCodigo);
+                foreach (RangoFecha rangoFecha in banner.RangosFecha)
+                {
+                    RangoFecha auxiliarRangoFecha = pUnitOfWork.RangoFechaRepository.GetByCodigo(rangoFecha);
+                    rangoFecha.RangosHorario = auxiliarRangoFecha.RangosHorario;
+                    rangoFecha.Principal = auxiliarRangoFecha.Principal;
+                }
+                return banner;
+            }
+        }
+        
         /// <summary>
         /// Obtiene todos los Banners de la base de datos
         /// </summary>
@@ -103,37 +123,17 @@ namespace Persistencia
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
-                List<Banner> listaBanners = this.iUnitOfWork.BannerRepository.context.Banners.ToList<Banner>();
+                List<Banner> listaBanners = pUnitOfWork.BannerRepository.GetAll();
                 foreach (Banner banner in listaBanners)
                 {
-                    this.iUnitOfWork.BannerRepository.Queryable.Include("RangosFecha").ToList();
+                    pUnitOfWork.BannerRepository.Queryable.Include("RangosFecha").ToList();
                     foreach (RangoFecha rangoFecha in banner.RangosFecha)
                     {
-                        this.iUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
+                        pUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
                     }
+                    pUnitOfWork.BannerRepository.Queryable.Include("Fuente");
                 }
                 return listaBanners;
-            }
-        }
-
-        /// <summary>
-        /// Obtiene una instancia de Banner
-        /// </summary>
-        /// <param name="pBannerCodigo">Código del Banner que se desea obtener</param>
-        /// <returns></returns>
-        public virtual Banner GetByCodigo(int pBannerCodigo)
-        {
-            using (UnitOfWork pUnitOfWork = new UnitOfWork())
-            {
-                this.iUnitOfWork = pUnitOfWork;
-                Banner banner = this.iUnitOfWork.BannerRepository.GetByCodigo(pBannerCodigo);
-                this.iUnitOfWork.CampañaRepository.context.Entry(banner).Collection("RangosFecha").Load();
-                foreach (RangoFecha rangoFecha in banner.RangosFecha)
-                {
-                    this.iUnitOfWork.RangoFechaRepository.context.Entry(rangoFecha).Collection("RangosHorario").Load();
-                }
-                return banner;
             }
         }
 
@@ -142,24 +142,20 @@ namespace Persistencia
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar banners</param>
         /// <returns>Tipo de dato Lista de Banners a filtrar</returns>
-        public virtual List<Banner> GetAll(Dictionary<string, object> argumentosFiltrado)
+        public virtual List<Banner> GetAll(Dictionary<Type, object> argumentosFiltrado)
         {
             using (UnitOfWork pUnitOfWork = new UnitOfWork())
             {
-                this.iUnitOfWork = pUnitOfWork;
                 //usar tipos simple(no objetos)  porque tirar error si se usan objetos
-                string nombre = (string)argumentosFiltrado["Nombre"];
-                string texto = (string)argumentosFiltrado["Texto"];
-                string url = (string)argumentosFiltrado["URL"];
-                IQueryable<Banner> result = from banner in this.iUnitOfWork.BannerRepository.Queryable.Include("RangosFecha")
+                string nombre = (string)argumentosFiltrado[typeof(string)];
+                IQueryable<Banner> result = from banner in pUnitOfWork.BannerRepository.Queryable.Include("RangosFecha").Include("Fuente")
                                             where banner.Nombre.Contains(nombre)
-                                            //where banner.Texto.Contains(texto)
-                                            where banner.URL.Contains(url)
                                             select banner;
                 List<Banner> resultado = new List<Banner>();
-                if (argumentosFiltrado.ContainsKey("Rango Fecha"))
+                //FILTRAR FECHA
+                if (argumentosFiltrado.ContainsKey(typeof(RangoFecha)))
                 {
-                    RangoFecha pRF = (RangoFecha)argumentosFiltrado["Rango Fecha"];
+                    RangoFecha pRF = (RangoFecha)argumentosFiltrado[typeof(RangoFecha)];
                     DateTime fechaI = pRF.FechaInicio;
                     DateTime fechaF = pRF.FechaFin;
                     foreach (var banner in result)
@@ -181,17 +177,18 @@ namespace Persistencia
                 }
                 else
                 {
-                    foreach (Banner banner in result)
-                    {
-                        resultado.Add(banner);
-                    }
+                    resultado = result.ToList();
                 }
-                //cargar Rangos Horarios
-                foreach (Banner banner in resultado)
+                //FILTRAR FUENTES
+                if (argumentosFiltrado.ContainsKey(typeof(Fuente)))
                 {
-                    foreach (RangoFecha rangoFecha in banner.RangosFecha)
+                    Type pTipofuente = (Type) argumentosFiltrado[typeof(Fuente)];
+                    for (int i = resultado.Count - 1; i >= 0; i--)
                     {
-                        this.iUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
+                        if(!(resultado[i].Fuente.GetType() == pTipofuente))
+                        {
+                            resultado.RemoveAt(i);
+                        }
                     }
                 }
                 return resultado;

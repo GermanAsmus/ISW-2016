@@ -12,6 +12,7 @@ namespace Persistencia
         private GenericRepository<Imagen> iImagenRepository;
         private GenericRepository<RangoFecha> iRangoFechaRepository;
         private GenericRepository<RangoHorario> iRangoHorarioRepository;
+        private GenericRepository<Fuente> iFuenteRepository;
 
         /// <summary>
         /// Construye una instancia de UnitOfWork
@@ -24,6 +25,7 @@ namespace Persistencia
             this.iImagenRepository = new GenericRepository<Imagen>(context);
             this.iRangoFechaRepository = new GenericRepository<RangoFecha>(context);
             this.iRangoHorarioRepository = new GenericRepository<RangoHorario>(context);
+            this.iFuenteRepository = new GenericRepository<Fuente>(context);
         }
 
         /// <summary>
@@ -93,7 +95,6 @@ namespace Persistencia
         {
             get { return this.iImagenRepository; }
         }
-
         /// <summary>
         /// Devuelve el repositorio de Rangos de Fecha
         /// </summary>
@@ -108,6 +109,16 @@ namespace Persistencia
         public virtual GenericRepository<RangoHorario> RangoHorarioRepository
         {
             get { return this.iRangoHorarioRepository; }
+
+        }
+
+        /// <summary>
+        /// Devuelve el repositorio de Fuentes
+        /// </summary>
+        public virtual GenericRepository<Fuente> FuenteRepository
+        {
+            get { return this.iFuenteRepository; }
+
         }
     }
 }

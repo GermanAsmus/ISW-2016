@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Lector de Really Simple Syndication (RSS).

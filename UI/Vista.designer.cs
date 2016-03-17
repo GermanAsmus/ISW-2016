@@ -135,9 +135,6 @@
             // 
             this.timer_Cambio.Tick += new System.EventHandler(this.timer_Cambio_Tick);
             // 
-            // backgroundWorker_CargarDiaSiguiente
-            // 
-            // 
             // backgroundWorker_RSS
             // 
             this.backgroundWorker_RSS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_RSS_DoWork);
@@ -147,7 +144,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BackgroundImage = global::UI.Properties.Resources.fondo;
             this.ClientSize = new System.Drawing.Size(758, 487);
             this.Controls.Add(this.label_TextoBanner);
             this.Controls.Add(this.tableLayoutPanel_Vista);

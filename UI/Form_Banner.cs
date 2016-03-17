@@ -5,7 +5,6 @@ using Dominio;
 using Servicios;
 using System.Text.RegularExpressions;
 using System.Drawing;
-using System.Reflection;
 
 namespace UI
 {
@@ -72,12 +71,12 @@ namespace UI
             this.textBox_Nombre.Enabled = false;
             this.radioButton_RSS.Enabled = false;
             this.radioButton_Texto.Enabled = false;
-            this.textBox_Tipo.Enabled = false;
             this.dateTimePicker_FechaDesde.Enabled = false;
             this.dateTimePicker_FechaHasta.Enabled = false;
             this.label_Desde.Enabled = false;
             this.label_Hasta.Enabled = false;
             //PictureBoxes
+            this.CampoCompleto(pictureBox_Tipo, true);
             this.pictureBox_Nombre.Visible = false;
             this.pictureBox_Tipo.Visible = false;
             this.pictureBox_Desde.Visible = false;
@@ -177,34 +176,31 @@ namespace UI
             {
                 this.backgroundWorker_Obtener.CancelAsync();
             }
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             string nombre = "";
             if (this.checkBox_Nombre.Checked)
             {
                 nombre = this.textBox_Nombre.Text;
             }
-            argumentos.Add("Nombre", nombre);
-            string rss = "";
-            string texto = "";
+            argumentos.Add(nombre.GetType(), nombre);
             if (this.checkBox_Tipo.Checked)
             {
-
+                Type fuenteTipo;
                 if (this.radioButton_RSS.Checked)
                 {
-                    rss = this.textBox_Tipo.Text;
+                    fuenteTipo = typeof(FuenteRSS);
                 }
                 else
                 {
-                    texto = this.textBox_Tipo.Text;
+                    fuenteTipo = typeof(FuenteTextoFijo);
                 }
+                argumentos.Add(fuenteTipo, fuenteTipo);
             }
-            argumentos.Add("URL", rss);
-            argumentos.Add("Texto", texto);
             if (this.checkBox_RangoFechas.Checked)
             {
-                RangoFecha pRF = new RangoFecha() { FechaInicio = this.dateTimePicker_FechaDesde.Value,
+                RangoFecha pRangoFecha = new RangoFecha() { FechaInicio = this.dateTimePicker_FechaDesde.Value,
                                                     FechaFin = this.dateTimePicker_FechaHasta.Value };
-                argumentos.Add("Rango Fecha", pRF);
+                argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             }
             this.Cursor = Cursors.WaitCursor;
             this.backgroundWorker_Obtener.RunWorkerAsync(argumentos);
@@ -248,9 +244,7 @@ namespace UI
             bool aux = this.checkBox_Tipo.Checked;
             this.radioButton_RSS.Enabled = aux;
             this.radioButton_Texto.Enabled = aux;
-            this.textBox_Tipo.Enabled = aux;
             this.pictureBox_Tipo.Visible = aux;
-            this.CampoCompleto(this.pictureBox_Tipo, this.textBox_Tipo.Text != "");
             this.ActivarBuscar();
         }
 
@@ -286,19 +280,6 @@ namespace UI
                 e.Handled = true;
             }
         }
-
-        /// <summary>
-        /// Evento que surge al ingresar entradas de teclas al Nombre
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void textBox_Tipo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Enter))
-            {
-                e.Handled = true;
-            }
-        }
        
         /// <summary>
         /// Evento que surge al salir del textBox Nombre
@@ -313,23 +294,6 @@ namespace UI
             if (!resultado)
             {
                 this.textBox_Nombre.Text = "";
-            }
-            this.ActivarBuscar();
-        }
-
-        /// <summary>
-        /// Evento que surge al salir del textBox Tipo
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void textBox_Tipo_Leave(object sender, EventArgs e)
-        {
-            this.textBox_Tipo.Text = this.textBox_Tipo.Text.TrimStart(' ').TrimEnd(' ');
-            bool resultado = Regex.IsMatch(this.textBox_Tipo.Text, @"^[a-zA-Záíéóú\s\p{P}]+$");
-            this.CampoCompleto(this.pictureBox_Tipo, resultado);
-            if (!resultado)
-            {
-                this.textBox_Tipo.Text = "";
             }
             this.ActivarBuscar();
         }
@@ -388,29 +352,11 @@ namespace UI
             if (value)
             {
                 pPictureBox.Image = ImagenServices.CambiarTamañoImagen(Properties.Resources.greenTick, anchoComun, altoComun);
-
             }
             else
             {
                 pPictureBox.Image = ImagenServices.CambiarTamañoImagen(SystemIcons.Error.ToBitmap(), anchoComun, altoComun);
             }
-        }
-
-        /// <summary>
-        /// Método que se lanza cuando la ventana de Configuración del Banner se cierra
-        /// </summary>
-        public void HijoCerrandose()
-        {
-            this.Show();
-        }
-
-        /// <summary>
-        /// Método para actualizar dgv de la ventana desde afuera de ella
-        /// </summary>
-        public void ActualizarDGV()
-        {
-            this.Cursor = Cursors.WaitCursor;
-            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
         }
 
         /// <summary>
@@ -422,10 +368,6 @@ namespace UI
             if (this.checkBox_Nombre.Checked)
             {
                 resultado = this.textBox_Nombre.Text != "";
-            }
-            if (resultado && this.checkBox_Tipo.Checked)
-            {
-                resultado = this.textBox_Tipo.Text != "";
             }
             this.button_Busqueda.Enabled = resultado;
         }
@@ -446,33 +388,17 @@ namespace UI
         /// Devuelve los argumentos corresponientes para obtener los objetos del día de hoy
         /// </summary>
         /// <returns>Tipo de dato Dictionary que representa los argumentos para filtrar</returns>
-        private Dictionary<string, object> ArgumentosHoy()
+        private Dictionary<Type, object> ArgumentosHoy()
         {
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
-            argumentos.Add("Nombre","");
-            argumentos.Add("URL", "");
-            argumentos.Add("Texto", "");
-            RangoFecha pRF = new RangoFecha() { FechaInicio = this.dateTimePicker_FechaDesde.Value, FechaFin = this.dateTimePicker_FechaHasta.Value };
-            argumentos.Add("Rango Fecha", pRF);
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
+            argumentos.Add(typeof(string),"");
+            RangoFecha pRangoFecha = new RangoFecha()
+            {
+                FechaInicio = this.dateTimePicker_FechaDesde.Value,
+                FechaFin = this.dateTimePicker_FechaHasta.Value
+            };
+            argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             return argumentos;
-        }
-
-        /// <summary>
-        /// Hace que la ventana deshabilite/habilite ciertas funciones de la ventana
-        /// </summary>
-        /// <param name="value">Valor para habilitar o deshabilitar</param>
-        public void EnEspera(bool value)
-        {
-            this.dataGridView.Enabled = value;
-            if (value)
-            {
-                this.Cursor = Cursors.WaitCursor;
-            }
-            else
-            {
-                this.Cursor = Cursors.Default;
-            }
-            this.ActivarBotones(value);
         }
         #endregion
        
@@ -485,7 +411,7 @@ namespace UI
         private void backgroundWorker_Obtener_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             object resultado;
-            Dictionary<string, object> argumentos = (Dictionary<string, object>)e.Argument;
+            Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
             if (argumentos.Count == 0)
             {
                 resultado = Servicios.FachadaServicios.ObtenerBanners();
@@ -544,6 +470,43 @@ namespace UI
             }
             this.Cursor = Cursors.WaitCursor;
             this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
+        }
+        #endregion
+
+        #region Método Accesibles
+        /// <summary>
+        /// Método que se lanza cuando la ventana de Configuración del Banner se cierra
+        /// </summary>
+        internal void HijoCerrandose()
+        {
+            this.Show();
+        }
+
+        /// <summary>
+        /// Método para actualizar dgv de la ventana desde afuera de ella
+        /// </summary>
+        internal void ActualizarDGV()
+        {
+            this.Cursor = Cursors.WaitCursor;
+            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
+        }
+
+        /// <summary>
+        /// Hace que la ventana deshabilite/habilite ciertas funciones de la ventana
+        /// </summary>
+        /// <param name="value">Valor para habilitar o deshabilitar</param>
+        internal void EnEspera(bool value)
+        {
+            this.dataGridView.Enabled = value;
+            if (value)
+            {
+                this.Cursor = Cursors.WaitCursor;
+            }
+            else
+            {
+                this.Cursor = Cursors.Default;
+            }
+            this.ActivarBotones(value);
         }
         #endregion
     }

@@ -13,7 +13,7 @@ namespace Dominio
     {
         private int iCodigo;
         private string iNombre;
-        private ITexto iTexto;
+        private Fuente iFuente;
         private List<RangoFecha> iListaRangosFecha;
 
         /// <summary>
@@ -47,17 +47,17 @@ namespace Dominio
         /// </summary>
         public string Texto
         {
-            get { return this.iTexto.Texto(); }
+            get { return this.iFuente.Texto(); }
 
         }
 
         /// <summary>
-        /// Get/Set del iTexto del Banner
+        /// Get/Set de la Fuente del Banner
         /// </summary>
-        public ITexto InstanciaTexto
+        public Fuente InstanciaFuente
         {
-            get { return this.iTexto; }
-            set { this.iTexto = value; }
+            get { return this.iFuente; }
+            set { this.iFuente = value; }
         }
 
         /// <summary>

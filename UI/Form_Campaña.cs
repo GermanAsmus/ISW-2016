@@ -173,21 +173,21 @@ namespace UI
             {
                 this.backgroundWorker_Obtener.CancelAsync();
             }
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             string nombre = "";
             if (this.checkBox_Nombre.Checked)
             {
                 nombre = this.textBox_Nombre.Text;
             }
-            argumentos.Add("Nombre", nombre);
+            argumentos.Add(nombre.GetType(), nombre);
             if (this.checkBox_RangoFechas.Checked)
             {
-                RangoFecha pRF = new RangoFecha()
+                RangoFecha pRangoFecha = new RangoFecha()
                 {
                     FechaInicio = this.dateTimePicker_FechaDesde.Value,
                     FechaFin = this.dateTimePicker_FechaHasta.Value
                 };
-                argumentos.Add("Rango Fecha", pRF);
+                argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             }
             this.backgroundWorker_Obtener.RunWorkerAsync(argumentos);
         }
@@ -346,22 +346,6 @@ namespace UI
         }
 
         /// <summary>
-        /// Método que se lanza cuando la ventana de Configuración del Banner se cierra
-        /// </summary>
-        public void HijoCerrandose()
-        {
-            this.Show();
-        }
-
-        /// <summary>
-        /// Método para actualizar dgv de la ventana desde afuera de ella
-        /// </summary>
-        public void ActualizarDGV()
-        {
-            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
-        }
-
-        /// <summary>
         /// Activa el botón búsqueda si los campos de los filtros han sido activados
         /// </summary>
         private void ActivarBuscar()
@@ -390,32 +374,17 @@ namespace UI
         /// Devuelve los argumentos corresponientes para obtener los objetos del día de hoy
         /// </summary>
         /// <returns>Tipo de dato Dictionary que representa los argumentos para filtrar</returns>
-        private Dictionary<string, object> ArgumentosHoy()
+        private Dictionary<Type, object> ArgumentosHoy()
         {
-            Dictionary<string, object> argumentos = new Dictionary<string, object>();
-            argumentos.Add("Nombre", "");
-            RangoFecha pRF = new RangoFecha() { FechaInicio = this.dateTimePicker_FechaDesde.Value,
-                FechaFin = this.dateTimePicker_FechaHasta.Value };
-            argumentos.Add("Rango Fecha", pRF);
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
+            argumentos.Add(typeof(string), "");
+            RangoFecha pRangoFecha = new RangoFecha()
+            {
+                FechaInicio = this.dateTimePicker_FechaDesde.Value,
+                FechaFin = this.dateTimePicker_FechaHasta.Value
+            };
+            argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             return argumentos;
-        }
-
-        /// <summary>
-        /// Hace que la ventana deshabilite/habilite ciertas funciones de la ventana
-        /// </summary>
-        /// <param name="value">Valor para habilitar o deshabilitar</param>
-        public void EnEspera(bool value)
-        {
-            this.dataGridView.Enabled = value;
-            if (value)
-            {
-                this.Cursor = Cursors.WaitCursor;
-            }
-            else
-            {
-                this.Cursor = Cursors.Default;
-            }
-            this.ActivarBotones(value);
         }
         #endregion
 
@@ -428,14 +397,14 @@ namespace UI
         private void backgroundWorker_Obtener_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             object resultado;
-            Dictionary<string, object> argumentos = (Dictionary<string, object>)e.Argument;
+            Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Servicios.FachadaServicios.ObtenerCampañas();
+                resultado = FachadaServicios.ObtenerCampañas();
             }
             else
             {
-                resultado = Servicios.FachadaServicios.ObtenerCampañas(argumentos);
+                resultado = FachadaServicios.ObtenerCampañas(argumentos);
             }
             e.Result = resultado;
         }
@@ -485,6 +454,43 @@ namespace UI
                 this.backgroundWorker_Obtener.CancelAsync();
             }
             this.backgroundWorker_Obtener.RunWorkerAsync();
+        }
+        #endregion
+
+        #region Método Accesibles
+        /// <summary>
+        /// Método que se lanza cuando la ventana de Configuración del Banner se cierra
+        /// </summary>
+        internal void HijoCerrandose()
+        {
+            this.Show();
+        }
+
+        /// <summary>
+        /// Método para actualizar dgv de la ventana desde afuera de ella
+        /// </summary>
+        internal void ActualizarDGV()
+        {
+            this.Cursor = Cursors.WaitCursor;
+            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
+        }
+
+        /// <summary>
+        /// Hace que la ventana deshabilite/habilite ciertas funciones de la ventana
+        /// </summary>
+        /// <param name="value">Valor para habilitar o deshabilitar</param>
+        internal void EnEspera(bool value)
+        {
+            this.dataGridView.Enabled = value;
+            if (value)
+            {
+                this.Cursor = Cursors.WaitCursor;
+            }
+            else
+            {
+                this.Cursor = Cursors.Default;
+            }
+            this.ActivarBotones(value);
         }
         #endregion
     }

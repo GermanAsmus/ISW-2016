@@ -2,6 +2,6 @@
 {
     class FuenteTextoFijo : Fuente
     {
-        public string Valor { get; set; }
+        public override string Valor { get; set; }
     }
 }

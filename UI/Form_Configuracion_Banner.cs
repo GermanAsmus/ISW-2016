@@ -104,7 +104,7 @@ namespace UI
             this.timer_Prueba.Enabled = value;
             this.button_Aceptar.Enabled = value;
             this.CampoCompleto(this.pictureBox_ComprobacionNombre, value);
-            this.CampoCompleto(this.pictureBox_ComprobacionTipo, value);
+            this.CampoCompleto(this.pictureBox_ComprobacionFuente, value);
             this.CampoCompleto(this.pictureBox_ComprobacionRF, value);
             this.CampoCompleto(this.pictureBox_ComprobacionRH, value);
         }
@@ -177,11 +177,8 @@ namespace UI
         /// </summary>
         private void ActivarAceptar()
         {
-            bool valorFinal = (this.textBox_Nombre.Text != "") &&
-                              (((textBox_URL.Text != "") && this.radioButton_FuenteRSS.Checked) ||
-                              ((textBox_TextoFijo.Text != "") && this.radioButton_TextoFijo.Checked)) &&
-                              (this.iBanner.ListaRangosFecha.Count > 0) &&
-                              this.iRangosFechaCompletos;
+            bool valorFinal = (this.textBox_Nombre.Text != "") && (this.iBanner.InstanciaFuente != null) &&
+                              (this.iBanner.ListaRangosFecha.Count > 0) && this.iRangosFechaCompletos;
             this.button_Aceptar.Enabled = valorFinal;
         }
 
@@ -208,7 +205,6 @@ namespace UI
 
         #region Región: Pestaña Configuración Básica
         #region Eventos
-
         /// <summary>
         /// Evento que surge al ingresar entradas de teclas al Nombre
         /// </summary>
@@ -239,100 +235,7 @@ namespace UI
             this.ActivarAceptar();
 
         }
-
-        /// <summary>
-        /// Evento que surge al checkear el radioButton Fuente RSS
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void radioButton_FuenteRSS_CheckedChanged(object sender, EventArgs e)
-        {
-            this.groupBox_TextoFijo.Enabled = !this.radioButton_FuenteRSS.Checked;
-            this.groupBox_RSS.Enabled = this.radioButton_FuenteRSS.Checked;
-            this.CampoCompleto(this.pictureBox_ComprobacionTipo, false);
-            this.textBox_URL.Focus();
-            this.MovimientoLabel("", this.panel_Prueba.Location.X + this.panel_Prueba.Size.Width);
-        }
-
-        /// <summary>
-        /// Evento que surge al checkear el radioButton Fuente RSS
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void radioButton_TextoFijo_CheckedChanged(object sender, EventArgs e)
-        {
-            this.CampoCompleto(this.pictureBox_ComprobacionTipo, false);
-            this.textBox_TextoFijo.Focus();
-            this.MovimientoLabel("", this.panel_Prueba.Location.X + this.panel_Prueba.Size.Width);
-        }
-
-        /// <summary>
-        /// Evento que surge al ingresar entradas de teclas al textoBox (RSS o textoFijo)
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Enter))
-            {
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Evento que surge al salir del textBox URL del Banner
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void textBox_URL_Leave(object sender, EventArgs e)
-        {
-            this.textBox_URL.Text = this.textBox_URL.Text.TrimStart(' ').TrimEnd(' ');
-            bool resultado = WebServices.ComprobarURLVálidaRSS(this.textBox_URL.Text);
-            if (!resultado)
-            {
-                this.textBox_URL.Text = "";
-                MessageBox.Show("La URL especificada no es válida, ingrese nuevamente");
-            }
-            else
-            {
-                if (this.backgroundWorker_RSS.IsBusy)
-                {
-                    this.backgroundWorker_RSS.CancelAsync();
-                }
-                this.backgroundWorker_RSS.RunWorkerAsync(this.textBox_URL.Text);
-            }
-            this.CampoCompleto(this.pictureBox_ComprobacionTipo, resultado);
-            this.ActivarAceptar();
-        }
-
-        /// <summary>
-        /// Evento que surge al salir del textBox TextoFijo del Banner
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void textBox_TextoFijo_Leave(object sender, EventArgs e)
-        {
-            this.textBox_TextoFijo.Text = this.textBox_TextoFijo.Text.TrimStart(' ').TrimEnd(' ');
-            this.CampoCompleto(this.pictureBox_ComprobacionTipo, this.textBox_TextoFijo.Text != "");
-            this.ActivarAceptar();
-        }
-
-        /// <summary>
-        /// Evento que surge cuando se sale del tableLayoutPanel del Tipo Banner
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void tableLayoutPanelTipo_Leave(object sender, EventArgs e)
-        {
-            if (this.radioButton_TextoFijo.Checked)
-            {
-                if (this.textBox_TextoFijo.Text != "")
-                {
-                    this.MovimientoLabel(this.textBox_TextoFijo.Text, this.panel_Prueba.Location.X + this.panel_Prueba.Size.Width);
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Evento que surge cuando el timer hace un tick
         /// </summary>
@@ -356,6 +259,17 @@ namespace UI
         {
             this.timer_Prueba.Enabled = (this.tabControl.SelectedIndex == 0) && (this.label_ValorPrueba.Text != "");
         }
+
+
+        /// <summary>
+        /// Evento que surge cuando se selecciona otro tipo de Fuente
+        /// </summary>
+        /// <param name="sender">Objeto que  envía el evento</param>
+        /// <param name="e">Argumentos del evento</param>
+        private void comboBox_Fuente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         #region Métodos Extra
@@ -369,6 +283,26 @@ namespace UI
             this.label_ValorPrueba.Left = pPosInicial;
             this.label_ValorPrueba.Text = pTexto;
             this.timer_Prueba.Enabled = pTexto != "";
+        }
+        
+        /// <summary>
+        /// Actualiza la fuente y el table Layout Panel para que se muestre la fuente correcta
+        /// </summary>
+        /// <param name="pFuente">Fuente a Agregar</param>
+        internal void ActualizarFuente(Fuente pFuente)
+        {
+            if(this.iBanner.InstanciaFuente == null)
+            {
+                //agregar delegado para eliminar fuente
+            }
+            this.iBanner.InstanciaFuente = pFuente;
+            this.CampoCompleto(this.pictureBox_ComprobacionFuente, true);
+            this.ActivarAceptar();
+            this.tableLayoutPanel_Fuente.RowCount = 2;
+            //CONFIGURAR TABLELAYUTPANEL
+            this.tableLayoutPanel_Fuente.Visible = true;
+            this.MovimientoLabel(pFuente.Texto(), this.panel_Prueba.Location.X + this.panel_Prueba.Size.Width);
+           
         }
         #endregion
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 //using System.ServiceModel.Syndication;
 using System.Xml;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Implementación del lector de RSS basada en las clases de <see cref="System.ServiceModel.Syndication"/>.
