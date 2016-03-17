@@ -31,7 +31,8 @@ namespace UI
             this.WindowState = FormWindowState.Maximized;
             this.tableLayoutPanel_Vista.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             this.ConfigurarTimers();
-            this.ConfigurarBannerCampaña();        }
+            this.ConfigurarBannerCampaña();
+        }
 
         /// <summary>
         /// Configura los Timers
