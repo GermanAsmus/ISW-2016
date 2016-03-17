@@ -361,11 +361,14 @@ namespace Dominio
         /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
         private static Dominio.Banner BannerNulo()
         {
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo("");
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo()
+            {
+                Valor = ""
+            };
             return new Dominio.Banner()
             {
                 Codigo = -1,
-                InstanciaTexto = pTextoFijo
+                InstanciaFuente = pTextoFijo
             };
         }
 
