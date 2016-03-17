@@ -19,11 +19,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Servicios.FachadaServicios.Agregar);
+        private delegado agregar = new delegado(Servicios.FachadaServicios.AgregarCampaña);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Servicios.FachadaServicios.Modificar);
+        private delegado modificar = new delegado(Servicios.FachadaServicios.ModificarCampaña);
         #endregion
 
         #region Región: Inicialización y Carga
@@ -431,7 +431,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Servicios.FachadaServicios.Eliminar((Campaña)e.Argument);
+            Servicios.FachadaServicios.EliminarCampaña((Campaña)e.Argument);
         }
 
         /// <summary>
