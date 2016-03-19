@@ -6,6 +6,7 @@ using Dominio;
 using System.Drawing;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace UI
 {
@@ -37,6 +38,10 @@ namespace UI
         /// Variable que determina que hace la ventana
         /// </summary>
         internal Form_Banner.delegado iFuncionVentana;
+        /// <summary>
+        /// Fuente a agregar/modificar al Banner
+        /// </summary>
+        private Fuente iFuente;
         #endregion
 
         #region Región: Inicialización y Carga
@@ -53,6 +58,7 @@ namespace UI
             if (auxiliar)
             {
                 this.iBanner = pBanner;
+                this.ActualizarFuente(pBanner.InstanciaFuente);
             }
             else
             {
@@ -79,19 +85,9 @@ namespace UI
             this.AcceptButton = this.button_Aceptar;
             this.iCantRangosFecha = this.iBanner.ListaRangosFecha.Count;
             this.textBox_Nombre.Text = this.iBanner.Nombre;
-            /*if (Si no es RSS)
-            {
-                this.radioButton_FuenteRSS.Checked = true;
-                this.groupBox_TextoFijo.Enabled = false;
-                this.textBox_URL.Text = this.iBanner.URL;
-            }
-            else
-            {
-                this.radioButton_TextoFijo.Checked = true;
-                this.groupBox_RSS.Enabled = false;
-                this.textBox_TextoFijo.Text = this.iBanner.Texto;
-            }*/
             this.button_AgregarHora.Image = ImagenServices.CambiarTamañoImagen(Properties.Resources.Modificar, this.button_AgregarHora.Size.Width, this.button_AgregarHora.Size.Height);
+            this.comboBox_Fuente.Items.Add("Fuente RSS (contenido Web");
+            this.comboBox_Fuente.Items.Add("Fuente Texto Fijo");
         }
 
         /// <summary>
@@ -129,17 +125,10 @@ namespace UI
         private void button_Aceptar_Click(object sender, EventArgs e)
         {
             this.iBanner.Nombre = this.textBox_Nombre.Text;
-            /*if (this.radioButton_TextoFijo.Checked)
-            {
-                this.iBanner.URL = "";
-                this.iBanner.Texto = this.textBox_TextoFijo.Text;
-            }
-            else
-            {
-                this.iBanner.URL = this.textBox_URL.Text;
-                this.iBanner.Texto = this.label_ValorPrueba.Text;
-            }*/
-            this.backgroundWorker_BotonAceptar.RunWorkerAsync(this.iBanner);
+            Fuente temp = this.iBanner.InstanciaFuente;
+            this.iBanner.InstanciaFuente = this.iFuente;
+            this.iFuente = temp;
+            this.backgroundWorker_BotonAceptar.RunWorkerAsync();
             ((Form_Banner)this.Owner).EnEspera(false);
             ((Form_Banner)this.Owner).HijoCerrandose();
         }
@@ -177,7 +166,7 @@ namespace UI
         /// </summary>
         private void ActivarAceptar()
         {
-            bool valorFinal = (this.textBox_Nombre.Text != "") && (this.iBanner.InstanciaFuente != null) &&
+            bool valorFinal = (this.textBox_Nombre.Text != "") && (this.iFuente != null) &&
                               (this.iBanner.ListaRangosFecha.Count > 0) && this.iRangosFechaCompletos;
             this.button_Aceptar.Enabled = valorFinal;
         }
@@ -260,7 +249,6 @@ namespace UI
             this.timer_Prueba.Enabled = (this.tabControl.SelectedIndex == 0) && (this.label_ValorPrueba.Text != "");
         }
 
-
         /// <summary>
         /// Evento que surge cuando se selecciona otro tipo de Fuente
         /// </summary>
@@ -268,7 +256,23 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void comboBox_Fuente_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            dynamic ventanaFuente;
+            if(this.comboBox_Fuente.SelectedIndex == 1)
+            {
+                Fuente pFuente = null;
+                if (this.iBanner.InstanciaFuente != null && this.iBanner.InstanciaFuente.GetType() == typeof(FuenteTextoFijo))
+                {
+                    pFuente = (FuenteTextoFijo)this.iBanner.InstanciaFuente;
+                }
+                ventanaFuente = new Form_FuenteTextoFijo((FuenteTextoFijo) pFuente);
+            }
+            else
+            {
+                this.comboBox_Fuente.Enabled = false;
+                ventanaFuente = new Form_FuentesRSS(true);
+            }
+            ventanaFuente.Owner = this;
+            ventanaFuente.ShowDialog();
         }
         #endregion
 
@@ -284,25 +288,54 @@ namespace UI
             this.label_ValorPrueba.Text = pTexto;
             this.timer_Prueba.Enabled = pTexto != "";
         }
-        
+
         /// <summary>
         /// Actualiza la fuente y el table Layout Panel para que se muestre la fuente correcta
         /// </summary>
         /// <param name="pFuente">Fuente a Agregar</param>
         internal void ActualizarFuente(Fuente pFuente)
         {
-            if(this.iBanner.InstanciaFuente == null)
-            {
-                //agregar delegado para eliminar fuente
-            }
-            this.iBanner.InstanciaFuente = pFuente;
+            this.iFuente = pFuente;
             this.CampoCompleto(this.pictureBox_ComprobacionFuente, true);
             this.ActivarAceptar();
-            this.tableLayoutPanel_Fuente.RowCount = 2;
-            //CONFIGURAR TABLELAYUTPANEL
+            this.tableLayoutPanel_Fuente.Controls.Clear();
+            this.tableLayoutPanel_Fuente.ColumnCount = 2;
+            this.tableLayoutPanel_Fuente.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            this.tableLayoutPanel_Fuente.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+            PropertyInfo[] propiedades = pFuente.GetType().GetProperties(); 
+            this.tableLayoutPanel_Fuente.RowCount = propiedades.GetLength(0);
+            int i = 0;
+            float alto = (float)100/propiedades.GetLength(0);
+            foreach (PropertyInfo prop in propiedades)
+            {
+                this.tableLayoutPanel_Fuente.RowStyles.Add(new ColumnStyle(SizeType.Percent, alto));
+                Label nombrePropiedad = new Label()
+                {
+                    Text = prop.Name,
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                Label valorPropiedad = new Label()
+                {
+                    Text = prop.GetValue(pFuente).ToString(),
+                    Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+                this.tableLayoutPanel_Fuente.Controls.Add(nombrePropiedad,0,i);
+                this.tableLayoutPanel_Fuente.Controls.Add(valorPropiedad,1,i);
+                i++;
+            }
             this.tableLayoutPanel_Fuente.Visible = true;
             this.MovimientoLabel(pFuente.Texto(), this.panel_Prueba.Location.X + this.panel_Prueba.Size.Width);
            
+        }
+
+        /// <summary>
+        /// Activa el Combo Box Fuente
+        /// </summary>
+        internal void ActivarComboBox()
+        {
+            this.comboBox_Fuente.Enabled = true;
         }
         #endregion
 
@@ -663,6 +696,10 @@ namespace UI
         private void backgroundWorker_BotonAceptar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             this.iFuncionVentana(this.iBanner);
+            if(this.iFuente != null)
+            {
+                FachadaServicios.EliminarFuente(this.iFuente);
+            }
         }
 
         /// <summary>

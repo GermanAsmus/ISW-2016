@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
 
 namespace Dominio
 {
@@ -334,7 +332,6 @@ namespace Dominio
             return (iActualizarListaBanners && iActualizarListaCampaña);
         }
 
-
         /// <summary>
         /// Clase responsable de comparar dos RangosHorarios
         /// </summary>
@@ -352,7 +349,6 @@ namespace Dominio
             }
         }
 
-
         /// <summary>
         /// Devuelve un Banner que es el Nulo (código -1)
         /// </summary>
@@ -366,8 +362,6 @@ namespace Dominio
                 InstanciaFuente = pTextoFijo
             };
         }
-
-
 
         /// <summary>
         /// Devuelve el codigo de una Campaña nula (código -1)

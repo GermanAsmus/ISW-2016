@@ -107,7 +107,7 @@ namespace Persistencia
                 Banner banner = pUnitOfWork.BannerRepository.GetByCodigo(pBannerCodigo);
                 foreach (RangoFecha rangoFecha in banner.RangosFecha)
                 {
-                    RangoFecha auxiliarRangoFecha = pUnitOfWork.RangoFechaRepository.GetByCodigo(rangoFecha);
+                    RangoFecha auxiliarRangoFecha = pUnitOfWork.RangoFechaRepository.GetByCodigo(rangoFecha.Codigo);
                     rangoFecha.RangosHorario = auxiliarRangoFecha.RangosHorario;
                     rangoFecha.Principal = auxiliarRangoFecha.Principal;
                 }

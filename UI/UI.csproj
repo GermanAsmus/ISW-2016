@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form_FuentesRSS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_FuentesRSS.designer.cs">
+      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Campaña.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,11 +65,11 @@
     <Compile Include="Form_Configuracion_Campaña.designer.cs">
       <DependentUpon>Form_Configuracion_Campaña.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_FuentesRSS.cs">
+    <Compile Include="Form_FuenteTextoFijo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_FuentesRSS.designer.cs">
-      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
+    <Compile Include="Form_FuenteTextoFijo.Designer.cs">
+      <DependentUpon>Form_FuenteTextoFijo.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_SeleccionRangoHorario.cs">
       <SubType>Form</SubType>
@@ -108,14 +114,17 @@
     <Compile Include="Vista.designer.cs">
       <DependentUpon>Vista.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form_FuentesRSS.resx">
+      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Campaña.resx">
       <DependentUpon>Form_Campaña.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Configuracion_Campaña.resx">
       <DependentUpon>Form_Configuracion_Campaña.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_FuentesRSS.resx">
-      <DependentUpon>Form_FuentesRSS.cs</DependentUpon>
+    <EmbeddedResource Include="Form_FuenteTextoFijo.resx">
+      <DependentUpon>Form_FuenteTextoFijo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_SeleccionRangoHorario.resx">
       <DependentUpon>Form_SeleccionRangoHorario.cs</DependentUpon>

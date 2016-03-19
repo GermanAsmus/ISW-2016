@@ -10,61 +10,42 @@ using System.Runtime.CompilerServices;
 namespace Servicios
 {
     /// <summary>
-    /// Clase responsable de la Comunicación entre las diversas partes de la Aplicación: Modelo, UI, Persistencia.
+    /// Clase responsable de la Comunicación entre las diversas partes de la Aplicación: Dominio, UI, Persistencia.
     /// </summary>
     class FachadaServicios
     {
         #region Banner
         /// <summary>
-        /// Agrega el Banner a la base de datos y al Modelo si corresponde
+        /// Agrega el Banner a la base de datos y al Dominio
         /// </summary>
         /// <param name="pBanner">Banner a agregar</param>
-        public static void Agregar(Dominio.Banner pBanner)
+        public static void AgregarBanner(Dominio.Banner pBanner)
         {
-            FachadaCRUDBanner fachadaBanner = IoCContainerLocator.GetType<FachadaCRUDBanner>();
-            pBanner.Codigo = fachadaBanner.Create(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
-            if (FachadaServicios.DiaEnCurso(pBanner.ListaRangosFecha))
-            {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pBanner);
-            }
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            pBanner.Codigo = fachada.CrearBanner(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pBanner);
         }
 
         /// <summary>
-        /// Modifica el Banner en la base de datos y en el Modelo si corresponde
+        /// Modifica el Banner en la base de datos y en el Dominio
         /// </summary>
         /// <param name="pBanner">Banner a modificar</param>
-        public static void Modificar(Dominio.Banner pBanner)
+        public static void ModificarBanner(Dominio.Banner pBanner)
         {
-            FachadaCRUDBanner fachadaBanner = IoCContainerLocator.GetType<FachadaCRUDBanner>();
-            fachadaBanner.Update(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
-            if (DiaEnCurso(pBanner.ListaRangosFecha))
-            {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Modificar(pBanner);
-            }
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.ActualizarBanner(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Modificar(pBanner);
         }
 
         /// <summary>
-        /// Elimina el Banner en la base de datos y en el Modelo si corresponde
+        /// Elimina el Banner en la base de datos y en el Dominio
         /// </summary>
         /// <param name="pBanner">Banner a eliminar</param>
-        public static void Eliminar(Dominio.Banner pBanner)
+        public static void EliminarBanner(Dominio.Banner pBanner)
         {
-            FachadaCRUDBanner fachadaBanner = IoCContainerLocator.GetType<FachadaCRUDBanner>();
-            fachadaBanner.Delete(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
-            if (DiaEnCurso(pBanner.ListaRangosFecha))
-            {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Eliminar(pBanner);
-            }
-        }
-  
-        /// <summary>
-        /// Obtiene todos los Banners de la base de datos
-        /// </summary>
-        /// <returns>Tipo de dato Lista de los Banners que están en la base de datos (TODOS)</returns>
-        public static List<Dominio.Banner> ObtenerBanners()
-        {
-            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
-            return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachadaBanner.GetAll()));
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.EliminarBanner(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Eliminar(pBanner);
         }
 
         /// <summary>
@@ -72,16 +53,28 @@ namespace Servicios
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Banners</param>
         /// <returns>Tipo de dato Lista que representa los Banners filtrados</returns>
-        public static List<Dominio.Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado)
+        public static List<Dominio.Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado = null)
         {
-            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
             Type tipoDeFiltrado = typeof(Dominio.RangoFecha);
-            if (argumentosFiltrado.ContainsKey(tipoDeFiltrado))
+            if (argumentosFiltrado != null)
             {
-                argumentosFiltrado[tipoDeFiltrado] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[tipoDeFiltrado]);
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
+                {
+                    argumentosFiltrado.Add(typeof(Persistencia.RangoFecha),
+                                            AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                            ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]));
+                    argumentosFiltrado.Remove(typeof(Dominio.RangoFecha));
+                }
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.Fuente)))
+                {
+                    argumentosFiltrado.Add(typeof(Persistencia.Fuente),
+                                            (AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>
+                                            ((Dominio.Fuente)argumentosFiltrado[typeof(Dominio.Fuente)])).GetType());
+                    argumentosFiltrado.Remove(typeof(Dominio.Fuente));
+                }
             }
-            return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachadaBanner.GetAll(argumentosFiltrado)));
+            return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachada.ObtenerBanners(argumentosFiltrado)));
         }
 
         /// <summary>
@@ -93,11 +86,8 @@ namespace Servicios
         {
             Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             argumentos.Add(typeof(string), "");
-            argumentos.Add(typeof(Dominio.FuenteRSS), "");
-            argumentos.Add(typeof(Dominio.FuenteTextoFijo), "");
             argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
             List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
-            FachadaCRUDBanner fachada = new FachadaCRUDBanner();
             foreach (Dominio.Banner pBanner in ObtenerBanners(argumentos))
             {
                 listaRangosFecha.AddRange(pBanner.ListaRangosFecha);
@@ -108,46 +98,58 @@ namespace Servicios
 
         #region Campaña
         /// <summary>
-        /// Agrega la Campaña a la base de datos y al Modelo si corresponde
+        /// Agrega la Campaña a la base de datos
         /// </summary>
         /// <param name="pCampaña">Campaña a agregar</param>
-        public static void Agregar(Dominio.Campaña pCampaña)
+        public static void AgregarCampaña(Dominio.Campaña pCampaña)
         {
-            FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-            pCampaña.Codigo = fachadaCampaña.Create(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
-            if (DiaEnCurso(pCampaña.ListaRangosFecha))
-            {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pCampaña);
-            }
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            pCampaña.Codigo = fachada.CrearCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Agregar(pCampaña);
             GC.Collect();
         }
 
         /// <summary>
-        /// Modifica la Campaña en la base de datos y en el Modelo si corresponde
+        /// Modifica la Campaña en la base de datos y en el Dominio
         /// </summary>
         /// <param name="pCampaña">Campaña a modificar</param>
-        public static void Modificar(Dominio.Campaña pCampaña)
+        public static void ModificarCampaña(Dominio.Campaña pCampaña)
         {
-            FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-            fachadaCampaña.Update(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
-            if (DiaEnCurso(pCampaña.ListaRangosFecha))
-            {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Modificar(pCampaña);
-            }
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.ActualizarCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Modificar(pCampaña);
         }
 
         /// <summary>
-        /// Elimina la Campaña en la base de datos y en el Modelo si corresponde
+        /// Elimina la Campaña en la base de datos y en el Dominio
         /// </summary>
         /// <param name="pCampaña">Campaña a eliminar</param>
-        public static void Eliminar(Dominio.Campaña pCampaña)
+        public static void EliminarCampaña(Dominio.Campaña pCampaña)
         {
-            FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-            fachadaCampaña.Delete(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
-            if (DiaEnCurso(pCampaña.ListaRangosFecha))
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.EliminarCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Eliminar(pCampaña);
+        }
+
+        /// <summary>
+        /// Obtiene todos las Campañas que cumplen con un determinado filtro
+        /// </summary>
+        /// <param name="argumentosFiltrado">Argumentos para filtrar Campañas</param>
+        /// <returns>Tipo de dato Lista que representa las Campañas filtradas</returns>
+        public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado = null)
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            if (argumentosFiltrado != null)
             {
-                IoCContainerLocator.GetType<Dominio.Fachada>().Eliminar(pCampaña);
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
+                { 
+                    argumentosFiltrado.Add(typeof(Persistencia.RangoFecha),
+                                            AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                            ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]));
+                    argumentosFiltrado.Remove(typeof(Dominio.RangoFecha));
+                }
             }
+            return (AutoMapper.Map<List<Persistencia.Campaña>, List<Dominio.Campaña>>(fachada.ObtenerCampañas(argumentosFiltrado)));
         }
 
         /// <summary>
@@ -157,35 +159,8 @@ namespace Servicios
         /// <returns>Tipo de dato Lista de Imágenes que representa la lista de imágenes de la campaña</returns>
         public static List<Dominio.Imagen> ObtenerImagenesCampaña(int pCodigoCampaña)
         {
-                return AutoMapper.Map<List<Persistencia.Imagen>, List<Dominio.Imagen>>
-                            (IoCContainerLocator.GetType<Persistencia.Fachada>().ObtenerImagenesCampaña(pCodigoCampaña));
-        }
-
-        /// <summary>
-        /// Obtiene todas las Campañas de la base de datos
-        /// </summary>
-        /// <returns>Tipo de dato Lista de las Campañas que están en la base de datos (TODAS)</returns>
-        public static List<Dominio.Campaña> ObtenerCampañas()
-        {
-            Persistencia.Fachada fachadaPersistencia = new Persistencia.Fachada();
-            return (AutoMapper.Map<List<Persistencia.Campaña>,List<Dominio.Campaña>>(fachadaPersistencia.ObtenerCampañas()));
-        }
-
-
-        /// <summary>
-        /// Obtiene todos las Campañas que cumplen con un determinado filtro
-        /// </summary>
-        /// <param name="argumentosFiltrado">Argumentos para filtrar Campañas</param>
-        /// <returns>Tipo de dato Lista que representa las Campañas filtradas</returns>
-        public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado)
-        {
-            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            if(argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
-            {
-                argumentosFiltrado[typeof(Dominio.RangoFecha)] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]);
-            }
-            return (AutoMapper.Map<List<Persistencia.Campaña>, List<Dominio.Campaña>>(fachadaCampaña.GetAll(argumentosFiltrado)));
+            return AutoMapper.Map<List<Persistencia.Imagen>, List<Dominio.Imagen>>
+                        (IoCContainerLocator.GetType<Persistencia.Fachada>().ObtenerImagenesCampaña(pCodigoCampaña));
         }
 
         /// <summary>
@@ -199,7 +174,6 @@ namespace Servicios
             argumentos.Add(typeof(string), "");
             argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
             List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
-            FachadaCRUDCampaña fachada = new FachadaCRUDCampaña();
             foreach (Dominio.Campaña pCampaña in ObtenerCampañas(argumentos))
             {
                 listaRangosFecha.AddRange(pCampaña.ListaRangosFecha);
@@ -207,8 +181,50 @@ namespace Servicios
             return ListaRangosHorariosRH(listaRangosFecha);
         }
         #endregion
-        #region Métodos Comunes
 
+        #region Fuente
+        /// <summary>
+        /// Agrega la Fuente a la base de datos y al Dominio si corresponde
+        /// </summary>
+        /// <param name="pFuente">Fuente a agregar</param>
+        public static void AgregarFuente(Dominio.Fuente pFuente)
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            pFuente.Codigo = fachada.CrearFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+            GC.Collect();
+        }
+
+        /// <summary>
+        /// Modifica la Fuente en la base de datos
+        /// </summary>
+        /// <param name="pFuente">Fuente a modificar</param>
+        public static void ModificarFuente(Dominio.Fuente pFuente)
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+        }
+
+        /// <summary>
+        /// Elimina la Fuente en la base de datos y en el Dominio
+        /// </summary>
+        /// <param name="pFuente">Campaña a eliminar</param>
+        public static void EliminarFuente(Dominio.Fuente pFuente)
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            fachada.EliminarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+        }
+
+        /// <summary>
+        /// Obtiene todos las Fuentes que cumplen con un determinado filtro
+        /// </summary>
+        /// <param name="argumentosFiltrado">Argumentos para filtrar Fuente</param>
+        /// <returns>Tipo de dato Lista que representa las Fuentes filtradas</returns>
+        public static List<Dominio.Fuente> ObtenerFuentes(Dominio.Fuente argumentoFiltro = null)
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.Fuente>>
+                            (fachada.ObtenerFuentes(AutoMapper.Map<Dominio.Fuente,Persistencia.Fuente>(argumentoFiltro))));
+        }
         #endregion
 
         /// <summary>
@@ -296,8 +312,6 @@ namespace Servicios
             //Argumentos de filtrado de Banner
             Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
             argumentosBanner.Add(typeof(string), "");
-            argumentosBanner.Add(typeof(Dominio.FuenteRSS), "");
-            argumentosBanner.Add(typeof(Dominio.FuenteTextoFijo), "");
             Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
             argumentosBanner.Add(typeof(Dominio.RangoFecha), pRF);
             //Argumentos de filtrado de Campaña

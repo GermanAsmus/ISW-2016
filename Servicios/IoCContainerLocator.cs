@@ -15,7 +15,7 @@ namespace Servicios
         /// </summary>
         private static readonly Lazy<IUnityContainer> cInstance = new Lazy<IUnityContainer>(() =>
         {
-            ConfigurationFileMap fileMap = new ConfigurationFileMap("D:/App.config"); //Path to your config file
+            ConfigurationFileMap fileMap = new ConfigurationFileMap("F:/Unity/App.config"); //Path to your config file
             Configuration configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
             // Se crea la instancia del contenedor, configurando el mismo a través del archivo de configuración de la aplicación
             IUnityContainer miContenedorUnity = new UnityContainer();

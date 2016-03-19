@@ -3,6 +3,7 @@ using System.Drawing;
 using Dominio;
 using Persistencia;
 using System.Collections.Generic;
+using System;
 
 namespace Servicios
 {
@@ -27,11 +28,13 @@ namespace Servicios
                     .ForMember(dest => dest.Imagenes, opt => opt.MapFrom(src => src.ListaImagenes))
                     .ForMember(dest => dest.RangosFecha, opt => opt.MapFrom(src => src.ListaRangosFecha))
                     .AfterMap((s, d) => MapeoCampaña(d));
+            Mapper.CreateMap<Dominio.Fuente, Persistencia.Fuente>()
+                    .ConvertUsing<FuenteDominioConverter>();
             Mapper.CreateMap<Dominio.FuenteTextoFijo, Persistencia.FuenteTextoFijo>();
             Mapper.CreateMap<Dominio.FuenteRSS, Persistencia.FuenteRSS>();
             Mapper.CreateMap<Dominio.Banner, Persistencia.Banner>()
                     .ForMember(dest => dest.RangosFecha, opt => opt.MapFrom(src => src.ListaRangosFecha))
-                    .ForMember(dest => dest.Fuente, opt => opt.ResolveUsing<FuenteDomPer>().ConstructedBy(() => new FuenteDomPer()))
+                    .ForMember(dest => dest.Fuente, opt => opt.MapFrom(src => src.InstanciaFuente))
                     .AfterMap((s, d) => MapeoBanner(d));
             #endregion
 
@@ -46,9 +49,11 @@ namespace Servicios
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha));
             Mapper.CreateMap<Persistencia.FuenteTextoFijo, Dominio.FuenteTextoFijo>();
             Mapper.CreateMap<Persistencia.FuenteRSS, Dominio.FuenteRSS>();
+            Mapper.CreateMap<Persistencia.Fuente, Dominio.Fuente>()
+                    .ConvertUsing<FuentePersistenciaConverter>();
             Mapper.CreateMap<Persistencia.Banner, Dominio.Banner>()
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha))
-                    .ForMember(dest => dest.InstanciaFuente, opt => opt.ResolveUsing<FuentePerDom>().ConstructedBy(() => new FuentePerDom()));
+                    .ForMember(dest => dest.InstanciaFuente, opt => opt.MapFrom(src => src.Fuente));
             #endregion
         }
 
@@ -143,55 +148,56 @@ namespace Servicios
         }
 
         /// <summary>
-        /// Clase responsable de resolver el Mapping de fuente de Dominio a Persistencia
+        /// Clase responsable de convertir de Fuente de Persistencia a Dominio
         /// </summary>
-        private class FuenteDomPer : ValueResolver<Dominio.Banner, Persistencia.Fuente>
+        private class FuentePersistenciaConverter : ITypeConverter<Persistencia.Fuente, Dominio.Fuente>
         {
             /// <summary>
-            /// Devuelve la fuente mapeada
+            /// Convierte la fuente de la Persistencia al Dominio
             /// </summary>
-            /// <param name="fuente">Fuente de entrada a mapear del dominio</param>
-            /// <returns>Tipo de dato Fuente que representa la fuente de Persistencia</returns>
-            protected override Persistencia.Fuente ResolveCore(Dominio.Banner fuente)
+            /// <param name="context">Contexto de conversión</param>
+            /// <returns>Tipo de dato Fuente que representa la fuente del Dominio transformada</returns>
+            public Dominio.Fuente Convert(ResolutionContext context)
             {
-                Persistencia.Fuente resultado;
-                if(fuente.InstanciaFuente.GetType() == typeof(Dominio.FuenteRSS))
+                Dominio.Fuente resultado;
+                Persistencia.Fuente fuente = (Persistencia.Fuente) context.SourceValue;
+                if(context.SourceValue.GetType() == typeof(Persistencia.FuenteRSS))
                 {
-                    resultado = Map<Dominio.FuenteRSS, Persistencia.FuenteRSS>((Dominio.FuenteRSS)fuente.InstanciaFuente);
+                    resultado = Map<Persistencia.FuenteRSS, Dominio.FuenteRSS>((Persistencia.FuenteRSS)fuente);
                 }
                 else
                 {
-                    resultado = Map<Dominio.FuenteTextoFijo, Persistencia.FuenteTextoFijo>((Dominio.FuenteTextoFijo)fuente.InstanciaFuente);
+                    resultado = Map<Persistencia.FuenteTextoFijo, Dominio.FuenteTextoFijo>((Persistencia.FuenteTextoFijo)fuente);
                 }
                 return resultado;
             }
         }
 
         /// <summary>
-        /// Clase responsable de resolver el Mapping de fuente de Persistencia a Dominio
+        /// Clase responsable de convertir de Fuente de Dominio a Persistencia
         /// </summary>
-        private class FuentePerDom : ValueResolver<Persistencia.Banner, Dominio.Fuente>
+        private class FuenteDominioConverter : ITypeConverter<Dominio.Fuente, Persistencia.Fuente>
         {
             /// <summary>
-            /// Devuelve la fuente mapeada
+            /// Convierte la fuente del Dominio a la Persistencia
             /// </summary>
-            /// <param name="fuente">Fuente de entrada a mapear del dominio</param>
-            /// <returns>Tipo de dato Fuente que representa la fuente de Persistencia</returns>
-            protected override Dominio.Fuente ResolveCore(Persistencia.Banner fuente)
+            /// <param name="context">Contexto de conversión</param>
+            /// <returns>Tipo de dato Fuente que representa la fuente de la Persistencia transformada</returns>
+            public Persistencia.Fuente Convert(ResolutionContext context)
             {
-                Dominio.Fuente resultado;
-                if (fuente.Fuente.GetType() == typeof(Persistencia.FuenteRSS))
+                Persistencia.Fuente resultado;
+                Dominio.Fuente fuente = (Dominio.Fuente)context.SourceValue;
+                if (context.SourceValue.GetType() == typeof(Dominio.FuenteRSS))
                 {
-                    resultado = Map<Persistencia.FuenteRSS, Dominio.FuenteRSS>((Persistencia.FuenteRSS)fuente.Fuente);
+                    resultado = Map<Dominio.FuenteRSS, Persistencia.FuenteRSS>((Dominio.FuenteRSS)fuente);
                 }
                 else
                 {
-                    resultado = Map<Persistencia.FuenteTextoFijo, Dominio.FuenteTextoFijo>((Persistencia.FuenteTextoFijo)fuente.Fuente);
+                    resultado = Map<Dominio.FuenteTextoFijo, Persistencia.FuenteTextoFijo>((Dominio.FuenteTextoFijo)fuente);
                 }
                 return resultado;
             }
         }
-        //FuentePerDom
         #endregion
     }
 }

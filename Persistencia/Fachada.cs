@@ -23,11 +23,24 @@ namespace Persistencia
             fachadaCampaña.Delete(pCampaña);
         }
 
+        public List<Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado = null)
+        {
+            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
+            return fachadaCampaña.GetAll(argumentosFiltrado);
+        }
+
+        public List<Imagen> ObtenerImagenesCampaña(int pCodigoCamapaña)
+        {
+            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
+            return (fachadaCampaña.GetByCodigo(pCodigoCamapaña).Imagenes);
+        }
+
         public int CrearBanner(Banner pBanner)
         {
             if (pBanner.Fuente.GetType() == typeof(FuenteTextoFijo))
             {
                 pBanner.Fuente.Codigo = this.CrearFuente(pBanner.Fuente);
+                pBanner.Fuente_Codigo = pBanner.Fuente.Codigo;
             }
             FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
             return fachadaBanner.Create(pBanner);
@@ -54,6 +67,12 @@ namespace Persistencia
             }
         }
 
+        public List<Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado = null)
+        {
+            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
+            return fachadaBanner.GetAll(argumentosFiltrado);
+        }
+
         public int CrearFuente(Fuente pFuente)
         {
             FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
@@ -72,46 +91,19 @@ namespace Persistencia
             fachadaFuente.Delete(pFuente);
         }
 
-        public List<Campaña> ObtenerCampañas()
+        public List<Fuente> ObtenerFuentes(Fuente pFuente = null)
         {
-            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            return fachadaCampaña.GetAll();
-        }
-
-        public List<Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado)
-        {
-            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            return fachadaCampaña.GetAll(argumentosFiltrado);
-        }
-
-        public List<Banner> ObtenerBanners()
-        {
-            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
-            return fachadaBanner.GetAll();
-        }
-
-        public List<Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado)
-        {
-            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
-            return fachadaBanner.GetAll(argumentosFiltrado);
-        }
-
-        public List<Fuente> ObtenerFuentes(Type tipo)
-        {
+            Type filtro;
+            if(pFuente == null)
+            {
+                filtro = null;
+            }
+            else
+            {
+                filtro = pFuente.GetType();
+            }
             FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
-            return fachadaFuente.GetAll(tipo);
-        }
-
-        public List<Fuente> ObtenerFuentes()
-        {
-            FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
-            return fachadaFuente.GetAll();
-        }
-
-        public List<Imagen> ObtenerImagenesCampaña(int pCodigoCamapaña)
-        {
-            FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            return (fachadaCampaña.GetByCodigo(pCodigoCamapaña).Imagenes);
+            return fachadaFuente.GetAll(filtro);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Servicios.FachadaServicios.Agregar);
+        private delegado agregar = new delegado(Servicios.FachadaServicios.AgregarBanner);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Servicios.FachadaServicios.Modificar);
+        private delegado modificar = new delegado(Servicios.FachadaServicios.ModificarBanner);
         #endregion
 
         #region Región: Inicialización y Carga
@@ -56,8 +56,8 @@ namespace UI
             // Inicializar y agregar columna de textBox
             column = new DataGridViewTextBoxColumn()
             {
-                DataPropertyName = "Tipo",
-                Name = "Tipo"
+                DataPropertyName = "TipoDeFuente",
+                Name = "Tipo de Fuente"
             };
             this.dataGridView.Columns.Add(column);
         }
@@ -185,16 +185,16 @@ namespace UI
             argumentos.Add(nombre.GetType(), nombre);
             if (this.checkBox_Tipo.Checked)
             {
-                Type fuenteTipo;
+                Fuente fuenteTipo;
                 if (this.radioButton_RSS.Checked)
                 {
-                    fuenteTipo = typeof(FuenteRSS);
+                    fuenteTipo = new FuenteRSS();
                 }
                 else
                 {
-                    fuenteTipo = typeof(FuenteTextoFijo);
+                    fuenteTipo = new FuenteTextoFijo();
                 }
-                argumentos.Add(fuenteTipo, fuenteTipo);
+                argumentos.Add(typeof(Fuente), fuenteTipo);
             }
             if (this.checkBox_RangoFechas.Checked)
             {
@@ -446,7 +446,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Servicios.FachadaServicios.Eliminar((Banner) e.Argument);
+            Servicios.FachadaServicios.EliminarBanner((Banner) e.Argument);
         }
 
         /// <summary>

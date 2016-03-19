@@ -70,6 +70,14 @@ namespace Dominio
         }
 
         /// <summary>
+        /// Get del Nombre del tipo de la Instsancia Fuente
+        /// </summary>
+        public string TipoDeFuente
+        {
+            get { return this.InstanciaFuente.GetType().Name; }
+        }
+
+        /// <summary>
         /// Busca un rango fecha en la lista de rangos fechas por un determinado código
         /// </summary>
         /// <param name="pCodigo">Código del rango fecha</param>
