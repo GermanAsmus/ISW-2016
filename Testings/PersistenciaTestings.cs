@@ -207,7 +207,7 @@ namespace Testings
         public void Fuente5GetAllFiltro()
         {
             Persistencia.Fachada fachada = new Persistencia.Fachada();
-            Assert.IsTrue(fachada.ObtenerFuentes(typeof(FuenteTextoFijo)).Count <= 30);
+            Assert.IsTrue(fachada.ObtenerFuentes(new FuenteTextoFijo()).Count <= 30);
         }
 
         [TestMethod]

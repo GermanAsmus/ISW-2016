@@ -57,10 +57,22 @@ namespace Servicios
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
             Type tipoDeFiltrado = typeof(Dominio.RangoFecha);
-            if (argumentosFiltrado != null && argumentosFiltrado.ContainsKey(tipoDeFiltrado))
+            if (argumentosFiltrado != null)
             {
-                argumentosFiltrado[tipoDeFiltrado] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[tipoDeFiltrado]);
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
+                {
+                    argumentosFiltrado.Add(typeof(Persistencia.RangoFecha),
+                                            AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                            ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]));
+                    argumentosFiltrado.Remove(typeof(Dominio.RangoFecha));
+                }
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.Fuente)))
+                {
+                    argumentosFiltrado.Add(typeof(Persistencia.Fuente),
+                                            (AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>
+                                            ((Dominio.Fuente)argumentosFiltrado[typeof(Dominio.Fuente)])).GetType());
+                    argumentosFiltrado.Remove(typeof(Dominio.Fuente));
+                }
             }
             return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachada.ObtenerBanners(argumentosFiltrado)));
         }
@@ -127,10 +139,15 @@ namespace Servicios
         public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado = null)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            if (argumentosFiltrado != null && argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
+            if (argumentosFiltrado != null)
             {
-                argumentosFiltrado[typeof(Dominio.RangoFecha)] = AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
-                                                                                        ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]);
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.RangoFecha)))
+                { 
+                    argumentosFiltrado.Add(typeof(Persistencia.RangoFecha),
+                                            AutoMapper.Map<Dominio.RangoFecha, Persistencia.RangoFecha>
+                                            ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]));
+                    argumentosFiltrado.Remove(typeof(Dominio.RangoFecha));
+                }
             }
             return (AutoMapper.Map<List<Persistencia.Campaña>, List<Dominio.Campaña>>(fachada.ObtenerCampañas(argumentosFiltrado)));
         }
@@ -202,10 +219,11 @@ namespace Servicios
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Fuente</param>
         /// <returns>Tipo de dato Lista que representa las Fuentes filtradas</returns>
-        public static List<Dominio.Fuente> ObtenerFuentes(Type argumentosFiltrado = null)
+        public static List<Dominio.Fuente> ObtenerFuentes(Dominio.Fuente argumentoFiltro = null)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.Fuente>>(fachada.ObtenerFuentes(argumentosFiltrado)));
+            return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.Fuente>>
+                            (fachada.ObtenerFuentes(AutoMapper.Map<Dominio.Fuente,Persistencia.Fuente>(argumentoFiltro))));
         }
         #endregion
 

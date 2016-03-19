@@ -40,6 +40,7 @@ namespace Persistencia
             if (pBanner.Fuente.GetType() == typeof(FuenteTextoFijo))
             {
                 pBanner.Fuente.Codigo = this.CrearFuente(pBanner.Fuente);
+                pBanner.Fuente_Codigo = pBanner.Fuente.Codigo;
             }
             FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
             return fachadaBanner.Create(pBanner);
@@ -90,10 +91,19 @@ namespace Persistencia
             fachadaFuente.Delete(pFuente);
         }
 
-        public List<Fuente> ObtenerFuentes(Type tipo = null)
+        public List<Fuente> ObtenerFuentes(Fuente pFuente = null)
         {
+            Type filtro;
+            if(pFuente == null)
+            {
+                filtro = null;
+            }
+            else
+            {
+                filtro = pFuente.GetType();
+            }
             FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
-            return fachadaFuente.GetAll(tipo);
+            return fachadaFuente.GetAll(filtro);
         }
     }
 }

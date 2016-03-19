@@ -56,8 +56,8 @@ namespace UI
             // Inicializar y agregar columna de textBox
             column = new DataGridViewTextBoxColumn()
             {
-                DataPropertyName = "Tipo",
-                Name = "Tipo"
+                DataPropertyName = "TipoDeFuente",
+                Name = "Tipo de Fuente"
             };
             this.dataGridView.Columns.Add(column);
         }
@@ -185,16 +185,16 @@ namespace UI
             argumentos.Add(nombre.GetType(), nombre);
             if (this.checkBox_Tipo.Checked)
             {
-                Type fuenteTipo;
+                Fuente fuenteTipo;
                 if (this.radioButton_RSS.Checked)
                 {
-                    fuenteTipo = typeof(FuenteRSS);
+                    fuenteTipo = new FuenteRSS();
                 }
                 else
                 {
-                    fuenteTipo = typeof(FuenteTextoFijo);
+                    fuenteTipo = new FuenteTextoFijo();
                 }
-                argumentos.Add(fuenteTipo, fuenteTipo);
+                argumentos.Add(typeof(Fuente), fuenteTipo);
             }
             if (this.checkBox_RangoFechas.Checked)
             {
