@@ -99,15 +99,16 @@ namespace Dominio
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
-                        {
-                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                        ///NO ENTIENDO PARA QUE ESTE IF
+                        /// if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
+                        ///{
+                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                             int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                             for (int i = minutoInicio; i <= minutoFin; i++)
                             {
                                 this.iListaBannersActual[i] = pBanner;
                             }                            
-                        }
+                        ///}
                     }
                 }
             }
