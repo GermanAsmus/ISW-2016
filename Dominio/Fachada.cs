@@ -71,8 +71,6 @@ namespace Dominio
         /// <param name="listaBanners">Lista de Banners a cargar</param>
         public void Cargar(List<Banner> listaBanners)
         {
-            this.InicializarListaBanner();
-            this.InicializarListaCampaña();
             foreach (Banner pBanner in listaBanners)
             {
                 this.Agregar(pBanner, this.iListaBannersProxima);
@@ -153,15 +151,16 @@ namespace Dominio
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
-                        {
+                        ///NO ENTIENDO PARA QUE ESTE IF
+                        /// if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
+                        ///{
                             int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                             int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                             for (int i = minutoInicio; i <= minutoFin; i++)
                             {
                                 this.iListaCampañaActual[i] = pCampaña.Codigo;
                             }
-                        }
+                        ///}
                     }
                 }
             }
@@ -301,7 +300,7 @@ namespace Dominio
                 this.CambiarListaCampañas();
                 this.iActualizarListaCampaña = true;
             }
-            int campañaResultado = this.iListaCampañaActual.Values[horaInicio];
+            int campañaResultado = this.iListaCampañaActual.Values[horaInicio+1];
             return campañaResultado;
         }
 
@@ -320,7 +319,7 @@ namespace Dominio
         /// </summary>
         public void CambiarListaCampañas()
         {
-            SortedList<int, int> listaAuxCampaña = this.iListaCampañaProxima;
+            SortedList<int, int> listaAuxCampaña = new SortedList<int, int>(this.iListaCampañaProxima);
             this.InicializarListaCampaña();
             this.iListaCampañaActual = listaAuxCampaña;
 

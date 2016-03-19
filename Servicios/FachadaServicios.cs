@@ -255,7 +255,7 @@ namespace Servicios
             Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
             if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
                 CargarDatosEnMemoria(DiaMañana);
             }
             return bannerSiguiente;
@@ -306,8 +306,9 @@ namespace Servicios
             argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
             Dominio.Fachada fachada = IoCContainerLocator.GetType<Dominio.Fachada>();
             fachada.EstablecerFecha(pFecha.Date);
-            fachada.Cargar(ObtenerCampañas(argumentosCampaña));
-            fachada.Cargar(ObtenerBanners(argumentosBanner));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerCampañas(argumentosCampaña));
+            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
+
         }
 
         /// <summary>

@@ -58,7 +58,8 @@ namespace UI
 
             ///CAMPAÑA
             this.iCampañaActual=FachadaServicios.ObtenerCampañaSiguiente();
-            enumeradorImagenes = iCampañaActual.ListaImagenes.GetEnumerator();
+            this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
+            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
             this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
         }
 
@@ -124,12 +125,15 @@ namespace UI
             if(this.enumeradorImagenes.MoveNext())
             {
                 imagen=this.enumeradorImagenes.Current.Picture;
+                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo*1000;
             }
             else
             {
                 this.enumeradorImagenes.Reset();
                 this.enumeradorImagenes.MoveNext();
+                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo*1000;
                 imagen = this.enumeradorImagenes.Current.Picture;
+                
             }
             return imagen;
         }
