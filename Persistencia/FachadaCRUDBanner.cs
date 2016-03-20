@@ -191,6 +191,13 @@ namespace Persistencia
                         }
                     }
                 }
+                foreach (Banner banner in resultado)
+                {
+                    foreach (RangoFecha rangoFecha in banner.RangosFecha)
+                    {
+                        pUnitOfWork.RangoFechaRepository.Queryable.Include("RangosHorario").ToList();
+                    }
+                }
                 return resultado;
             }
         }
