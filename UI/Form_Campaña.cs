@@ -24,6 +24,10 @@ namespace UI
         /// Delegado para modificar un banner
         /// </summary>
         private delegado modificar = new delegado(Servicios.FachadaServicios.ModificarCampaña);
+        /// <summary>
+        /// Cantidad de campañas que están siendo guardadas
+        /// </summary>
+        private int iGuardandoCantidad;
         #endregion
 
         #region Región: Inicialización y Carga
@@ -35,7 +39,8 @@ namespace UI
             InitializeComponent();
             this.ConfiguracionInicialForms();
             this.ConfiguracionInicialDataGridView();
-            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
+            this.ActualizarDGV(this.ArgumentosHoy());
+            this.iGuardandoCantidad = 0;
         }
 
         /// <summary>
@@ -68,6 +73,7 @@ namespace UI
         /// </summary>
         private void ConfiguracionInicialForms()
         {
+            this.label_Operacion.Visible = false;
             this.groupBox_Filtro.Visible = false;
             this.textBox_Nombre.Enabled = false;
             this.dateTimePicker_FechaDesde.Enabled = false;
@@ -189,7 +195,7 @@ namespace UI
                 };
                 argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             }
-            this.backgroundWorker_Obtener.RunWorkerAsync(argumentos);
+            this.ActualizarDGV(argumentos);
         }
 
         /// <summary>
@@ -311,6 +317,14 @@ namespace UI
         {
             this.dataGridView.DataSource = typeof(List<Campaña>);
             this.dataGridView.DataSource = fuenteCampañas;
+            this.ReDibujarDGV();
+        }
+
+        /// <summary>
+        /// Actualiza la vista del DGV, redibujando
+        /// </summary>
+        private void ReDibujarDGV()
+        {
             (this.dataGridView.BindingContext[this.dataGridView.DataSource] as CurrencyManager).Refresh();
             this.dataGridView.Update();
             this.dataGridView.Refresh();
@@ -359,18 +373,6 @@ namespace UI
         }
 
         /// <summary>
-        /// Activa los botones (de acceso a la Base da datos)
-        /// </summary>
-        /// <param name="value">Valor para activar botones</param>
-        private void ActivarBotones(bool value)
-        {
-            this.button_Modificar.Enabled = value;
-            this.button_Agregar.Enabled = value;
-            this.button_Eliminar.Enabled = value;
-            this.button_Busqueda.Enabled = false;
-        }
-
-        /// <summary>
         /// Devuelve los argumentos corresponientes para obtener los objetos del día de hoy
         /// </summary>
         /// <returns>Tipo de dato Dictionary que representa los argumentos para filtrar</returns>
@@ -386,6 +388,41 @@ namespace UI
             argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
             return argumentos;
         }
+
+        /// <summary>
+        /// Realiza una actualización del DGV
+        /// </summary>
+        /// <param name="argumentos">Arguementos para filtrar las campañas a mostrar</param>
+        private void ActualizarDGV(Dictionary<Type,object> argumentos)
+        {
+            this.LabelActualizar();
+            this.backgroundWorker_Obtener.RunWorkerAsync(argumentos);
+        }
+
+        /// <summary>
+        /// Actualiza el texto del label que dice que la acción que se está realizando es una Actualización
+        /// </summary>
+        private void LabelActualizar()
+        {
+            this.label_Operacion.Visible = true;
+            this.label_Operacion.Text = "Actualizando datos a mostrar";
+        }
+
+        /// <summary>
+        /// Actualiza el texto del label que dice que acción se está realizando
+        /// </summary>
+        private void LabelGuardar()
+        {
+            if (this.iGuardandoCantidad > 0)
+            {
+                this.label_Operacion.Visible = true;
+                this.label_Operacion.Text = "Guardando Campañas (" + this.iGuardandoCantidad.ToString() + ")";
+            }
+            else
+            {
+                this.label_Operacion.Visible = false;
+            }
+        }
         #endregion
 
         #region Región: Procesos segundo Plano
@@ -396,17 +433,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_Obtener_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            object resultado;
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
-            if (argumentos.Count == 0)
-            {
-                resultado = FachadaServicios.ObtenerCampañas();
-            }
-            else
-            {
-                resultado = FachadaServicios.ObtenerCampañas(argumentos);
-            }
-            e.Result = resultado;
+            e.Result = FachadaServicios.ObtenerCampañas(argumentos);
         }
 
         /// <summary>
@@ -421,6 +449,7 @@ namespace UI
                 List<Campaña> resultado = (List<Campaña>)e.Result;
                 this.ActualizarLista(resultado);
             }
+            this.label_Operacion.Visible = false;
         }
 
         /// <summary>
@@ -441,19 +470,19 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_Eliminar_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            if (e.Cancelled)
+            if (e.Error != null)
             {
                 Campaña auxCampaña = (Campaña)e.Result;
-                MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar el banner\n" +
+                MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar la Campaña\n" +
                                 "\t- Nombre: " + auxCampaña.Nombre + "\n" +
                                 "\t- Intervalo Tiempo: " + auxCampaña.IntervaloTiempo + "\n" +
                                 "Intente Eliminarlo nuevamente");
             }
-            if (this.backgroundWorker_Obtener.IsBusy)
+            else
             {
-                this.backgroundWorker_Obtener.CancelAsync();
+                ((List<Campaña>)this.dataGridView.DataSource).Remove((Campaña)e.Result);
+                this.ReDibujarDGV();
             }
-            this.backgroundWorker_Obtener.RunWorkerAsync();
         }
         #endregion
 
@@ -467,30 +496,20 @@ namespace UI
         }
 
         /// <summary>
-        /// Método para actualizar dgv de la ventana desde afuera de ella
+        /// Hace que la ventana muestre label de que se están guardando campañas
         /// </summary>
-        internal void ActualizarDGV()
+        /// <param name="value">Valor para sumar o restar cantidad de campañas guardadas</param>
+        internal void Guardando(bool value)
         {
-            this.Cursor = Cursors.WaitCursor;
-            this.backgroundWorker_Obtener.RunWorkerAsync(this.ArgumentosHoy());
-        }
-
-        /// <summary>
-        /// Hace que la ventana deshabilite/habilite ciertas funciones de la ventana
-        /// </summary>
-        /// <param name="value">Valor para habilitar o deshabilitar</param>
-        internal void EnEspera(bool value)
-        {
-            this.dataGridView.Enabled = value;
             if (value)
             {
-                this.Cursor = Cursors.WaitCursor;
+                this.iGuardandoCantidad++;
             }
             else
             {
-                this.Cursor = Cursors.Default;
+                this.iGuardandoCantidad--;
             }
-            this.ActivarBotones(value);
+            this.LabelGuardar();
         }
         #endregion
     }

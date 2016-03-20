@@ -42,6 +42,7 @@
             this.groupBox_Filtro = new System.Windows.Forms.GroupBox();
             this.pictureBox_Hasta = new System.Windows.Forms.PictureBox();
             this.pictureBox_Desde = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Tipo = new System.Windows.Forms.PictureBox();
             this.pictureBox_Nombre = new System.Windows.Forms.PictureBox();
             this.dateTimePicker_FechaHasta = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_FechaDesde = new System.Windows.Forms.DateTimePicker();
@@ -55,14 +56,14 @@
             this.checkBox_Nombre = new System.Windows.Forms.CheckBox();
             this.button_Mostrar = new System.Windows.Forms.Button();
             this.backgroundWorker_Eliminar = new System.ComponentModel.BackgroundWorker();
-            this.pictureBox_Tipo = new System.Windows.Forms.PictureBox();
+            this.label_Operacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tableLayoutPanel_Banner.SuspendLayout();
             this.groupBox_Filtro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Hasta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Desde)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView
@@ -228,6 +229,14 @@
             this.pictureBox_Desde.TabIndex = 19;
             this.pictureBox_Desde.TabStop = false;
             // 
+            // pictureBox_Tipo
+            // 
+            this.pictureBox_Tipo.Location = new System.Drawing.Point(296, 94);
+            this.pictureBox_Tipo.Name = "pictureBox_Tipo";
+            this.pictureBox_Tipo.Size = new System.Drawing.Size(17, 17);
+            this.pictureBox_Tipo.TabIndex = 18;
+            this.pictureBox_Tipo.TabStop = false;
+            // 
             // pictureBox_Nombre
             // 
             this.pictureBox_Nombre.Location = new System.Drawing.Point(297, 21);
@@ -368,19 +377,24 @@
             this.backgroundWorker_Eliminar.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Eliminar_DoWork);
             this.backgroundWorker_Eliminar.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Eliminar_RunWorkerCompleted);
             // 
-            // pictureBox_Tipo
+            // label_Operacion
             // 
-            this.pictureBox_Tipo.Location = new System.Drawing.Point(296, 94);
-            this.pictureBox_Tipo.Name = "pictureBox_Tipo";
-            this.pictureBox_Tipo.Size = new System.Drawing.Size(17, 17);
-            this.pictureBox_Tipo.TabIndex = 18;
-            this.pictureBox_Tipo.TabStop = false;
+            this.label_Operacion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label_Operacion.AutoSize = true;
+            this.label_Operacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Operacion.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_Operacion.Location = new System.Drawing.Point(12, 373);
+            this.label_Operacion.Name = "label_Operacion";
+            this.label_Operacion.Size = new System.Drawing.Size(64, 15);
+            this.label_Operacion.TabIndex = 18;
+            this.label_Operacion.Text = "Operación";
             // 
             // Form_Banner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(808, 397);
+            this.Controls.Add(this.label_Operacion);
             this.Controls.Add(this.button_Mostrar);
             this.Controls.Add(this.tableLayoutPanel_Banner);
             this.Controls.Add(this.button_regresar);
@@ -397,8 +411,8 @@
             this.groupBox_Filtro.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Hasta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Desde)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tipo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Nombre)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,5 +445,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Desde;
         private System.Windows.Forms.PictureBox pictureBox_Nombre;
         private System.Windows.Forms.PictureBox pictureBox_Tipo;
+        private System.Windows.Forms.Label label_Operacion;
     }
 }
