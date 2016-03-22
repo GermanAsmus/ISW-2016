@@ -318,8 +318,6 @@ namespace Servicios
             Dictionary<Type, object> argumentosCampaña = new Dictionary<Type, object>();
             argumentosCampaña.Add(typeof(string), "");
             argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
-            Dominio.Fachada fachada = IoCContainerLocator.GetType<Dominio.Fachada>();
-            fachada.EstablecerFecha(pFecha.Date);
             IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerCampañas(argumentosCampaña));
             IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
 
