@@ -95,6 +95,7 @@ namespace Persistencia
         {
             get { return this.iImagenRepository; }
         }
+        
         /// <summary>
         /// Devuelve el repositorio de Rangos de Fecha
         /// </summary>

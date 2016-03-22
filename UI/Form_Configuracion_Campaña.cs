@@ -174,7 +174,7 @@ namespace UI
             this.iCampaña.IntervaloTiempo = Convert.ToInt16(this.textBox_IntervaloTiempo.Text);
             this.backgroundWorker_BotonAceptar.RunWorkerAsync(this.iCampaña);
             this.Hide();
-            ((Form_Campaña)this.Owner).EnEspera(false);
+            ((Form_Campaña)this.Owner).Guardando(true);
             ((Form_Campaña)this.Owner).HijoCerrandose();
         }
 
@@ -1288,9 +1288,8 @@ namespace UI
             else
             {
                 this.iCerrarCodigo = true;
-                ((Form_Campaña)this.Owner).EnEspera(true);
+                ((Form_Campaña)this.Owner).Guardando(false);
                 MessageBox.Show("Los datos se han guardado correctamente");
-                ((Form_Campaña)this.Owner).ActualizarDGV();
                 this.Close();
             }
         }

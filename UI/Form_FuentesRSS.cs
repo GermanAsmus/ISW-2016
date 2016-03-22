@@ -87,7 +87,8 @@ namespace UI
         /// </summary>
         private void ActivarAceptar()
         {
-            this.button_Aceptar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "") &&
+            this.button_Aceptar.Enabled = ((this.iListaFuenteRSS.Count > 0) || (this.iListaFuenteRSSActualizar.Count > 0) ||
+                                          (this.iListaFuenteRSSAgregar.Count > 0)) &&
                                           ((!this.iNecesitaSeleccionar) || (this.dataGridView.RowCount > 0));
         }
 
@@ -120,6 +121,7 @@ namespace UI
             this.button_Agregar.Visible = !value;
             this.button_Cancelar.Visible = !value;
             this.tableLayoutPanel1.Visible = !value;
+            this.button_Agregar.Enabled = value;
             this.button_Nuevo.Visible = value;
             this.button_Modificar.Visible = value;
             this.button_Eliminar.Visible = value;
@@ -298,7 +300,7 @@ namespace UI
             this.ActivarAceptar();
             this.button_Agregar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
-            this.CampoCompleto(this.pictureBox_ComprobacionURL, this.textBox_Descripcion.Text != "");
+            this.CampoCompleto(this.pictureBox_ComprobacionDescripcion, this.textBox_Descripcion.Text != "");
         }
 
         /// <summary>

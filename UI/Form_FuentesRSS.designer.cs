@@ -275,7 +275,7 @@
             this.button_Agregar.Name = "button_Agregar";
             this.button_Agregar.Size = new System.Drawing.Size(82, 31);
             this.button_Agregar.TabIndex = 19;
-            this.button_Agregar.Text = "&Agregar";
+            this.button_Agregar.Text = "A&gregar";
             this.button_Agregar.UseVisualStyleBackColor = true;
             this.button_Agregar.Visible = false;
             this.button_Agregar.Click += new System.EventHandler(this.button_Agregar_Click);
@@ -320,8 +320,8 @@
             this.Controls.Add(this.label_URL);
             this.Controls.Add(this.button_Modificar);
             this.Controls.Add(this.button_Cancelar);
-            this.Controls.Add(this.button_Nuevo);
             this.Controls.Add(this.button_Agregar);
+            this.Controls.Add(this.button_Nuevo);
             this.MinimumSize = new System.Drawing.Size(740, 436);
             this.Name = "Form_FuentesRSS";
             this.Text = "Administrador de Fuentes RSS";

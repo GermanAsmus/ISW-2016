@@ -52,6 +52,7 @@
             this.checkBox_Nombre = new System.Windows.Forms.CheckBox();
             this.button_Mostrar = new System.Windows.Forms.Button();
             this.backgroundWorker_Eliminar = new System.ComponentModel.BackgroundWorker();
+            this.label_Operacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tableLayoutPanel_Banner.SuspendLayout();
             this.groupBox_Filtro.SuspendLayout();
@@ -323,11 +324,24 @@
             this.backgroundWorker_Eliminar.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Eliminar_DoWork);
             this.backgroundWorker_Eliminar.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Eliminar_RunWorkerCompleted);
             // 
+            // label_Operacion
+            // 
+            this.label_Operacion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label_Operacion.AutoSize = true;
+            this.label_Operacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Operacion.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_Operacion.Location = new System.Drawing.Point(3, 373);
+            this.label_Operacion.Name = "label_Operacion";
+            this.label_Operacion.Size = new System.Drawing.Size(64, 15);
+            this.label_Operacion.TabIndex = 17;
+            this.label_Operacion.Text = "Operación";
+            // 
             // Form_Campaña
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(808, 397);
+            this.Controls.Add(this.label_Operacion);
             this.Controls.Add(this.button_Mostrar);
             this.Controls.Add(this.tableLayoutPanel_Banner);
             this.Controls.Add(this.button_regresar);
@@ -373,5 +387,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Hasta;
         private System.Windows.Forms.PictureBox pictureBox_Desde;
         private System.Windows.Forms.PictureBox pictureBox_Nombre;
+        private System.Windows.Forms.Label label_Operacion;
     }
 }

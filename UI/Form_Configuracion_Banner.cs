@@ -129,7 +129,7 @@ namespace UI
             this.iBanner.InstanciaFuente = this.iFuente;
             this.iFuente = temp;
             this.backgroundWorker_BotonAceptar.RunWorkerAsync();
-            ((Form_Banner)this.Owner).EnEspera(false);
+            ((Form_Banner)this.Owner).Guardando(true);
             ((Form_Banner)this.Owner).HijoCerrandose();
         }
 
@@ -718,9 +718,8 @@ namespace UI
             else
             {
                 this.iCerrarCodigo = true;
-                ((Form_Banner)this.Owner).EnEspera(true);
+                ((Form_Banner)this.Owner).Guardando(false);
                 MessageBox.Show("Los datos se han guardado correctamente");
-                ((Form_Banner)this.Owner).ActualizarDGV();
                 this.Close();
             }
         }
