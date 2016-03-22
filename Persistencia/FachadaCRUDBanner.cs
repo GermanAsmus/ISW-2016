@@ -162,12 +162,9 @@ namespace Persistencia
                     {
                         IQueryable<RangoFecha> rangoFecha = banner.RangosFecha.AsQueryable<RangoFecha>();
                         var auxiliar = from rf in rangoFecha
-                                       where ((rf.FechaInicio.Year <= fechaI.Year && rf.FechaInicio.Month <= fechaI.Month && rf.FechaInicio.Day <= fechaI.Day &&
-                                              rf.FechaFin.Year >= fechaI.Year && rf.FechaFin.Month >= fechaI.Month && rf.FechaFin.Day >= fechaI.Day) ||
-                                              (rf.FechaInicio.Year <= fechaF.Year && rf.FechaInicio.Month <= fechaF.Month && rf.FechaInicio.Day <= fechaF.Day &&
-                                              rf.FechaFin.Year >= fechaF.Year && rf.FechaFin.Month >= fechaF.Month && rf.FechaFin.Day >= fechaF.Day) ||
-                                              (rf.FechaInicio.Year >= fechaI.Year && rf.FechaInicio.Month >= fechaI.Month && rf.FechaInicio.Day >= fechaI.Day &&
-                                              rf.FechaFin.Year <= fechaF.Year && rf.FechaFin.Month <= fechaF.Month && rf.FechaFin.Day <= fechaF.Day))
+                                       where ((rf.FechaInicio.CompareTo(fechaI) <= 0 && rf.FechaFin.CompareTo(fechaI) >= 0) ||
+                                               ((rf.FechaInicio.CompareTo(fechaF) <= 0 && rf.FechaFin.CompareTo(fechaF) >= 0)) ||
+                                               (rf.FechaInicio.CompareTo(fechaI) >= 0 && rf.FechaFin.CompareTo(fechaF) <= 0))
                                        select rf;
                         if (auxiliar.ToList().Count != 0)
                         {
