@@ -108,7 +108,6 @@
             // 
             this.textBox_URL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_URL.Enabled = false;
             this.textBox_URL.Location = new System.Drawing.Point(104, 13);
             this.textBox_URL.Name = "textBox_URL";
             this.textBox_URL.Size = new System.Drawing.Size(300, 20);
@@ -119,7 +118,6 @@
             // 
             this.textBox_Descripcion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Descripcion.Enabled = false;
             this.textBox_Descripcion.Location = new System.Drawing.Point(104, 39);
             this.textBox_Descripcion.Name = "textBox_Descripcion";
             this.textBox_Descripcion.Size = new System.Drawing.Size(300, 20);
