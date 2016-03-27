@@ -109,7 +109,7 @@ namespace Dominio
                         ///{
                             int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                             int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i <= minutoFin; i++)
+                            for (int i = minutoInicio; i < minutoFin; i++)
                             {
                                 this.iListaBannersActual[i] = pBanner;
                             }                            
@@ -134,7 +134,7 @@ namespace Dominio
                     {
                         int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i=minutoInicio;i<=minutoFin;i++)
+                        for (int i = minutoInicio; i < minutoFin; i++) 
                         {
                             listaBanners[i] = pBanner;
                         }
@@ -160,7 +160,7 @@ namespace Dominio
                         ///{
                             int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                             int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i <= minutoFin; i++)
+                            for (int i = minutoInicio; i < minutoFin; i++)
                             {
                                 this.iListaCampañaActual[i] = pCampaña.Codigo;
                             }
@@ -185,7 +185,7 @@ namespace Dominio
                     {
                         int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i <= minutoFin; i++)
+                        for (int i = minutoInicio; i < minutoFin; i++)
                         {
                             iListaCampañas[i] = pCampaña.Codigo;
                         }
@@ -280,7 +280,7 @@ namespace Dominio
         private bool RangoFechaActual(RangoFecha pRangoFecha)
         {
             DateTime hoy = DateTime.Today.Date;
-            return (pRangoFecha.FechaInicio.CompareTo(hoy) <= 0 && pRangoFecha.FechaFin.CompareTo(hoy) >= 0);
+            return (pRangoFecha.FechaInicio.Date.CompareTo(hoy) <= 0 && pRangoFecha.FechaFin.Date.CompareTo(hoy) >= 0);
         }
 
         /// <summary>

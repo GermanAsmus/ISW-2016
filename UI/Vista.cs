@@ -12,12 +12,11 @@ namespace UI
     public partial class Vista : Form
     {
         #region Variables
-        Banner iBannerActual;
-        Banner iBannerProximo;
-        Campaña iCampañaActual;
-        Campaña iCampañaProxima;
-        IEnumerator<Imagen> enumeradorImagenes;
-
+        private Banner iBannerActual;
+        private Banner iBannerProximo;
+        private Campaña iCampañaActual;
+        private Campaña iCampañaProxima;
+        private  IEnumerator<Imagen> enumeradorImagenes;
         #endregion
 
         #region Inicialización y Carga
@@ -53,8 +52,10 @@ namespace UI
         {
             ///BANNER
             this.iBannerActual = FachadaServicios.ObtenerBannerSiguiente();
+            //Ver como hacer para actualizarlo ahí
             this.label_TextoBanner.Text = iBannerActual.Texto;
             this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
+            this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
             ///CAMPAÑA
             this.iCampañaActual = FachadaServicios.ObtenerCampañaSiguiente();
             this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
@@ -96,6 +97,7 @@ namespace UI
         private void backgroundWorker_ChequeoBanner_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             this.iBannerProximo = (Banner)e.Result;
+            this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
         }
 
         /// <summary>
@@ -272,7 +274,7 @@ namespace UI
             {
                 string texto = pBanner.Texto;
             }
-            catch ()
+            catch (Exception)
             {
 
             }

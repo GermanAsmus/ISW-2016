@@ -483,24 +483,6 @@ namespace UI
             seleccionHorarios.Owner = this;
             seleccionHorarios.ShowDialog();
         }
-
-        /// <summary>
-        /// Evento que surge al hacer clic sobre el botón de Eliminar del groupBox Rango Horario
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void button_EliminarHora_Click(object sender, EventArgs e)
-        {
-            RangoHorario rangoHorario = this.RangoHorarioSeleccionado();
-            RangoFecha auxRangoFecha = this.RangoFechaSeleccionado();
-            auxRangoFecha.ListaRangosHorario.Remove(rangoHorario);
-            this.ActualizarListaHorarios(auxRangoFecha);
-            int cantidadRangosHor = auxRangoFecha.ListaRangosHorario.Count;
-            this.button_AgregarFecha.Enabled = cantidadRangosHor > 0;
-            this.MarcarFilasIncompletas();
-            this.ActivarAceptar();
-            this.CampoCompleto(this.pictureBox_ComprobacionRH, this.iRangosFechaCompletos);
-        }
         #endregion
 
         #region Métodos Extra
@@ -576,16 +558,7 @@ namespace UI
         {
             return(RangoFecha)this.dataGridView_Fecha.CurrentRow.DataBoundItem;
         }
-
-        /// <summary>
-        /// Devuleve el rango de horario seleccionado
-        /// </summary>
-        /// <returns>Tipo de dato UI.Tipos.RangoHorario que representa el rango horario que ha sido seleccionado del DataGridView</returns>
-        private RangoHorario RangoHorarioSeleccionado()
-        {
-            return (RangoHorario)this.dataGridView_Hora.CurrentRow.DataBoundItem;
-        }
-
+        
         /// <summary>
         /// Actualiza el dataGridView de Fechas
         /// </summary>
