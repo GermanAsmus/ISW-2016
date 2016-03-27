@@ -417,6 +417,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ValorRSS_DoWork(object sender, DoWorkEventArgs e)
         {
+            //FALLA
             FuenteRSS pFuente = new FuenteRSS() { URL = (string)e.Argument };
             e.Result = pFuente.Texto();
         }
@@ -428,19 +429,19 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ValorRSS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Error == null)
-            {
-                this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
-                this.button_Agregar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
-                this.iValorRSS = (string)e.Result;
-                if (this.iValorRSS == null) { this.iValorRSS = ""; }
-            }
-            else
+            if (e.Error != null)
             {
                 this.textBox_URL.Text = "";
                 this.iValorRSS = "";
                 MessageBox.Show("La URL ingresada no corresponde con una válida para ser fuente RSS");
                 this.CampoCompleto(this.pictureBox_ComprobacionURL, false);
+            }
+            else
+            {
+                this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
+                this.button_Agregar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
+                this.iValorRSS = (string)e.Result;
+                if (this.iValorRSS == null) { this.iValorRSS = ""; }
             }
         }
         #endregion

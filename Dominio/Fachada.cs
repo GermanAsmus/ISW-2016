@@ -5,13 +5,13 @@ namespace Dominio
 {
     class Fachada
     {
-        DateTime iFechaActual;
-        SortedList<int, Banner> iListaBannersActual;
-        SortedList<int, Banner> iListaBannersProxima;
-        SortedList<int, int> iListaCampañaActual;
-        SortedList<int, int> iListaCampañaProxima;
-        bool iActualizarListaBanners=false;
-        bool iActualizarListaCampaña=false;
+        private DateTime iFechaActual;
+        private Banner iBannerNulo;
+        private SortedList<int, Banner> iListaBannersActual;
+        private SortedList<int, Banner> iListaBannersProxima;
+        private SortedList<int, int> iListaCampañaActual;
+        private SortedList<int, int> iListaCampañaProxima;
+        private bool iActualizarListas = false;
 
         /// <summary>
         /// Constructor de la fachada
@@ -25,6 +25,12 @@ namespace Dominio
             this.iFechaActual = DateTime.Today.Date;
             this.InicializarListaBanner();
             this.InicializarListaCampaña();
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
+            this.iBannerNulo = new Banner()
+            {
+                Codigo = -1,
+                InstanciaFuente = pTextoFijo
+            };
         }
 
         /// <summary>
@@ -35,9 +41,9 @@ namespace Dominio
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaBannersProxima[i] = BannerNulo();
+                iListaBannersProxima[i] = this.iBannerNulo;
             }
-            this.iActualizarListaBanners = false;
+            this.iActualizarListas = false;
         }
 
         /// <summary>
@@ -50,9 +56,8 @@ namespace Dominio
             {
                 iListaCampañaProxima[i] = CodigoCampañaNula();
             }
-            this.iActualizarListaCampaña = false;
+            this.iActualizarListas = false;
         }
-
 
         /// <summary>
         /// Establece la fecha actual de la Fachada
@@ -102,7 +107,7 @@ namespace Dominio
                         ///NO ENTIENDO PARA QUE ESTE IF
                         /// if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
                         ///{
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                             int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                             for (int i = minutoInicio; i <= minutoFin; i++)
                             {
@@ -205,7 +210,7 @@ namespace Dominio
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                         for (int i = minutoInicio; i <= minutoFin; i++)
                         {
-                            this.iListaBannersActual[i]=BannerNulo();
+                            this.iListaBannersActual[i]= this.iBannerNulo;
                         }
                     }
                 }
@@ -218,19 +223,11 @@ namespace Dominio
         /// <param name="pBanner">Campaña a eliminar</param>
         public void Eliminar(Campaña pCampaña)
         {
-            foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
+            for (int i = 0; i < this.iListaCampañaActual.Count; i++)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                if(this.iListaCampañaActual[i] == pCampaña.Codigo)
                 {
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {                    
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i <= minutoFin; i++)
-                        {
-                            this.iListaCampañaActual[i] = CodigoCampañaNula();
-                        }
-                    }
+                    this.iListaCampañaActual[i] = CodigoCampañaNula();
                 }
             }
         }
@@ -241,8 +238,28 @@ namespace Dominio
         /// <param name="pBanner">Banner a modificar</param>
         public void Modificar(Banner pBanner)
         {
-            this.Eliminar(pBanner);
+            this.Eliminar(this.BuscarBanner(pBanner));
             this.Agregar(pBanner);
+        }
+
+        /// <summary>
+        /// Obtiene el Banner de la lista que se corresponde con el suministrado
+        /// </summary>
+        /// <param name="pBanner">Banner suministrado</param>
+        /// <returns>Tipo de dato Banner que representa aquel almacenado</returns>
+        private Banner BuscarBanner(Banner pBanner)
+        {
+            int i = 0;
+            Banner resultado = null;
+            while (i < this.iListaBannersActual.Count && resultado != null)
+            {
+                if (this.iListaBannersActual.Values[i].Equals(pBanner))
+                {
+                    resultado = this.iListaBannersActual.Values[i];
+                }
+                i++;
+            }
+            return resultado;
         }
 
         /// <summary>
@@ -276,13 +293,14 @@ namespace Dominio
         {
             Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
-            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second)).TotalMinutes + 1;
-            bannerResultado = this.iListaBannersActual.Values[horaInicio];
-            if(horaInicio==1439)//Serían las 23:59
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0)).TotalMinutes + 1;
+            if (horaInicio == 1439) //Serían las 23:59
             {
                 this.CambiarListaBanners();
-                this.iActualizarListaBanners = true;
+                this.iActualizarListas = true;
+                horaInicio = 0;
             }
+            bannerResultado = this.iListaBannersActual.Values[horaInicio];
             return bannerResultado;
         }
 
@@ -293,13 +311,14 @@ namespace Dominio
         public int ObtenerCampañaSiguiente()
         {
             DateTime fechaActual = DateTime.Now;
-            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, fechaActual.Second).TotalMinutes)+1;
-            if (horaInicio == 1439)//Serían a las 23:59
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
+            if (horaInicio == 1439) //Serían a las 23:59
             {
                 this.CambiarListaCampañas();
-                this.iActualizarListaCampaña = true;
+                this.iActualizarListas = true;
+                horaInicio = 0;
             }
-            int campañaResultado = this.iListaCampañaActual.Values[horaInicio+1];
+            int campañaResultado = this.iListaCampañaActual.Values[horaInicio];
             return campañaResultado;
         }
 
@@ -321,7 +340,6 @@ namespace Dominio
             SortedList<int, int> listaAuxCampaña = new SortedList<int, int>(this.iListaCampañaProxima);
             this.InicializarListaCampaña();
             this.iListaCampañaActual = listaAuxCampaña;
-
         }
 
         /// <summary>
@@ -330,38 +348,7 @@ namespace Dominio
         /// <returns>tipo booleano, verdadero en caso de que se necesite</returns>
         public bool NecesitaActualizarListas()
         {
-            return (iActualizarListaBanners && iActualizarListaCampaña);
-        }
-
-        /// <summary>
-        /// Clase responsable de comparar dos RangosHorarios
-        /// </summary>
-        private class ComparadorRangosHorarios : IComparer<RangoHorario>
-        {
-            /// <summary>
-            /// Compara dos Rangos Horarios
-            /// </summary>
-            /// <param name="x">Rango Horario original</param>
-            /// <param name="y">Rango Horario a comparar</param>
-            /// <returns>Tipo de dato int que representa -1 si x menor a y, 0 si x igual a y, 1 si x mayor a y</y></returns>
-            public int Compare(RangoHorario x, RangoHorario y)
-            {
-                return (x.HoraInicio.CompareTo(y.HoraInicio));
-            }
-        }
-
-        /// <summary>
-        /// Devuelve un Banner que es el Nulo (código -1)
-        /// </summary>
-        /// <returns>tipo de dato Banner que representa el Banner de código -1</returns>
-        private static Dominio.Banner BannerNulo()
-        {
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí"};
-            return new Dominio.Banner()
-            {
-                Codigo = -1,
-                InstanciaFuente = pTextoFijo
-            };
+            return this.iActualizarListas;
         }
 
         /// <summary>

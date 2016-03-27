@@ -52,21 +52,18 @@ namespace UI
         public void ConfigurarBannerCampaña()
         {
             ///BANNER
-            this.iBannerActual=FachadaServicios.ObtenerBannerSiguiente();
+            this.iBannerActual = FachadaServicios.ObtenerBannerSiguiente();
             this.label_TextoBanner.Text = iBannerActual.Texto;
             this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
-
             ///CAMPAÑA
-            this.iCampañaActual=FachadaServicios.ObtenerCampañaSiguiente();
+            this.iCampañaActual = FachadaServicios.ObtenerCampañaSiguiente();
             this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
             this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
             this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
         }
-
         #endregion
 
         #region Muestra del Banner
-
         /// <summary>
         /// Evento que surge cuando el timer del texto Deslizante hace un tick
         /// </summary>
@@ -101,7 +98,6 @@ namespace UI
             this.iBannerProximo = (Banner)e.Result;
         }
 
-
         /// <summary>
         /// Cambia el valor de Label para que muestre el Banner Actual
         /// </summary>
@@ -113,7 +109,6 @@ namespace UI
         #endregion
 
         #region Muestra de la Campaña
-
         /// <summary>
         /// Devuelve la imagen de la campaña correspondiente
         /// </summary>
@@ -177,7 +172,6 @@ namespace UI
             this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
         }
         #endregion
-
 
         #region Eventos Comunes
         /// <summary>
@@ -266,7 +260,6 @@ namespace UI
             this.timer_TextoDeslizante.Enabled = false;
         }
 
-
         /// <summary>
         /// Evento que surge cuando el proceso de RSS comienza a ejecutarse
         /// </summary>
@@ -274,10 +267,16 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
+            Dominio.Banner pBanner = (Dominio.Banner)e.Argument;
+            try
+            {
+                string texto = pBanner.Texto;
+            }
+            catch ()
+            {
 
+            }
         }
         #endregion
-
-
     }
 }

@@ -243,24 +243,6 @@ namespace Servicios
         }
 
         /// <summary>
-        /// Determina si la lista de Rangos de Fecha posee una fecha actual
-        /// </summary>
-        /// <param name="pListaRangosFecha">Lista de Rangos de Fecha a verificar si existe Rango de Fecha del día en curso</param>
-        /// <returns>Tipo de dato booleano que representa si existe Rango de Fecha del día en curso</returns>
-        private static bool DiaEnCurso(List<Dominio.RangoFecha> pListaRangosFecha)
-        {
-            DateTime fechaHoy = DateTime.Today.Date;
-            IEnumerator<Dominio.RangoFecha> enumerador = pListaRangosFecha.GetEnumerator();
-            bool auxiliar = false;
-            while (enumerador.MoveNext() && !auxiliar)
-            {
-                auxiliar = (fechaHoy.CompareTo(enumerador.Current.FechaInicio) >= 0) && 
-                           (fechaHoy.CompareTo(enumerador.Current.FechaFin) <= 0);
-            }
-            return auxiliar;
-        }
-
-        /// <summary>
         /// Obtiene el banner correspondiente con respecto a la fecha y a la hora
         /// </summary>
         /// <param name="pHoraActual">Hora Actual</param>
@@ -294,11 +276,6 @@ namespace Servicios
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
                 campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
                 campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
-            }
-            if(IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
-            {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
-                CargarDatosEnMemoria(DiaMañana);
             }
             return campañaSiguiente;
         }
