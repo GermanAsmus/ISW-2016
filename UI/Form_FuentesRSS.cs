@@ -287,7 +287,11 @@ namespace UI
         {
             this.button_Modificar.Enabled = false;
             this.button_Agregar.Enabled = false;
-            this.backgroundWorker_ValorRSS.RunWorkerAsync(this.textBox_URL.Text);
+            if (textBox_URL.Text != "")
+            {
+                this.backgroundWorker_ValorRSS.RunWorkerAsync(this.textBox_URL.Text);
+            }            
+            this.CampoCompleto(this.pictureBox_ComprobacionURL, this.textBox_URL.Text != "");
         }
 
         /// <summary>
