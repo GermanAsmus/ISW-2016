@@ -57,6 +57,7 @@ namespace UI
             this.tableLayoutPanel1.Visible = false;
             this.CampoCompleto(this.pictureBox_ComprobacionDescripcion, false);
             this.CampoCompleto(this.pictureBox_ComprobacionURL, false);
+            this.VisualizarEdicionRSS(false);
         }
         #endregion
 
@@ -75,9 +76,9 @@ namespace UI
         /// </summary>
         private void ActualizarDGV()
         {
-            this.dataGridView.DataSource = typeof(List<FuenteRSS>);
-            this.dataGridView.DataSource = this.iListaFuenteRSS;
-            //(this.dataGridView.BindingContext [this.dataGridView_Fecha.DataSource] as CurrencyManager).Refresh();
+            //this.dataGridView.DataSource = typeof(List<FuenteRSS>);
+            //this.dataGridView.DataSource = this.iListaFuenteRSS;
+            (this.dataGridView.BindingContext [this.dataGridView.DataSource] as CurrencyManager).Refresh();
             this.dataGridView.Update();
             this.dataGridView.Refresh();
         }
@@ -118,37 +119,35 @@ namespace UI
         /// <param name="value">Valor de habilitación</param>
         private void HabilitarBotones(bool value)
         {
-            this.button_Agregar.Visible = !value;
             this.button_Cancelar.Visible = !value;
             this.tableLayoutPanel1.Visible = !value;
-            this.button_Agregar.Enabled = value;
             this.button_Nuevo.Visible = value;
             this.button_Modificar.Visible = value;
             this.button_Eliminar.Visible = value;
-            this.button_Aceptar.Enabled = value;
+            this.button_Modificar.Enabled = value;
+            this.button_Eliminar.Enabled = value;
+            this.button_Aceptar.Visible = value;
             this.dataGridView.Enabled = value;
+            this.button_AceptarNuevo.Visible = false;
+            this.button_AceptarModificar.Visible = false;
+            this.button_AceptarNuevo.Enabled = false;
+            this.button_AceptarModificar.Enabled = false;
+        }
+
+        /// <summary>
+        /// Activa la visualización del valor de la fuente RSS
+        /// </summary>
+        /// <param name="value">Valor de visualización o no de la fuente RSS</param>
+        private void VisualizarEdicionRSS(bool value)
+        {
+            this.label_Descripcion.Visible = value;
+            this.label_URL.Visible = value;
+            this.textBox_Descripcion.Visible = value;
+            this.textBox_URL.Visible = value;
         }
         #endregion
 
         #region Región: Eventos Comunes
-        /// <summary>
-        /// Evento que surge cuando se hace clic en el botón Modificar
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void button_Modificar_Click(object sender, EventArgs e)
-        {
-            FuenteRSS pFuente = this.FuenteSeleccionada();
-            pFuente.URL = this.textBox_URL.Text;
-            pFuente.Descripcion = this.textBox_Descripcion.Text;
-            pFuente.Valor = this.iValorRSS;
-            if (!this.iListaFuenteRSSAgregar.Contains(pFuente))
-            {
-                this.iListaFuenteRSSActualizar.Add(pFuente);
-            }
-            this.ActualizarDGV();
-        }
-
         /// <summary>
         /// Evento que surge cuando se hace clic en el botón Eliminar
         /// </summary>
@@ -172,26 +171,6 @@ namespace UI
                 this.iListaFuenteRSSAgregar.Remove(pFuente);
                 this.iListaFuenteRSS.Remove(pFuente);
             }
-            this.ActualizarDGV();
-        }
-
-        /// <summary>
-        /// Evento que surge cuando se hace clic en el botón Agregar
-        /// </summary>
-        /// <param name="sender">Objeto que  envía el evento</param>
-        /// <param name="e">Argumentos del evento</param>
-        private void button_Agregar_Click(object sender, EventArgs e)
-        {
-            FuenteRSS nuevaFuente = new FuenteRSS()
-            {
-                Codigo = 0,
-                Valor = this.iValorRSS,
-                Descripcion = this.textBox_Descripcion.Text,
-                URL = this.textBox_URL.Text
-            };
-            this.iListaFuenteRSSAgregar.Add(nuevaFuente);
-            this.iListaFuenteRSS.Add(nuevaFuente);
-            this.HabilitarBotones(true);
             this.ActualizarDGV();
         }
 
@@ -270,12 +249,6 @@ namespace UI
             this.button_Eliminar.Enabled = auxiliar;
             this.textBox_Descripcion.Enabled = auxiliar;
             this.textBox_URL.Enabled = auxiliar;
-            if (auxiliar)
-            {
-                FuenteRSS pFuente = this.FuenteSeleccionada();
-                this.textBox_URL.Text = pFuente.URL;
-                this.textBox_Descripcion.Text = pFuente.Descripcion;
-            }
         }
 
         /// <summary>
@@ -285,8 +258,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void textBox_URL_Leave(object sender, EventArgs e)
         {
-            this.button_Modificar.Enabled = false;
-            this.button_Agregar.Enabled = false;
+            this.button_AceptarNuevo.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
+            this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             if (textBox_URL.Text != "")
             {
                 this.backgroundWorker_ValorRSS.RunWorkerAsync(this.textBox_URL.Text);
@@ -302,7 +275,7 @@ namespace UI
         private void textBox_Descripcion_Leave(object sender, EventArgs e)
         {
             this.ActivarAceptar();
-            this.button_Agregar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
+            this.button_AceptarNuevo.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             this.CampoCompleto(this.pictureBox_ComprobacionDescripcion, this.textBox_Descripcion.Text != "");
         }
@@ -315,8 +288,70 @@ namespace UI
         private void button_Nuevo_Click(object sender, EventArgs e)
         {
             this.HabilitarBotones(false);
+            this.button_AceptarNuevo.Visible = true;
+            this.button_AceptarNuevo.Enabled = true;
             this.textBox_Descripcion.Text = "";
             this.textBox_URL.Text = "";
+            this.VisualizarEdicionRSS(true);
+        }
+
+        /// <summary>
+        /// Evento que surge cuando se hace clic en el botón Agregar
+        /// </summary>
+        /// <param name="sender">Objeto que  envía el evento</param>
+        /// <param name="e">Argumentos del evento</param>
+        private void button_AceptarAgregar_Click(object sender, EventArgs e)
+        {
+            FuenteRSS nuevaFuente = new FuenteRSS()
+            {
+                Codigo = 0,
+                Valor = this.iValorRSS,
+                Descripcion = this.textBox_Descripcion.Text,
+                URL = this.textBox_URL.Text
+            };
+            this.iListaFuenteRSSAgregar.Add(nuevaFuente);
+            this.iListaFuenteRSS.Add(nuevaFuente);
+            this.HabilitarBotones(true);
+            this.ActualizarDGV();
+            this.VisualizarEdicionRSS(false);
+        }
+
+        /// <summary>
+        /// Evento que surge cuando se hace clic en el botón Modificar
+        /// </summary>
+        /// <param name="sender">Objeto que  envía el evento</param>
+        /// <param name="e">Argumentos del evento</param>
+        private void button_Modificar_Click(object sender, EventArgs e)
+        {
+            FuenteRSS pFuente = this.FuenteSeleccionada();
+            this.textBox_URL.Text = pFuente.URL;
+            this.textBox_Descripcion.Text = pFuente.Descripcion;
+            this.iValorRSS = pFuente.Valor;
+            this.VisualizarEdicionRSS(true);
+            this.HabilitarBotones(false);
+            this.button_AceptarModificar.Visible = true;
+            this.button_AceptarModificar.Enabled = true;
+        }
+
+        /// <summary>
+        /// Evento que surge al hacer clic en el Aceptar luego del modificar
+        /// </summary>
+        /// <param name="sender">Objeto que  envía el evento</param>
+        /// <param name="e">Argumentos del evento</param>
+        private void button_AceptarModificar_Click(object sender, EventArgs e)
+        {
+            FuenteRSS pFuente = this.FuenteSeleccionada();
+            pFuente.URL = this.textBox_URL.Text;
+            pFuente.Descripcion = this.textBox_Descripcion.Text;
+            pFuente.Valor = this.iValorRSS;
+            this.VisualizarEdicionRSS(true);
+            if (!this.iListaFuenteRSSAgregar.Contains(pFuente))
+            {
+                this.iListaFuenteRSSActualizar.Add(pFuente);
+            }
+            this.HabilitarBotones(true);
+            this.ActualizarDGV();
+            this.VisualizarEdicionRSS(false);
         }
 
         /// <summary>
@@ -329,6 +364,7 @@ namespace UI
             this.textBox_Descripcion.Text = "";
             this.textBox_URL.Text = "";
             this.HabilitarBotones(true);
+            this.VisualizarEdicionRSS(false);
         }
         #endregion
 
@@ -388,6 +424,8 @@ namespace UI
             if(e.Error == null)
             {
                 this.iListaFuenteRSS = ((List<Fuente>)e.Result).ConvertAll<FuenteRSS>(obj => (FuenteRSS)obj);
+                this.dataGridView.DataSource = typeof(List<FuenteRSS>);
+                this.dataGridView.DataSource = this.iListaFuenteRSS;
                 this.ActualizarDGV();
             }
         }
@@ -443,8 +481,8 @@ namespace UI
             else
             {
                 this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
-                this.button_Agregar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
-                this.iValorRSS = (string)e.Result;
+                this.button_AceptarNuevo.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
+                this.iValorRSS = ((string)e.Result);
                 if (this.iValorRSS == null) { this.iValorRSS = ""; }
             }
         }

@@ -46,10 +46,11 @@
             this.pictureBox_ComprobacionDescripcion = new System.Windows.Forms.PictureBox();
             this.label_ComprobacionURL = new System.Windows.Forms.Label();
             this.label_ComprobacionDescripcion = new System.Windows.Forms.Label();
-            this.button_Agregar = new System.Windows.Forms.Button();
+            this.button_AceptarNuevo = new System.Windows.Forms.Button();
             this.button_Cancelar = new System.Windows.Forms.Button();
             this.backgroundWorker_FuenteRSSSeleccion = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker_ValorRSS = new System.ComponentModel.BackgroundWorker();
+            this.button_AceptarModificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ComprobacionURL)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -265,18 +266,18 @@
             this.label_ComprobacionDescripcion.Text = "Descripción";
             this.label_ComprobacionDescripcion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button_Agregar
+            // button_AceptarNuevo
             // 
-            this.button_Agregar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Agregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button_Agregar.Location = new System.Drawing.Point(436, 28);
-            this.button_Agregar.Name = "button_Agregar";
-            this.button_Agregar.Size = new System.Drawing.Size(82, 31);
-            this.button_Agregar.TabIndex = 19;
-            this.button_Agregar.Text = "A&gregar";
-            this.button_Agregar.UseVisualStyleBackColor = true;
-            this.button_Agregar.Visible = false;
-            this.button_Agregar.Click += new System.EventHandler(this.button_Agregar_Click);
+            this.button_AceptarNuevo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_AceptarNuevo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.button_AceptarNuevo.Location = new System.Drawing.Point(436, 28);
+            this.button_AceptarNuevo.Name = "button_AceptarNuevo";
+            this.button_AceptarNuevo.Size = new System.Drawing.Size(82, 31);
+            this.button_AceptarNuevo.TabIndex = 19;
+            this.button_AceptarNuevo.Text = "&Aceptar";
+            this.button_AceptarNuevo.UseVisualStyleBackColor = true;
+            this.button_AceptarNuevo.Visible = false;
+            this.button_AceptarNuevo.Click += new System.EventHandler(this.button_AceptarAgregar_Click);
             // 
             // button_Cancelar
             // 
@@ -301,11 +302,25 @@
             this.backgroundWorker_ValorRSS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_ValorRSS_DoWork);
             this.backgroundWorker_ValorRSS.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_ValorRSS_RunWorkerCompleted);
             // 
+            // button_AceptarModificar
+            // 
+            this.button_AceptarModificar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_AceptarModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.button_AceptarModificar.Location = new System.Drawing.Point(436, 28);
+            this.button_AceptarModificar.Name = "button_AceptarModificar";
+            this.button_AceptarModificar.Size = new System.Drawing.Size(82, 31);
+            this.button_AceptarModificar.TabIndex = 21;
+            this.button_AceptarModificar.Text = "&Aceptar";
+            this.button_AceptarModificar.UseVisualStyleBackColor = true;
+            this.button_AceptarModificar.Visible = false;
+            this.button_AceptarModificar.Click += new System.EventHandler(this.button_AceptarModificar_Click);
+            // 
             // Form_FuentesRSS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 397);
+            this.Controls.Add(this.button_AceptarModificar);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label_Información);
             this.Controls.Add(this.button_Aceptar);
@@ -318,7 +333,7 @@
             this.Controls.Add(this.label_URL);
             this.Controls.Add(this.button_Modificar);
             this.Controls.Add(this.button_Cancelar);
-            this.Controls.Add(this.button_Agregar);
+            this.Controls.Add(this.button_AceptarNuevo);
             this.Controls.Add(this.button_Nuevo);
             this.MinimumSize = new System.Drawing.Size(740, 436);
             this.Name = "Form_FuentesRSS";
@@ -352,9 +367,10 @@
         private System.Windows.Forms.Label label_ComprobacionDescripcion;
         private System.Windows.Forms.PictureBox pictureBox_ComprobacionDescripcion;
         private System.Windows.Forms.Label label_ComprobacionURL;
-        private System.Windows.Forms.Button button_Agregar;
+        private System.Windows.Forms.Button button_AceptarNuevo;
         private System.Windows.Forms.Button button_Cancelar;
         private System.ComponentModel.BackgroundWorker backgroundWorker_FuenteRSSSeleccion;
         private System.ComponentModel.BackgroundWorker backgroundWorker_ValorRSS;
+        private System.Windows.Forms.Button button_AceptarModificar;
     }
 }
