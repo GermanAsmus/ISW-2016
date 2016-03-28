@@ -6,7 +6,6 @@ namespace Dominio
     class Fachada
     {
         private DateTime iFechaActual;
-        private Banner iBannerNulo;
         private SortedList<int, Banner> iListaBannersActual;
         private SortedList<int, Banner> iListaBannersProxima;
         private SortedList<int, int> iListaCampañaActual;
@@ -25,12 +24,6 @@ namespace Dominio
             this.iFechaActual = DateTime.Today.Date;
             this.InicializarListaBanner();
             this.InicializarListaCampaña();
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
-            this.iBannerNulo = new Banner()
-            {
-                Codigo = -1,
-                InstanciaFuente = pTextoFijo
-            };
         }
 
         /// <summary>
@@ -41,7 +34,7 @@ namespace Dominio
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaBannersProxima[i] = this.iBannerNulo;
+                iListaBannersProxima[i] = this.BannerNulo();
             }
             this.iActualizarListas = false;
         }
@@ -210,7 +203,7 @@ namespace Dominio
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                         for (int i = minutoInicio; i <= minutoFin; i++)
                         {
-                            this.iListaBannersActual[i]= this.iBannerNulo;
+                            this.iListaBannersActual[i]= this.BannerNulo();
                         }
                     }
                 }
@@ -251,7 +244,7 @@ namespace Dominio
         {
             int i = 0;
             Banner resultado = null;
-            while (i < this.iListaBannersActual.Count && resultado != null)
+            while (i < this.iListaBannersActual.Count && resultado == null)
             {
                 if (this.iListaBannersActual.Values[i].Equals(pBanner))
                 {
@@ -327,7 +320,7 @@ namespace Dominio
         /// </summary>
         public void CambiarListaBanners()
         {
-            SortedList<int, Banner> listaAuxBanner = this.iListaBannersProxima;
+            SortedList<int, Banner> listaAuxBanner = new SortedList<int, Banner>(this.iListaBannersProxima);
             this.InicializarListaBanner();
             this.iListaBannersActual = listaAuxBanner;
         }
@@ -358,6 +351,12 @@ namespace Dominio
         public static int CodigoCampañaNula()
         {
             return -1;
+        }
+
+        public Banner BannerNulo()
+        {
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
+            return new Banner() { Codigo = -1, InstanciaFuente = pTextoFijo };
         }
 
         /// <summary>
