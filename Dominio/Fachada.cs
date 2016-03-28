@@ -18,6 +18,12 @@ namespace Dominio
         /// </summary>
         public Fachada()
         {
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
+            this.iBannerNulo = new Banner()
+            {
+                Codigo = -1,
+                InstanciaFuente = pTextoFijo
+            };
             this.iListaBannersActual = new SortedList<int, Banner>();
             this.iListaBannersProxima = new SortedList<int, Banner>();
             this.iListaCampañaActual = new SortedList<int, int>();
@@ -25,12 +31,6 @@ namespace Dominio
             this.iFechaActual = DateTime.Today.Date;
             this.InicializarListaBanner();
             this.InicializarListaCampaña();
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
-            this.iBannerNulo = new Banner()
-            {
-                Codigo = -1,
-                InstanciaFuente = pTextoFijo
-            };
         }
 
         /// <summary>
@@ -38,10 +38,11 @@ namespace Dominio
         /// </summary>
         private void InicializarListaBanner()
         {
+            this.iListaBannersProxima = new SortedList<int, Banner>();
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaBannersProxima[i] = this.iBannerNulo;
+                this.iListaBannersProxima[i] = this.iBannerNulo;
             }
             this.iActualizarListas = false;
         }
@@ -51,10 +52,11 @@ namespace Dominio
         /// </summary>
         private void InicializarListaCampaña()
         {
+            this.iListaCampañaProxima = new SortedList<int, int>();
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaCampañaProxima[i] = CodigoCampañaNula();
+                this.iListaCampañaProxima[i] = CodigoCampañaNula();
             }
             this.iActualizarListas = false;
         }
@@ -104,16 +106,12 @@ namespace Dominio
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        ///NO ENTIENDO PARA QUE ESTE IF
-                        /// if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
-                        ///{
-                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                            int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i < minutoFin; i++)
-                            {
-                                this.iListaBannersActual[i] = pBanner;
-                            }                            
-                        ///}
+                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
+                        for (int i = minutoInicio; i < minutoFin; i++)
+                        {
+                            this.iListaBannersActual[i] = pBanner;
+                        }
                     }
                 }
             }
