@@ -156,8 +156,8 @@ namespace Persistencia
                 if (argumentosFiltrado.ContainsKey(typeof(RangoFecha)))
                 {
                     RangoFecha pRF = (RangoFecha)argumentosFiltrado[typeof(RangoFecha)];
-                    DateTime fechaI = pRF.FechaInicio;
-                    DateTime fechaF = pRF.FechaFin;
+                    DateTime fechaI = pRF.FechaInicio.Date;
+                    DateTime fechaF = pRF.FechaFin.Date;
                     foreach (var banner in result)
                     {
                         IQueryable<RangoFecha> rangoFecha = banner.RangosFecha.AsQueryable<RangoFecha>();
