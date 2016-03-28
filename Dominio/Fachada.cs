@@ -251,7 +251,7 @@ namespace Dominio
         {
             int i = 0;
             Banner resultado = null;
-            while (i < this.iListaBannersActual.Count && resultado != null)
+            while (i < this.iListaBannersActual.Count && resultado == null)
             {
                 if (this.iListaBannersActual.Values[i].Equals(pBanner))
                 {
