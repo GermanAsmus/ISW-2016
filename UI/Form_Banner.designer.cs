@@ -402,6 +402,7 @@
             this.Controls.Add(this.label_Banner);
             this.Controls.Add(this.button_Eliminar);
             this.Controls.Add(this.button_Agregar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(618, 357);
             this.Name = "Form_Banner";
             this.Text = "Configurar Banner";

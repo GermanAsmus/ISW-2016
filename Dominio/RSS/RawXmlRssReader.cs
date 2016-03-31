@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using log4net;
 
 namespace Dominio
 {
@@ -48,15 +49,20 @@ namespace Dominio
 
             XmlDocument mRssXmlDocument = new XmlDocument();
 
+            Logging.Logger.Info("Obteniendo feeds...");
+            Logging.Logger.DebugFormat("Obteniendo feeds desde {0}...", pUrl.AbsoluteUri);
             //cLogger.Info("Obteniendo feeds...");
-           // cLogger.DebugFormat("Obteniendo feeds desde {0}...", pUrl.AbsoluteUri);
+            // cLogger.DebugFormat("Obteniendo feeds desde {0}...", pUrl.AbsoluteUri);
 
-            mRssXmlDocument.Load(mXmlReader);
+            mRssXmlDocument.Load(mXmlReader);//Problea de conectividad Solucionar <----------
 
+
+            Logging.Logger.Info("Ha finalizado la obtención de feeds.");
             //cLogger.Info("Ha finalizado la obtención de feeds.");
             //cLogger.Debug(pLogger => pLogger("Se ha obtenido el siguiente XML: {0}", mRssXmlDocument.OuterXml));
             IList<RssItem> mRssItems = new List<RssItem>();
 
+            Logging.Logger.Info("Adaptando feeds...");
             //cLogger.Info("Adaptando feeds...");
             foreach (XmlNode bRssXmlItem in mRssXmlDocument.SelectNodes("//channel/item"))
             {
@@ -69,6 +75,7 @@ namespace Dominio
                 });
             }
 
+            Logging.Logger.Info("Devolviendo feeds adaptados...");
             //cLogger.Info("Devolviendo feeds adaptados...");
             return mRssItems;
         }

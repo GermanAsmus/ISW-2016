@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Dominio;
 using System.Runtime.CompilerServices;
+using log4net;
 
 [assembly: InternalsVisibleTo("UI")]
 
@@ -14,6 +15,11 @@ namespace Servicios
     /// </summary>
     class FachadaServicios
     {
+        public static ILog ObtenerLogger()
+        {
+            return Logging.Logger;
+        }
+
         #region Banner
         /// <summary>
         /// Agrega el Banner a la base de datos y al Dominio

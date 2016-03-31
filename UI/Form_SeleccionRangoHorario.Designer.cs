@@ -34,6 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_SeleccionRangoHorario));
             this.dataGridView_Horarios = new System.Windows.Forms.DataGridView();
             this.label_RangoFecha = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -261,6 +262,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label_RangoFecha);
             this.Controls.Add(this.dataGridView_Horarios);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form_SeleccionRangoHorario";
             this.Text = "Form_SeleccionRangoHorario";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

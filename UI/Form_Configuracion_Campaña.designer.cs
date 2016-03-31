@@ -992,7 +992,7 @@
             this.tableLayoutPanel_Miniatura.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel_Miniatura.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel_Miniatura.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel_Miniatura.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel_Miniatura.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.tableLayoutPanel_Miniatura.Controls.Add(this.toolStripContainer_ImMin1, 1, 0);
             this.tableLayoutPanel_Miniatura.Controls.Add(this.textBox_ImMin4, 4, 1);
             this.tableLayoutPanel_Miniatura.Controls.Add(this.textBox_ImMin3, 3, 1);
@@ -1023,7 +1023,7 @@
             // toolStripContainer_ImMin1.ContentPanel
             // 
             this.toolStripContainer_ImMin1.ContentPanel.Controls.Add(this.pictureBox_ImMin1);
-            this.toolStripContainer_ImMin1.ContentPanel.Size = new System.Drawing.Size(122, 72);
+            this.toolStripContainer_ImMin1.ContentPanel.Size = new System.Drawing.Size(121, 72);
             // 
             // toolStripContainer_ImMin1.LeftToolStripPanel
             // 
@@ -1031,7 +1031,7 @@
             this.toolStripContainer_ImMin1.Location = new System.Drawing.Point(57, 4);
             this.toolStripContainer_ImMin1.Name = "toolStripContainer_ImMin1";
             this.toolStripContainer_ImMin1.RightToolStripPanelVisible = false;
-            this.toolStripContainer_ImMin1.Size = new System.Drawing.Size(146, 72);
+            this.toolStripContainer_ImMin1.Size = new System.Drawing.Size(145, 72);
             this.toolStripContainer_ImMin1.TabIndex = 14;
             this.toolStripContainer_ImMin1.Text = "toolStripContainer1";
             this.toolStripContainer_ImMin1.TopToolStripPanelVisible = false;
@@ -1044,7 +1044,7 @@
             this.pictureBox_ImMin1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_ImMin1.Location = new System.Drawing.Point(2, 0);
             this.pictureBox_ImMin1.Name = "pictureBox_ImMin1";
-            this.pictureBox_ImMin1.Size = new System.Drawing.Size(120, 72);
+            this.pictureBox_ImMin1.Size = new System.Drawing.Size(119, 72);
             this.pictureBox_ImMin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_ImMin1.TabIndex = 0;
             this.pictureBox_ImMin1.TabStop = false;
@@ -1095,7 +1095,7 @@
             // textBox_ImMin4
             // 
             this.textBox_ImMin4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBox_ImMin4.Location = new System.Drawing.Point(555, 83);
+            this.textBox_ImMin4.Location = new System.Drawing.Point(551, 83);
             this.textBox_ImMin4.Name = "textBox_ImMin4";
             this.textBox_ImMin4.Size = new System.Drawing.Size(68, 22);
             this.textBox_ImMin4.TabIndex = 13;
@@ -1107,7 +1107,7 @@
             // textBox_ImMin3
             // 
             this.textBox_ImMin3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBox_ImMin3.Location = new System.Drawing.Point(402, 83);
+            this.textBox_ImMin3.Location = new System.Drawing.Point(399, 83);
             this.textBox_ImMin3.Name = "textBox_ImMin3";
             this.textBox_ImMin3.Size = new System.Drawing.Size(68, 22);
             this.textBox_ImMin3.TabIndex = 12;
@@ -1119,7 +1119,7 @@
             // textBox_ImMin2
             // 
             this.textBox_ImMin2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBox_ImMin2.Location = new System.Drawing.Point(249, 83);
+            this.textBox_ImMin2.Location = new System.Drawing.Point(247, 83);
             this.textBox_ImMin2.Name = "textBox_ImMin2";
             this.textBox_ImMin2.Size = new System.Drawing.Size(68, 22);
             this.textBox_ImMin2.TabIndex = 11;
@@ -1173,9 +1173,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(669, 80);
+            this.label1.Location = new System.Drawing.Point(665, 80);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 30);
+            this.label1.Size = new System.Drawing.Size(65, 30);
             this.label1.TabIndex = 9;
             this.label1.Text = "(seg)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1183,7 +1183,7 @@
             // textBox_ImMin1
             // 
             this.textBox_ImMin1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBox_ImMin1.Location = new System.Drawing.Point(96, 83);
+            this.textBox_ImMin1.Location = new System.Drawing.Point(95, 83);
             this.textBox_ImMin1.Name = "textBox_ImMin1";
             this.textBox_ImMin1.Size = new System.Drawing.Size(68, 22);
             this.textBox_ImMin1.TabIndex = 10;
@@ -1202,15 +1202,15 @@
             // toolStripContainer_ImMin2.ContentPanel
             // 
             this.toolStripContainer_ImMin2.ContentPanel.Controls.Add(this.pictureBox_ImMin2);
-            this.toolStripContainer_ImMin2.ContentPanel.Size = new System.Drawing.Size(122, 72);
+            this.toolStripContainer_ImMin2.ContentPanel.Size = new System.Drawing.Size(121, 72);
             // 
             // toolStripContainer_ImMin2.LeftToolStripPanel
             // 
             this.toolStripContainer_ImMin2.LeftToolStripPanel.Controls.Add(this.toolStrip_ImMin2);
-            this.toolStripContainer_ImMin2.Location = new System.Drawing.Point(210, 4);
+            this.toolStripContainer_ImMin2.Location = new System.Drawing.Point(209, 4);
             this.toolStripContainer_ImMin2.Name = "toolStripContainer_ImMin2";
             this.toolStripContainer_ImMin2.RightToolStripPanelVisible = false;
-            this.toolStripContainer_ImMin2.Size = new System.Drawing.Size(146, 72);
+            this.toolStripContainer_ImMin2.Size = new System.Drawing.Size(145, 72);
             this.toolStripContainer_ImMin2.TabIndex = 15;
             this.toolStripContainer_ImMin2.Text = "toolStripContainer1";
             this.toolStripContainer_ImMin2.TopToolStripPanelVisible = false;
@@ -1223,7 +1223,7 @@
             this.pictureBox_ImMin2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_ImMin2.Location = new System.Drawing.Point(2, 0);
             this.pictureBox_ImMin2.Name = "pictureBox_ImMin2";
-            this.pictureBox_ImMin2.Size = new System.Drawing.Size(120, 72);
+            this.pictureBox_ImMin2.Size = new System.Drawing.Size(119, 72);
             this.pictureBox_ImMin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_ImMin2.TabIndex = 1;
             this.pictureBox_ImMin2.TabStop = false;
@@ -1281,15 +1281,15 @@
             // toolStripContainer_ImMin4.ContentPanel
             // 
             this.toolStripContainer_ImMin4.ContentPanel.Controls.Add(this.pictureBox_ImMin4);
-            this.toolStripContainer_ImMin4.ContentPanel.Size = new System.Drawing.Size(122, 72);
+            this.toolStripContainer_ImMin4.ContentPanel.Size = new System.Drawing.Size(121, 72);
             // 
             // toolStripContainer_ImMin4.LeftToolStripPanel
             // 
             this.toolStripContainer_ImMin4.LeftToolStripPanel.Controls.Add(this.toolStrip_ImMin3);
-            this.toolStripContainer_ImMin4.Location = new System.Drawing.Point(516, 4);
+            this.toolStripContainer_ImMin4.Location = new System.Drawing.Point(513, 4);
             this.toolStripContainer_ImMin4.Name = "toolStripContainer_ImMin4";
             this.toolStripContainer_ImMin4.RightToolStripPanelVisible = false;
-            this.toolStripContainer_ImMin4.Size = new System.Drawing.Size(146, 72);
+            this.toolStripContainer_ImMin4.Size = new System.Drawing.Size(145, 72);
             this.toolStripContainer_ImMin4.TabIndex = 17;
             this.toolStripContainer_ImMin4.Text = "toolStripContainer3";
             this.toolStripContainer_ImMin4.TopToolStripPanelVisible = false;
@@ -1302,7 +1302,7 @@
             this.pictureBox_ImMin4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_ImMin4.Location = new System.Drawing.Point(3, 0);
             this.pictureBox_ImMin4.Name = "pictureBox_ImMin4";
-            this.pictureBox_ImMin4.Size = new System.Drawing.Size(119, 72);
+            this.pictureBox_ImMin4.Size = new System.Drawing.Size(118, 72);
             this.pictureBox_ImMin4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_ImMin4.TabIndex = 2;
             this.pictureBox_ImMin4.TabStop = false;
@@ -1360,15 +1360,15 @@
             // toolStripContainer_ImMin3.ContentPanel
             // 
             this.toolStripContainer_ImMin3.ContentPanel.Controls.Add(this.pictureBox_ImMin3);
-            this.toolStripContainer_ImMin3.ContentPanel.Size = new System.Drawing.Size(122, 72);
+            this.toolStripContainer_ImMin3.ContentPanel.Size = new System.Drawing.Size(121, 72);
             // 
             // toolStripContainer_ImMin3.LeftToolStripPanel
             // 
             this.toolStripContainer_ImMin3.LeftToolStripPanel.Controls.Add(this.toolStrip_ImMin4);
-            this.toolStripContainer_ImMin3.Location = new System.Drawing.Point(363, 4);
+            this.toolStripContainer_ImMin3.Location = new System.Drawing.Point(361, 4);
             this.toolStripContainer_ImMin3.Name = "toolStripContainer_ImMin3";
             this.toolStripContainer_ImMin3.RightToolStripPanelVisible = false;
-            this.toolStripContainer_ImMin3.Size = new System.Drawing.Size(146, 72);
+            this.toolStripContainer_ImMin3.Size = new System.Drawing.Size(145, 72);
             this.toolStripContainer_ImMin3.TabIndex = 16;
             this.toolStripContainer_ImMin3.Text = "toolStripContainer2";
             this.toolStripContainer_ImMin3.TopToolStripPanelVisible = false;
@@ -1381,7 +1381,7 @@
             this.pictureBox_ImMin3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_ImMin3.Location = new System.Drawing.Point(2, 0);
             this.pictureBox_ImMin3.Name = "pictureBox_ImMin3";
-            this.pictureBox_ImMin3.Size = new System.Drawing.Size(120, 72);
+            this.pictureBox_ImMin3.Size = new System.Drawing.Size(119, 72);
             this.pictureBox_ImMin3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_ImMin3.TabIndex = 0;
             this.pictureBox_ImMin3.TabStop = false;
@@ -1453,6 +1453,7 @@
             this.Controls.Add(this.button_Cancelar);
             this.Controls.Add(this.button_Aceptar);
             this.Controls.Add(this.label_Campaña);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(759, 549);
             this.Name = "Form_Configuracion_Campaña";

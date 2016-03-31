@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Vista));
             this.tableLayoutPanel_Vista = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox_Campaña = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel_InformacionAdicional = new System.Windows.Forms.FlowLayoutPanel();
             this.label_TextoBanner = new System.Windows.Forms.Label();
             this.timer_TextoDeslizante = new System.Windows.Forms.Timer(this.components);
@@ -42,6 +42,7 @@
             this.timer_Cambio = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_CargarDiaSiguiente = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker_RSS = new System.ComponentModel.BackgroundWorker();
+            this.pictureBox_Campaña = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel_Vista.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Campaña)).BeginInit();
             this.SuspendLayout();
@@ -64,16 +65,6 @@
             this.tableLayoutPanel_Vista.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 441F));
             this.tableLayoutPanel_Vista.Size = new System.Drawing.Size(758, 441);
             this.tableLayoutPanel_Vista.TabIndex = 0;
-            // 
-            // pictureBox_Campaña
-            // 
-            this.pictureBox_Campaña.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox_Campaña.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox_Campaña.Name = "pictureBox_Campaña";
-            this.pictureBox_Campaña.Size = new System.Drawing.Size(600, 435);
-            this.pictureBox_Campaña.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_Campaña.TabIndex = 0;
-            this.pictureBox_Campaña.TabStop = false;
             // 
             // flowLayoutPanel_InformacionAdicional
             // 
@@ -137,7 +128,18 @@
             // 
             // backgroundWorker_RSS
             // 
+            this.backgroundWorker_RSS.WorkerReportsProgress = true;
             this.backgroundWorker_RSS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_RSS_DoWork);
+            // 
+            // pictureBox_Campaña
+            // 
+            this.pictureBox_Campaña.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox_Campaña.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_Campaña.Name = "pictureBox_Campaña";
+            this.pictureBox_Campaña.Size = new System.Drawing.Size(600, 435);
+            this.pictureBox_Campaña.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_Campaña.TabIndex = 0;
+            this.pictureBox_Campaña.TabStop = false;
             // 
             // Vista
             // 
@@ -148,6 +150,8 @@
             this.Controls.Add(this.label_TextoBanner);
             this.Controls.Add(this.tableLayoutPanel_Vista);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Vista";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vista";

@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.inicioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configuraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.campañaPublicitariaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vistaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fuentesRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vistaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,7 +48,7 @@
             this.vistaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(357, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(603, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,13 +91,6 @@
             this.bannerToolStripMenuItem.Text = "&Banner";
             this.bannerToolStripMenuItem.Click += new System.EventHandler(this.bannerToolStripMenuItem_Click);
             // 
-            // vistaToolStripMenuItem
-            // 
-            this.vistaToolStripMenuItem.Name = "vistaToolStripMenuItem";
-            this.vistaToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.vistaToolStripMenuItem.Text = "&Vista";
-            this.vistaToolStripMenuItem.Click += new System.EventHandler(this.vistaToolStripMenuItem_Click);
-            // 
             // fuentesRSSToolStripMenuItem
             // 
             this.fuentesRSSToolStripMenuItem.Name = "fuentesRSSToolStripMenuItem";
@@ -104,12 +98,20 @@
             this.fuentesRSSToolStripMenuItem.Text = "&Fuentes RSS";
             this.fuentesRSSToolStripMenuItem.Click += new System.EventHandler(this.fuentesRSSToolStripMenuItem_Click);
             // 
+            // vistaToolStripMenuItem
+            // 
+            this.vistaToolStripMenuItem.Name = "vistaToolStripMenuItem";
+            this.vistaToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.vistaToolStripMenuItem.Text = "&Vista";
+            this.vistaToolStripMenuItem.Click += new System.EventHandler(this.vistaToolStripMenuItem_Click);
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 218);
+            this.ClientSize = new System.Drawing.Size(603, 339);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Principal";

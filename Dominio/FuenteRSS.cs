@@ -66,12 +66,19 @@ namespace Dominio
         /// <returns>Tipo de dato string que representa el texto anterior de la fuente RSS</returns>
         public string Texto()
         {
-            string aux = this.ActualizarFuente();
-            if (!(aux == ""))
-            {
-                this.iValorAnterior = aux;
+            try {
+                string aux = this.ActualizarFuente();
+                if (!(aux == ""))
+                {
+                    this.iValorAnterior = aux;
+                }
+                return this.iValorAnterior;
             }
-            return this.iValorAnterior;
+            catch (Exception ex){
+                Logging.Logger.Info("Problemas de conectividad, excepcion capturada:",ex);
+
+                return this.iValorAnterior;
+            }
         }
 
         /// <summary>
