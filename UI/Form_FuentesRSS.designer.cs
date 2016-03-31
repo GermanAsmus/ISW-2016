@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_FuentesRSS));
             this.button_Nuevo = new System.Windows.Forms.Button();
             this.label_URL = new System.Windows.Forms.Label();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -335,6 +336,7 @@
             this.Controls.Add(this.button_Cancelar);
             this.Controls.Add(this.button_AceptarNuevo);
             this.Controls.Add(this.button_Nuevo);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(740, 436);
             this.Name = "Form_FuentesRSS";
             this.Text = "Administrador de Fuentes RSS";

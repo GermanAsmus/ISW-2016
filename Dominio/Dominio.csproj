@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -58,6 +62,7 @@
     <Compile Include="FuenteRSS.cs" />
     <Compile Include="FuenteTextoFijo.cs" />
     <Compile Include="RSS\IRssReader.cs" />
+    <Compile Include="RSS\Logging.cs" />
     <Compile Include="RSS\RawXmlRssReader.cs" />
     <Compile Include="RSS\RssItem.cs" />
     <Compile Include="RSS\RssReader.cs" />
@@ -70,6 +75,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\sinCampaña.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

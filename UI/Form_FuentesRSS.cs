@@ -262,6 +262,7 @@ namespace UI
             this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             if (textBox_URL.Text != "")
             {
+                Logging.Logger.Info("Inicio de obtencion RSS en Segundo plano de URI: "+textBox_URL.Text);
                 this.backgroundWorker_ValorRSS.RunWorkerAsync(this.textBox_URL.Text);
             }            
             this.CampoCompleto(this.pictureBox_ComprobacionURL, this.textBox_URL.Text != "");

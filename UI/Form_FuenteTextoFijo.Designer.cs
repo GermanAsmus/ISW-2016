@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_FuenteTextoFijo));
             this.button_Aceptar = new System.Windows.Forms.Button();
             this.button_Volver = new System.Windows.Forms.Button();
             this.textBox_ValorTextoFijo = new System.Windows.Forms.TextBox();
@@ -135,6 +136,7 @@
             this.Controls.Add(this.textBox_ValorTextoFijo);
             this.Controls.Add(this.button_Aceptar);
             this.Controls.Add(this.button_Volver);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(478, 282);
             this.MinimumSize = new System.Drawing.Size(478, 282);
