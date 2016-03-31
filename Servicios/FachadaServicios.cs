@@ -254,7 +254,7 @@ namespace Servicios
             if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
-                CargarDatosEnMemoria(DiaMañana);
+                CargarBannersEnMemoria(DiaMañana);
             }
             return bannerSiguiente;
         }
@@ -267,6 +267,11 @@ namespace Servicios
         {
             int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             Dominio.Campaña campañaSiguiente;
+            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
+            {
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
+                CargarCampañasEnMemoria(DiaMañana);
+            }
             if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
             {
                 campañaSiguiente = Dominio.Fachada.CampañaNula();
@@ -281,23 +286,32 @@ namespace Servicios
         }
 
         /// <summary>
-        /// Carga los Datos (Banner y Campaña) del día en la Fachada
+        /// Carga los Banners del día en la Fachada
         /// </summary>
         /// <param name="pFecha">Fecha Actual de Carga</param>
-        public static void CargarDatosEnMemoria(DateTime pFecha)
+        public static void CargarBannersEnMemoria(DateTime pFecha)
         {
             //Argumentos de filtrado de Banner
             Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
             argumentosBanner.Add(typeof(string), "");
             Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
             argumentosBanner.Add(typeof(Dominio.RangoFecha), pRF);
+            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
+        }
+
+
+        /// <summary>
+        /// Carga las Campañas del día en la Fachada
+        /// </summary>
+        /// <param name="pFecha">Fecha Actual de Carga</param>
+        public static void CargarCampañasEnMemoria(DateTime pFecha)
+        {
+            Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
             //Argumentos de filtrado de Campaña
             Dictionary<Type, object> argumentosCampaña = new Dictionary<Type, object>();
             argumentosCampaña.Add(typeof(string), "");
             argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
             IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerCampañas(argumentosCampaña));
-            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
-
         }
 
         /// <summary>
