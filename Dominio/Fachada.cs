@@ -440,5 +440,10 @@ namespace Dominio
             }
             return resultado;
         }
+
+        public SortedList<int, Banner> ListaBannersActual
+        {
+            get { return this.iListaBannersActual; }
+        }
     }
 }

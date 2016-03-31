@@ -5,6 +5,7 @@ using System.Text;
 using Dominio;
 using System.Runtime.CompilerServices;
 using log4net;
+using System.Threading;
 
 [assembly: InternalsVisibleTo("UI")]
 
@@ -262,6 +263,13 @@ namespace Servicios
                 DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
                 CargarBannersEnMemoria(DiaMañana);
             }
+
+            if(DateTime.Now.Minute % 60 == 0)
+            {
+                ThreadStart delegadoPS = new ThreadStart(ActualizarFuentesRSS);
+                Thread hiloSecundario = new Thread(delegadoPS);
+                hiloSecundario.Start();
+            }
             return bannerSiguiente;
         }
 
@@ -327,6 +335,22 @@ namespace Servicios
         {
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaBanners();
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaCampañas();
+        }
+
+        /// <summary>
+        /// Actualiza las fuentes RSS
+        /// </summary>
+        private static void ActualizarFuentesRSS()
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            SortedList<int, Dominio.Banner> listaBanners = IoCContainerLocator.GetType<Dominio.Fachada>().ListaBannersActual;
+            foreach (Dominio.Banner pBanners in listaBanners.Values)
+            {
+                Dominio.Fuente pFuente = pBanners.InstanciaFuente;
+                pFuente.Texto();
+                fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+            }
+
         }
     }
 }
