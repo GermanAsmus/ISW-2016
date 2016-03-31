@@ -35,7 +35,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargaDeDatos_DoWork(object sender, DoWorkEventArgs e)
         {
-            Servicios.FachadaServicios.CargarDatosEnMemoria(DateTime.Today);
+            Servicios.FachadaServicios.CargarCampañasEnMemoria(DateTime.Today);
+            Servicios.FachadaServicios.CargarBannersEnMemoria(DateTime.Today);
             Servicios.FachadaServicios.CargaInicial();
         }
 
