@@ -89,7 +89,7 @@ namespace UI
         private void ActivarAceptar()
         {
             this.button_Aceptar.Enabled = ((this.iListaFuenteRSS.Count > 0) || (this.iListaFuenteRSSActualizar.Count > 0) ||
-                                          (this.iListaFuenteRSSAgregar.Count > 0)) &&
+                                          (this.iListaFuenteRSSAgregar.Count > 0) || (this.iListaFuenteRSSEliminar.Count > 0)) &&
                                           ((!this.iNecesitaSeleccionar) || (this.dataGridView.RowCount > 0));
         }
 
@@ -172,6 +172,7 @@ namespace UI
                 this.iListaFuenteRSS.Remove(pFuente);
             }
             this.ActualizarDGV();
+            this.ActivarAceptar();
         }
 
         /// <summary>
@@ -275,7 +276,6 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void textBox_Descripcion_Leave(object sender, EventArgs e)
         {
-            this.ActivarAceptar();
             this.button_AceptarNuevo.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             this.button_Modificar.Enabled = (this.textBox_URL.Text != "") && (this.textBox_Descripcion.Text != "");
             this.CampoCompleto(this.pictureBox_ComprobacionDescripcion, this.textBox_Descripcion.Text != "");
@@ -315,6 +315,7 @@ namespace UI
             this.HabilitarBotones(true);
             this.ActualizarDGV();
             this.VisualizarEdicionRSS(false);
+            this.ActivarAceptar();
         }
 
         /// <summary>
@@ -353,6 +354,7 @@ namespace UI
             this.HabilitarBotones(true);
             this.ActualizarDGV();
             this.VisualizarEdicionRSS(false);
+            this.ActivarAceptar();
         }
 
         /// <summary>
@@ -460,9 +462,16 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ValorRSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            //FALLA
             FuenteRSS pFuente = new FuenteRSS() { URL = (string)e.Argument };
-            e.Result = pFuente.Texto();
+            try
+            {
+                pFuente.Valor = pFuente.ActualizarFuente();
+                e.Result = pFuente.Valor;
+            }
+            catch(Exception ex)
+            {
+                e.Result = ex;
+            }
         }
 
         /// <summary>
@@ -472,11 +481,16 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ValorRSS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Error != null)
+            Exception errorProceso = e.Error;
+            if(e.Result.GetType().IsSubclassOf(typeof(Exception)))
+            {
+                errorProceso = (Exception) e.Result;
+            }
+            if (errorProceso != null)
             {
                 this.textBox_URL.Text = "";
                 this.iValorRSS = "";
-                MessageBox.Show("La URL ingresada no corresponde con una válida para ser fuente RSS");
+                MessageBox.Show("Se encontró el siguiente problema al obtener el valor de la Fuente RSS:\n" + errorProceso.Message);
                 this.CampoCompleto(this.pictureBox_ComprobacionURL, false);
             }
             else
