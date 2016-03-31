@@ -6,17 +6,25 @@ namespace Dominio
     class Fachada
     {
         private DateTime iFechaActual;
+        private Banner iBannerNulo;
         private SortedList<int, Banner> iListaBannersActual;
         private SortedList<int, Banner> iListaBannersProxima;
         private SortedList<int, int> iListaCampañaActual;
         private SortedList<int, int> iListaCampañaProxima;
-        private bool iActualizarListas = false;
+        private bool iActualizarListaBanner = false;
+        private bool iActualizarListaCampaña = false;
 
         /// <summary>
         /// Constructor de la fachada
         /// </summary>
         public Fachada()
         {
+            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
+            this.iBannerNulo = new Banner()
+            {
+                Codigo = -1,
+                InstanciaFuente = pTextoFijo
+            };
             this.iListaBannersActual = new SortedList<int, Banner>();
             this.iListaBannersProxima = new SortedList<int, Banner>();
             this.iListaCampañaActual = new SortedList<int, int>();
@@ -35,9 +43,9 @@ namespace Dominio
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
-                iListaBannersProxima[i] = this.BannerNulo();
+                this.iListaBannersProxima[i] = this.iBannerNulo;
             }
-            this.iActualizarListas = false;
+            this.iActualizarListaBanner = false;
         }
 
         /// <summary>
@@ -51,7 +59,7 @@ namespace Dominio
             {
                 this.iListaCampañaProxima[i] = CodigoCampañaNula();
             }
-            this.iActualizarListas = false;
+            this.iActualizarListaCampaña = false;
         }
 
         /// <summary>
@@ -105,17 +113,17 @@ namespace Dominio
                         listaBanners = this.iListaBannersActual;
                     }
                     else
-                {
+                    {
                         listaBanners = this.iListaBannersProxima;
                     }
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                            int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i < minutoFin; i++)
-                            {
+                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
+                        for (int i = minutoInicio; i < minutoFin; i++)
+                        {
                             listaBanners[i] = pBanner;
-                            }                            
+                        }
                     }
                 }
             }
@@ -176,18 +184,6 @@ namespace Dominio
                         }
                     }
                 }
-                else
-                {
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                            int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i < minutoFin; i++)
-                            {
-                            this.iListaCampañaProxima[i] = pCampaña.Codigo;
-                            }
-                    }
-                }
             }
         }
 
@@ -242,7 +238,7 @@ namespace Dominio
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                         for (int i = minutoInicio; i <= minutoFin; i++)
                         {
-                            this.iListaBannersActual[i]= this.BannerNulo();
+                            listaBanners[i]= this.iBannerNulo;
                         }
                     }
                 }
@@ -295,6 +291,18 @@ namespace Dominio
                 }
                 i++;
             }
+            if(resultado == null)
+            {
+                i = 0;
+                while (i < this.iListaBannersProxima.Count && resultado == null)
+                {
+                    if (this.iListaBannersProxima.Values[i].Equals(pBanner))
+                    {
+                        resultado = this.iListaBannersProxima.Values[i];
+                    }
+                    i++;
+                }
+            }
             return resultado;
         }
 
@@ -330,11 +338,15 @@ namespace Dominio
         {
             Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
-            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0)).TotalMinutes + 1;
+            int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
+            if (horaInicio > 1380)
+            {
+                this.iActualizarListaBanner = true;
+            }
+
             if (horaInicio == 1439) //Serían las 23:59
             {
                 this.CambiarListaBanners();
-                this.iActualizarListas = true;
                 horaInicio = 0;
             }
             bannerResultado = this.iListaBannersActual.Values[horaInicio];
@@ -349,10 +361,14 @@ namespace Dominio
         {
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
-            if (horaInicio == 1439) //Serían a las 23:59
+            if (horaInicio > 1380)
+            {
+                this.iActualizarListaCampaña = true;
+            }
+
+            if (horaInicio == 1439) //Serían las 23:59
             {
                 this.CambiarListaCampañas();
-                this.iActualizarListas = true;
                 horaInicio = 0;
             }
             int campañaResultado = this.iListaCampañaActual.Values[horaInicio];
@@ -364,7 +380,7 @@ namespace Dominio
         /// </summary>
         public void CambiarListaBanners()
         {
-            SortedList<int, Banner> listaAuxBanner = new SortedList<int, Banner>(this.iListaBannersProxima);
+            SortedList<int, Banner> listaAuxBanner = this.iListaBannersProxima;
             this.InicializarListaBanner();
             this.iListaBannersActual = listaAuxBanner;
         }
@@ -385,7 +401,7 @@ namespace Dominio
         /// <returns>tipo booleano, verdadero en caso de que se necesite</returns>
         public bool NecesitaActualizarListas()
         {
-            return this.iActualizarListas;
+            return (this.iActualizarListaCampaña || this.iActualizarListaBanner);
         }
 
         /// <summary>
@@ -395,12 +411,6 @@ namespace Dominio
         public static int CodigoCampañaNula()
         {
             return -1;
-        }
-
-        public Banner BannerNulo()
-        {
-            FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
-            return new Banner() { Codigo = -1, InstanciaFuente = pTextoFijo };
         }
 
         /// <summary>
