@@ -102,15 +102,26 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
+                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
+                if (esHoy || esMañana)
                 {
+                    SortedList<int, Banner> listaBanners = null;
+                    if (esHoy)
+                    {
+                        listaBanners = this.iListaBannersActual;
+                    }
+                    else
+                    {
+                        listaBanners = this.iListaBannersProxima;
+                    }
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
                         int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                         for (int i = minutoInicio; i < minutoFin; i++)
                         {
-                            this.iListaBannersActual[i] = pBanner;
+                            listaBanners[i] = pBanner;
                         }
                     }
                 }
@@ -126,7 +137,7 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                if (this.RangoFechaActual(pRangoFecha,DateTime.Now))
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
@@ -149,20 +160,39 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
+                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
+                if (esHoy || esMañana)
+                {
+                    SortedList<int, int> listaCampañas = null;
+                    if (esHoy)
+                    {
+                        listaCampañas = this.iListaCampañaActual;
+                    }
+                    else
+                    {
+                        listaCampañas = this.iListaCampañaProxima;
+                    }
+                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
+                    {
+                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
+                        for (int i = minutoInicio; i < minutoFin; i++)
+                        {
+                            listaCampañas[i] = pCampaña.Codigo;
+                        }
+                    }
+                }
+                else
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        ///NO ENTIENDO PARA QUE ESTE IF
-                        /// if (DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 1, 1)).CompareTo(pRangoHorario.HoraInicio) <= 0)
-                        ///{
-                            int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                            int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                            for (int i = minutoInicio; i < minutoFin; i++)
-                            {
-                                this.iListaCampañaActual[i] = pCampaña.Codigo;
-                            }
-                        ///}
+                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
+                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
+                        for (int i = minutoInicio; i < minutoFin; i++)
+                        {
+                            this.iListaCampañaProxima[i] = pCampaña.Codigo;
+                        }
                     }
                 }
             }
@@ -177,7 +207,7 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                if (this.RangoFechaActual(pRangoFecha,DateTime.Now))
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
@@ -200,15 +230,26 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha))
+                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
+                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
+                if (esHoy || esMañana)
                 {
+                    SortedList<int, Banner> listaBanners = null;
+                    if (esHoy)
+                    {
+                        listaBanners = this.iListaBannersActual;
+                    }
+                    else
+                    {
+                        listaBanners = this.iListaBannersProxima;
+                    }
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
                         int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
                         int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
                         for (int i = minutoInicio; i <= minutoFin; i++)
                         {
-                            this.iListaBannersActual[i]= this.iBannerNulo;
+                            listaBanners[i]= this.iBannerNulo;
                         }
                     }
                 }
@@ -224,6 +265,10 @@ namespace Dominio
             for (int i = 0; i < this.iListaCampañaActual.Count; i++)
             {
                 if(this.iListaCampañaActual[i] == pCampaña.Codigo)
+                {
+                    this.iListaCampañaActual[i] = CodigoCampañaNula();
+                }
+                if (this.iListaCampañaProxima[i] == pCampaña.Codigo)
                 {
                     this.iListaCampañaActual[i] = CodigoCampañaNula();
                 }
@@ -274,10 +319,11 @@ namespace Dominio
         /// Determina si un Rango de Fecha está dentro del actual
         /// </summary>
         /// <param name="pRangoFecha">Rango Fecha a verificar</param>
+        /// <param name="pFecha">Fecha a verificar</param>
         /// <returns>Tipo de dato booleano que representa si un Rango de Fecha es actual</returns>
-        private bool RangoFechaActual(RangoFecha pRangoFecha)
+        private bool RangoFechaActual(RangoFecha pRangoFecha,DateTime pFecha)
         {
-            DateTime hoy = DateTime.Today.Date;
+            DateTime hoy = pFecha.Date;
             return (pRangoFecha.FechaInicio.Date.CompareTo(hoy) <= 0 && pRangoFecha.FechaFin.Date.CompareTo(hoy) >= 0);
         }
 
