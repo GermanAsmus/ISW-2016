@@ -13,7 +13,6 @@ namespace UI
         public Precarga()
         {
             InitializeComponent();
-            FachadaServicios.ObtenerLogger().Info("Inicio de la Aplicacion Peolaaa");
 ;        }
 
         /// <summary>

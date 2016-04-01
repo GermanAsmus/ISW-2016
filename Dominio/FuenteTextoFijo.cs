@@ -54,6 +54,15 @@ namespace Dominio
         }
 
         /// <summary>
+        /// Determina si la fuenteRSS debe actualizarse
+        /// </summary>
+        /// <returns>Tipo de dato booleano que representa si debe actualizarse o no la fuenteRSS</returns>
+        public bool Actualizable()
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Determina si dos fuentes son iguales
         /// </summary>
         /// <param name="other">Otra Fuente a comparar</param>
@@ -62,5 +71,7 @@ namespace Dominio
         {
             return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
         }
+
+        
     }
 }
