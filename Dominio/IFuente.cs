@@ -2,7 +2,7 @@
 
 namespace Dominio
 {
-    interface Fuente : IEquatable<Fuente>
+    interface IFuente : IEquatable<IFuente>
     {
         /// <summary>
         /// Texto de la fuente

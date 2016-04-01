@@ -28,7 +28,7 @@ namespace Servicios
                     .ForMember(dest => dest.Imagenes, opt => opt.MapFrom(src => src.ListaImagenes))
                     .ForMember(dest => dest.RangosFecha, opt => opt.MapFrom(src => src.ListaRangosFecha))
                     .AfterMap((s, d) => MapeoCampaña(d));
-            Mapper.CreateMap<Dominio.Fuente, Persistencia.Fuente>()
+            Mapper.CreateMap<Dominio.IFuente, Persistencia.Fuente>()
                     .ConvertUsing<FuenteDominioConverter>();
             Mapper.CreateMap<Dominio.FuenteTextoFijo, Persistencia.FuenteTextoFijo>();
             Mapper.CreateMap<Dominio.FuenteRSS, Persistencia.FuenteRSS>();
@@ -49,7 +49,7 @@ namespace Servicios
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha));
             Mapper.CreateMap<Persistencia.FuenteTextoFijo, Dominio.FuenteTextoFijo>();
             Mapper.CreateMap<Persistencia.FuenteRSS, Dominio.FuenteRSS>();
-            Mapper.CreateMap<Persistencia.Fuente, Dominio.Fuente>()
+            Mapper.CreateMap<Persistencia.Fuente, Dominio.IFuente>()
                     .ConvertUsing<FuentePersistenciaConverter>();
             Mapper.CreateMap<Persistencia.Banner, Dominio.Banner>()
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha))
@@ -150,16 +150,16 @@ namespace Servicios
         /// <summary>
         /// Clase responsable de convertir de Fuente de Persistencia a Dominio
         /// </summary>
-        private class FuentePersistenciaConverter : ITypeConverter<Persistencia.Fuente, Dominio.Fuente>
+        private class FuentePersistenciaConverter : ITypeConverter<Persistencia.Fuente, Dominio.IFuente>
         {
             /// <summary>
             /// Convierte la fuente de la Persistencia al Dominio
             /// </summary>
             /// <param name="context">Contexto de conversión</param>
             /// <returns>Tipo de dato Fuente que representa la fuente del Dominio transformada</returns>
-            public Dominio.Fuente Convert(ResolutionContext context)
+            public Dominio.IFuente Convert(ResolutionContext context)
             {
-                Dominio.Fuente resultado;
+                Dominio.IFuente resultado;
                 Persistencia.Fuente fuente = (Persistencia.Fuente) context.SourceValue;
                 if(context.SourceValue.GetType() == typeof(Persistencia.FuenteRSS))
                 {
@@ -176,7 +176,7 @@ namespace Servicios
         /// <summary>
         /// Clase responsable de convertir de Fuente de Dominio a Persistencia
         /// </summary>
-        private class FuenteDominioConverter : ITypeConverter<Dominio.Fuente, Persistencia.Fuente>
+        private class FuenteDominioConverter : ITypeConverter<Dominio.IFuente, Persistencia.Fuente>
         {
             /// <summary>
             /// Convierte la fuente del Dominio a la Persistencia
@@ -186,7 +186,7 @@ namespace Servicios
             public Persistencia.Fuente Convert(ResolutionContext context)
             {
                 Persistencia.Fuente resultado;
-                Dominio.Fuente fuente = (Dominio.Fuente)context.SourceValue;
+                Dominio.IFuente fuente = (Dominio.IFuente)context.SourceValue;
                 if (context.SourceValue.GetType() == typeof(Dominio.FuenteRSS))
                 {
                     resultado = Map<Dominio.FuenteRSS, Persistencia.FuenteRSS>((Dominio.FuenteRSS)fuente);

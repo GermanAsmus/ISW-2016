@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dominio
 {
-    class FuenteTextoFijo : Fuente
+    class FuenteTextoFijo : IFuente
     {
         private string iTexto;
         private int iCodigo;
@@ -56,7 +56,7 @@ namespace Dominio
         /// <summary>
         /// Determina si la fuenteRSS debe actualizarse
         /// </summary>
-        /// <returns>Tipo de dato booleano que representa si debe actualizarse o no la fuenteRSS</returns>
+        /// <returns>Tipo de dato bool que representa si debe actualizarse o no la fuenteRSS</returns>
         public bool Actualizable()
         {
             return false;
@@ -67,7 +67,7 @@ namespace Dominio
         /// </summary>
         /// <param name="other">Otra Fuente a comparar</param>
         /// <returns>Tipo de dato bool que representa si dos Fuentes son iguales</returns>
-        public bool Equals(Fuente other)
+        public bool Equals(IFuente other)
         {
             return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
         }

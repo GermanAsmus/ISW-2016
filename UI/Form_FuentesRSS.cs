@@ -426,7 +426,7 @@ namespace UI
         {
             if(e.Error == null)
             {
-                this.iListaFuenteRSS = ((List<Fuente>)e.Result).ConvertAll<FuenteRSS>(obj => (FuenteRSS)obj);
+                this.iListaFuenteRSS = ((List<IFuente>)e.Result).ConvertAll<FuenteRSS>(obj => (FuenteRSS)obj);
                 this.dataGridView.DataSource = typeof(List<FuenteRSS>);
                 this.dataGridView.DataSource = this.iListaFuenteRSS;
                 this.ActualizarDGV();

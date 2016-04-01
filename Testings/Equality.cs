@@ -323,7 +323,7 @@ namespace Testings
         /// <param name="objeto1">Primer objeto a verificar</param>
         /// <param name="objeto2">Segundo objeto a verificar</param>
         /// <returns>Tipo de dato boolean que representa True si son iguale o False si son diferentes</returns>
-        private static bool Equals(Dominio.Fuente objeto1, Dominio.Fuente objeto2)
+        private static bool Equals(Dominio.IFuente objeto1, Dominio.IFuente objeto2)
         {
             bool resultado = true;
             if(objeto1.GetType() == typeof(Dominio.FuenteRSS))

@@ -428,7 +428,7 @@ namespace UI
             argumentos.Add(nombre.GetType(), nombre);
             if (this.checkBox_Tipo.Checked)
             {
-                Fuente fuenteTipo;
+                IFuente fuenteTipo;
                 if (this.radioButton_RSS.Checked)
                 {
                     fuenteTipo = new FuenteRSS();
@@ -437,7 +437,7 @@ namespace UI
                 {
                     fuenteTipo = new FuenteTextoFijo();
                 }
-                argumentos.Add(typeof(Fuente), fuenteTipo);
+                argumentos.Add(typeof(IFuente), fuenteTipo);
             }
             if (this.checkBox_RangoFechas.Checked)
             {

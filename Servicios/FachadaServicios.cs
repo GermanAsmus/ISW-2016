@@ -68,12 +68,12 @@ namespace Servicios
                                             ((Dominio.RangoFecha)argumentosFiltrado[typeof(Dominio.RangoFecha)]));
                     argumentosFiltrado.Remove(typeof(Dominio.RangoFecha));
                 }
-                if (argumentosFiltrado.ContainsKey(typeof(Dominio.Fuente)))
+                if (argumentosFiltrado.ContainsKey(typeof(Dominio.IFuente)))
                 {
                     argumentosFiltrado.Add(typeof(Persistencia.Fuente),
-                                            (AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>
-                                            ((Dominio.Fuente)argumentosFiltrado[typeof(Dominio.Fuente)])).GetType());
-                    argumentosFiltrado.Remove(typeof(Dominio.Fuente));
+                                            (AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>
+                                            ((Dominio.IFuente)argumentosFiltrado[typeof(Dominio.IFuente)])).GetType());
+                    argumentosFiltrado.Remove(typeof(Dominio.IFuente));
                 }
             }
             return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachada.ObtenerBanners(argumentosFiltrado)));
@@ -267,10 +267,10 @@ namespace Servicios
         /// Agrega la Fuente a la base de datos y al Dominio si corresponde
         /// </summary>
         /// <param name="pFuente">Fuente a agregar</param>
-        public static void AgregarFuente(Dominio.Fuente pFuente)
+        public static void AgregarFuente(Dominio.IFuente pFuente)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            pFuente.Codigo = fachada.CrearFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+            pFuente.Codigo = fachada.CrearFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
             GC.Collect();
         }
 
@@ -278,20 +278,20 @@ namespace Servicios
         /// Modifica la Fuente en la base de datos
         /// </summary>
         /// <param name="pFuente">Fuente a modificar</param>
-        public static void ModificarFuente(Dominio.Fuente pFuente)
+        public static void ModificarFuente(Dominio.IFuente pFuente)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+            fachada.ActualizarFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
         }
 
         /// <summary>
         /// Elimina la Fuente en la base de datos y en el Dominio
         /// </summary>
         /// <param name="pFuente">Campaña a eliminar</param>
-        public static void EliminarFuente(Dominio.Fuente pFuente)
+        public static void EliminarFuente(Dominio.IFuente pFuente)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.EliminarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+            fachada.EliminarFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
         }
 
         /// <summary>
@@ -299,11 +299,11 @@ namespace Servicios
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Fuente</param>
         /// <returns>Tipo de dato Lista que representa las Fuentes filtradas</returns>
-        public static List<Dominio.Fuente> ObtenerFuentes(Dominio.Fuente argumentoFiltro = null)
+        public static List<Dominio.IFuente> ObtenerFuentes(Dominio.IFuente argumentoFiltro = null)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.Fuente>>
-                            (fachada.ObtenerFuentes(AutoMapper.Map<Dominio.Fuente,Persistencia.Fuente>(argumentoFiltro))));
+            return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.IFuente>>
+                            (fachada.ObtenerFuentes(AutoMapper.Map<Dominio.IFuente,Persistencia.Fuente>(argumentoFiltro))));
         }
 
         /// <summary>
@@ -315,11 +315,11 @@ namespace Servicios
             SortedList<int, Dominio.Banner> listaBanners = IoCContainerLocator.GetType<Dominio.Fachada>().ListaBannersActual;
             foreach (Dominio.Banner pBanners in listaBanners.Values)
             {
-                Dominio.Fuente pFuente = pBanners.InstanciaFuente;
+                Dominio.IFuente pFuente = pBanners.InstanciaFuente;
                 if (pFuente.Actualizable())
                 {
                     pFuente.Texto();
-                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
                 }
             }
 

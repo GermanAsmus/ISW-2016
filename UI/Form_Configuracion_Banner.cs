@@ -41,7 +41,7 @@ namespace UI
         /// <summary>
         /// Fuente a agregar/modificar al Banner
         /// </summary>
-        private Fuente iFuente;
+        private IFuente iFuente;
         #endregion
 
         #region Región: Inicialización y Carga
@@ -125,7 +125,7 @@ namespace UI
         private void button_Aceptar_Click(object sender, EventArgs e)
         {
             this.iBanner.Nombre = this.textBox_Nombre.Text;
-            Fuente temp = this.iBanner.InstanciaFuente;
+            IFuente temp = this.iBanner.InstanciaFuente;
             this.iBanner.InstanciaFuente = this.iFuente;
             this.iFuente = temp;
             this.backgroundWorker_BotonAceptar.RunWorkerAsync();
@@ -260,7 +260,7 @@ namespace UI
             dynamic ventanaFuente;
             if(this.comboBox_Fuente.SelectedIndex == 1)
             {
-                Fuente pFuente = null;
+                IFuente pFuente = null;
                 if (this.iBanner.InstanciaFuente != null && this.iBanner.InstanciaFuente.GetType() == typeof(FuenteTextoFijo))
                 {
                     pFuente = (FuenteTextoFijo)this.iBanner.InstanciaFuente;
@@ -294,7 +294,7 @@ namespace UI
         /// Actualiza la fuente y el table Layout Panel para que se muestre la fuente correcta
         /// </summary>
         /// <param name="pFuente">Fuente a Agregar</param>
-        internal void ActualizarFuente(Fuente pFuente)
+        internal void ActualizarFuente(IFuente pFuente)
         {
             this.iFuente = pFuente;
             this.CampoCompleto(this.pictureBox_ComprobacionFuente, true);
