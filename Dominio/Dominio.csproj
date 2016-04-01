@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="Banner.cs" />
     <Compile Include="Campaña.cs" />
-    <Compile Include="ExtensionLista.cs" />
     <Compile Include="Fachada.cs" />
     <Compile Include="Imagen.cs" />
     <Compile Include="Fuente.cs" />
