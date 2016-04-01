@@ -275,7 +275,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void textBox_Nombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsSeparator(e.KeyChar) && !char.IsSymbol(e.KeyChar))
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar) && !char.IsSeparator(e.KeyChar)
+                && !char.IsSymbol(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -289,7 +290,7 @@ namespace UI
         private void textBox_Nombre_Leave(object sender, EventArgs e)
         {
             this.textBox_Nombre.Text = this.textBox_Nombre.Text.TrimStart(' ').TrimEnd(' ');
-            bool resultado = Regex.IsMatch(this.textBox_Nombre.Text, @"^[a-zA-Záíéóú\s\p{P}]+$");
+            bool resultado = Regex.IsMatch(this.textBox_Nombre.Text, @"^[a-zA-ZáíéóúÑñ0-9\s\p{P}]+$");
             this.CampoCompleto(this.pictureBox_ComprobacionNombre, resultado);
             if (!resultado)
             {
@@ -1289,6 +1290,7 @@ namespace UI
             {
                 this.iCerrarCodigo = true;
                 ((Form_Campaña)this.Owner).Guardando(false);
+                ((Form_Campaña)this.Owner).ActualizarDesdeHijo();
                 MessageBox.Show("Los datos se han guardado correctamente");
                 this.Close();
             }

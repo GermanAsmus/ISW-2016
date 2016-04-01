@@ -16,11 +16,6 @@ namespace Servicios
     /// </summary>
     class FachadaServicios
     {
-        public static ILog ObtenerLogger()
-        {
-            return Logging.Logger;
-        }
-
         #region Banner
         /// <summary>
         /// Agrega el Banner a la base de datos y al Dominio
@@ -100,6 +95,44 @@ namespace Servicios
                 listaRangosFecha.AddRange(pBanner.ListaRangosFecha);
             }
             return ListaRangosHorariosRH(listaRangosFecha);
+        }
+
+        /// <summary>
+        /// Obtiene el banner correspondiente con respecto a la fecha y a la hora
+        /// </summary>
+        /// <param name="pHoraActual">Hora Actual</param>
+        /// <param name="pFechaActual">Fecha Actual</param>
+        /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
+        public static Dominio.Banner ObtenerBannerSiguiente()
+        {
+            Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
+            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
+            {
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
+                CargarBannersEnMemoria(DiaMañana);
+            }
+
+            if (DateTime.Now.Minute % 60 == 0)
+            {
+                ThreadStart delegadoPS = new ThreadStart(ActualizarFuentesRSS);
+                Thread hiloSecundario = new Thread(delegadoPS);
+                hiloSecundario.Start();
+            }
+            return bannerSiguiente;
+        }
+
+        /// <summary>
+        /// Carga los Banners del día en la Fachada
+        /// </summary>
+        /// <param name="pFecha">Fecha Actual de Carga</param>
+        public static void CargarBannersEnMemoria(DateTime pFecha)
+        {
+            //Argumentos de filtrado de Banner
+            Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
+            argumentosBanner.Add(typeof(string), "");
+            Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
+            argumentosBanner.Add(typeof(Dominio.RangoFecha), pRF);
+            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
         }
         #endregion
 
@@ -187,6 +220,46 @@ namespace Servicios
             }
             return ListaRangosHorariosRH(listaRangosFecha);
         }
+
+        /// <summary>
+        /// Obtiene la campaña correspondiente con respecto a la fecha y a la hora
+        /// </summary>
+        /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
+        public static Dominio.Campaña ObtenerCampañaSiguiente()
+        {
+            int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
+            Dominio.Campaña campañaSiguiente;
+            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
+            {
+                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
+                CargarCampañasEnMemoria(DiaMañana);
+            }
+            if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
+            {
+                campañaSiguiente = Dominio.Fachada.CampañaNula();
+            }
+            else
+            {
+                FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
+                campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
+                campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
+            }
+            return campañaSiguiente;
+        }
+
+        /// <summary>
+        /// Carga las Campañas del día en la Fachada
+        /// </summary>
+        /// <param name="pFecha">Fecha Actual de Carga</param>
+        public static void CargarCampañasEnMemoria(DateTime pFecha)
+        {
+            Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
+            //Argumentos de filtrado de Campaña
+            Dictionary<Type, object> argumentosCampaña = new Dictionary<Type, object>();
+            argumentosCampaña.Add(typeof(string), "");
+            argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
+            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerCampañas(argumentosCampaña));
+        }
         #endregion
 
         #region Fuente
@@ -232,8 +305,28 @@ namespace Servicios
             return (AutoMapper.Map<List<Persistencia.Fuente>, List<Dominio.Fuente>>
                             (fachada.ObtenerFuentes(AutoMapper.Map<Dominio.Fuente,Persistencia.Fuente>(argumentoFiltro))));
         }
+
+        /// <summary>
+        /// Actualiza las fuentes RSS
+        /// </summary>
+        private static void ActualizarFuentesRSS()
+        {
+            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            SortedList<int, Dominio.Banner> listaBanners = IoCContainerLocator.GetType<Dominio.Fachada>().ListaBannersActual;
+            foreach (Dominio.Banner pBanners in listaBanners.Values)
+            {
+                Dominio.Fuente pFuente = pBanners.InstanciaFuente;
+                if (pFuente.Actualizable())
+                {
+                    pFuente.Texto();
+                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+                }
+            }
+
+        }
         #endregion
 
+        #region Extra
         /// <summary>
         /// Obtiene los rangos horarios de una lista de rangos de fecha (concatena)
         /// </summary>
@@ -247,86 +340,7 @@ namespace Servicios
                 listaRangoHorarios.AddRange(pRangoFecha.ListaRangosHorario);
             }
             return listaRangoHorarios;
-        }
-
-        /// <summary>
-        /// Obtiene el banner correspondiente con respecto a la fecha y a la hora
-        /// </summary>
-        /// <param name="pHoraActual">Hora Actual</param>
-        /// <param name="pFechaActual">Fecha Actual</param>
-        /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
-        public static Dominio.Banner ObtenerBannerSiguiente()
-        {
-            Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
-            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
-            {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
-                CargarBannersEnMemoria(DiaMañana);
-            }
-
-            if(DateTime.Now.Minute % 60 == 0)
-            {
-                ThreadStart delegadoPS = new ThreadStart(ActualizarFuentesRSS);
-                Thread hiloSecundario = new Thread(delegadoPS);
-                hiloSecundario.Start();
-            }
-            return bannerSiguiente;
-        }
-
-        /// <summary>
-        /// Obtiene la campaña correspondiente con respecto a la fecha y a la hora
-        /// </summary>
-        /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
-        public static Dominio.Campaña ObtenerCampañaSiguiente()
-        {
-            int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
-            Dominio.Campaña campañaSiguiente;
-            if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
-            {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
-                CargarCampañasEnMemoria(DiaMañana);
-            }
-            if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
-            {
-                campañaSiguiente = Dominio.Fachada.CampañaNula();
-            }
-            else
-            {
-                FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-                campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
-                campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
-            }
-            return campañaSiguiente;
-        }
-
-        /// <summary>
-        /// Carga los Banners del día en la Fachada
-        /// </summary>
-        /// <param name="pFecha">Fecha Actual de Carga</param>
-        public static void CargarBannersEnMemoria(DateTime pFecha)
-        {
-            //Argumentos de filtrado de Banner
-            Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
-            argumentosBanner.Add(typeof(string), "");
-            Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
-            argumentosBanner.Add(typeof(Dominio.RangoFecha), pRF);
-            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerBanners(argumentosBanner));
-        }
-
-
-        /// <summary>
-        /// Carga las Campañas del día en la Fachada
-        /// </summary>
-        /// <param name="pFecha">Fecha Actual de Carga</param>
-        public static void CargarCampañasEnMemoria(DateTime pFecha)
-        {
-            Dominio.RangoFecha pRF = new Dominio.RangoFecha() { FechaInicio = pFecha, FechaFin = pFecha };
-            //Argumentos de filtrado de Campaña
-            Dictionary<Type, object> argumentosCampaña = new Dictionary<Type, object>();
-            argumentosCampaña.Add(typeof(string), "");
-            argumentosCampaña.Add(typeof(Dominio.RangoFecha), pRF);
-            IoCContainerLocator.GetType<Dominio.Fachada>().Cargar(ObtenerCampañas(argumentosCampaña));
-        }
+        }       
 
         /// <summary>
         /// Carga las Listas inicialmentes
@@ -336,24 +350,6 @@ namespace Servicios
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaBanners();
             IoCContainerLocator.GetType<Dominio.Fachada>().CambiarListaCampañas();
         }
-
-        /// <summary>
-        /// Actualiza las fuentes RSS
-        /// </summary>
-        private static void ActualizarFuentesRSS()
-        {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            SortedList<int, Dominio.Banner> listaBanners = IoCContainerLocator.GetType<Dominio.Fachada>().ListaBannersActual;
-            foreach (Dominio.Banner pBanners in listaBanners.Values)
-            {
-                Dominio.Fuente pFuente = pBanners.InstanciaFuente;
-                if(pFuente.GetType() == typeof(Dominio.FuenteRSS))
-                {
-                    pFuente.Texto();
-                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
-                }
-            }
-
-        }
+        #endregion
     }
 }

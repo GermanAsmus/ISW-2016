@@ -182,32 +182,7 @@ namespace UI
             {
                 this.backgroundWorker_Obtener.CancelAsync();
             }
-            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
-            string nombre = "";
-            if (this.checkBox_Nombre.Checked)
-            {
-                nombre = this.textBox_Nombre.Text;
-            }
-            argumentos.Add(nombre.GetType(), nombre);
-            if (this.checkBox_Tipo.Checked)
-            {
-                Fuente fuenteTipo;
-                if (this.radioButton_RSS.Checked)
-                {
-                    fuenteTipo = new FuenteRSS();
-                }
-                else
-                {
-                    fuenteTipo = new FuenteTextoFijo();
-                }
-                argumentos.Add(typeof(Fuente), fuenteTipo);
-            }
-            if (this.checkBox_RangoFechas.Checked)
-            {
-                RangoFecha pRangoFecha = new RangoFecha() { FechaInicio = this.dateTimePicker_FechaDesde.Value,
-                                                    FechaFin = this.dateTimePicker_FechaHasta.Value };
-                argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
-            }
+            Dictionary<Type, object> argumentos = this.ArgumentosSelccionados();
             this.ActualizarDGV(argumentos);
         }
 
@@ -280,7 +255,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void textBox_Nombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsSeparator(e.KeyChar) && !char.IsSymbol(e.KeyChar))
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar) && !char.IsSeparator(e.KeyChar)
+                && !char.IsSymbol(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -294,7 +270,7 @@ namespace UI
         private void textBox_Nombre_Leave(object sender, EventArgs e)
         {
             this.textBox_Nombre.Text = this.textBox_Nombre.Text.TrimStart(' ').TrimEnd(' ');
-            bool resultado = Regex.IsMatch(this.textBox_Nombre.Text, @"^[a-zA-Záíéóú\s\p{P}]+$");
+            bool resultado = Regex.IsMatch(this.textBox_Nombre.Text, @"^[a-zA-ZáíéóúÑñ0-9\s\p{P}]+$");
             this.CampoCompleto(this.pictureBox_Nombre, resultado);
             if (!resultado)
             {
@@ -405,7 +381,7 @@ namespace UI
         /// <summary>
         /// Realiza una actualización del DGV
         /// </summary>
-        /// <param name="argumentos">Arguementos para filtrar las campañas a mostrar</param>
+        /// <param name="argumentos">Arguementos para filtrar los elementos a mostrar</param>
         private void ActualizarDGV(Dictionary<Type, object> argumentos)
         {
             this.LabelActualizar();
@@ -435,6 +411,44 @@ namespace UI
             {
                 this.label_Operacion.Visible = false;
             }
+        }
+
+        /// <summary>
+        /// Traduce los argumentos seleccionados del GroupBox filtro a un diccionario
+        /// </summary>
+        /// <returns>Arguementos para filtrar los Elementos a mostrar</returns>
+        private Dictionary<Type,Object> ArgumentosSelccionados()
+        {
+            Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
+            string nombre = "";
+            if (this.checkBox_Nombre.Checked)
+            {
+                nombre = this.textBox_Nombre.Text;
+            }
+            argumentos.Add(nombre.GetType(), nombre);
+            if (this.checkBox_Tipo.Checked)
+            {
+                Fuente fuenteTipo;
+                if (this.radioButton_RSS.Checked)
+                {
+                    fuenteTipo = new FuenteRSS();
+                }
+                else
+                {
+                    fuenteTipo = new FuenteTextoFijo();
+                }
+                argumentos.Add(typeof(Fuente), fuenteTipo);
+            }
+            if (this.checkBox_RangoFechas.Checked)
+            {
+                RangoFecha pRangoFecha = new RangoFecha()
+                {
+                    FechaInicio = this.dateTimePicker_FechaDesde.Value,
+                    FechaFin = this.dateTimePicker_FechaHasta.Value
+                };
+                argumentos.Add(pRangoFecha.GetType(), pRangoFecha);
+            }
+            return argumentos;
         }
         #endregion
 
@@ -532,6 +546,27 @@ namespace UI
                 this.iGuardandoCantidad--;
             }
             this.LabelGuardar();
+        }
+
+        /// <summary>
+        /// Actualiza el DGV a partir del Hijo
+        /// </summary>
+        public void ActualizarDesdeHijo()
+        {
+            if (this.backgroundWorker_Obtener.IsBusy)
+            {
+                this.backgroundWorker_Obtener.CancelAsync();
+            }
+            Dictionary<Type, object> argumentos;
+            if (!this.groupBox_Filtro.Visible)
+            {
+                argumentos = this.ArgumentosHoy();
+            }
+            else
+            {
+                argumentos = this.ArgumentosSelccionados();
+            }
+            this.ActualizarDGV(argumentos);
         }
         #endregion
     }

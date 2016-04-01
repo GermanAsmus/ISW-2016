@@ -14,5 +14,11 @@ namespace Dominio
         /// Codigo de la fuente
         /// </summary>
         int Codigo { get; set; }
+
+        /// <summary>
+        /// Determina si la fuente debe actualizarse periódicamente (fuente externa)
+        /// </summary>
+        /// <returns>Tipo de dato booleano que representa si la fuente debe actualizarse</returns>
+        bool Actualizable();
     }
 }
