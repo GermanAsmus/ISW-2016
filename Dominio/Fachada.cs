@@ -5,7 +5,6 @@ namespace Dominio
 {
     class Fachada
     {
-        private DateTime iFechaActual;
         private Banner iBannerNulo;
         private SortedList<int, Banner> iListaBannersActual;
         private SortedList<int, Banner> iListaBannersProxima;
@@ -29,7 +28,6 @@ namespace Dominio
             this.iListaBannersProxima = new SortedList<int, Banner>();
             this.iListaCampañaActual = new SortedList<int, int>();
             this.iListaCampañaProxima = new SortedList<int, int>();
-            this.iFechaActual = DateTime.Today.Date;
             this.InicializarListaBanner();
             this.InicializarListaCampaña();
         }
@@ -60,15 +58,6 @@ namespace Dominio
                 this.iListaCampañaProxima[i] = CodigoCampañaNula();
             }
             this.iActualizarListaCampaña = false;
-        }
-
-        /// <summary>
-        /// Establece la fecha actual de la Fachada
-        /// </summary>
-        /// <param name="fechaActual">Fecha Actual a establecer</param>
-        public void EstablecerFecha(DateTime fechaActual)
-        {
-            this.iFechaActual = fechaActual.Date;
         }
 
         /// <summary>
