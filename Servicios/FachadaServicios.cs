@@ -347,8 +347,11 @@ namespace Servicios
             foreach (Dominio.Banner pBanners in listaBanners.Values)
             {
                 Dominio.Fuente pFuente = pBanners.InstanciaFuente;
-                pFuente.Texto();
-                fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+                if(pFuente.GetType() == typeof(Dominio.FuenteRSS))
+                {
+                    pFuente.Texto();
+                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.Fuente, Persistencia.Fuente>(pFuente));
+                }
             }
 
         }
