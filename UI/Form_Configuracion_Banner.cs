@@ -86,7 +86,7 @@ namespace UI
             this.iCantRangosFecha = this.iBanner.ListaRangosFecha.Count;
             this.textBox_Nombre.Text = this.iBanner.Nombre;
             this.button_AgregarHora.Image = ImagenServices.CambiarTamañoImagen(Properties.Resources.Modificar, this.button_AgregarHora.Size.Width, this.button_AgregarHora.Size.Height);
-            this.comboBox_Fuente.Items.Add("Fuente RSS (contenido Web");
+            this.comboBox_Fuente.Items.Add("Fuente RSS (contenido Web)");
             this.comboBox_Fuente.Items.Add("Fuente Texto Fijo");
         }
 
@@ -269,7 +269,6 @@ namespace UI
             }
             else
             {
-                this.comboBox_Fuente.Enabled = false;
                 ventanaFuente = new Form_FuentesRSS(true);
             }
             ventanaFuente.Owner = this;
