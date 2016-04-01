@@ -82,7 +82,16 @@ namespace Persistencia
         {
             if(pBanner.Fuente.GetType() == typeof(FuenteTextoFijo))
             {
-                this.ActualizarFuente(pBanner.Fuente);
+                FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
+                if (fachadaFuente.GetByCodigo(pBanner.Fuente_Codigo) == null)
+                {
+                    pBanner.Fuente_Codigo = fachadaFuente.Create(pBanner.Fuente);
+                    pBanner.Fuente.Codigo = pBanner.Fuente_Codigo;
+                }
+                else
+                {
+                    this.ActualizarFuente(pBanner.Fuente);
+                }
             }
             FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
             fachadaBanner.Update(pBanner);

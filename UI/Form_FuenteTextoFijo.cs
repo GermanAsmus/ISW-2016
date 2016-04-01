@@ -67,12 +67,8 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void button_Aceptar_Click(object sender, EventArgs e)
         {
-            FuenteTextoFijo pFuente = new FuenteTextoFijo()
-            {
-                Codigo = 0,
-                Valor = this.textBox_ValorTextoFijo.Text
-            };
-            ((Form_Configuracion_Banner)this.Owner).ActualizarFuente(pFuente);
+            this.iFuenteTextoFijo.Valor = this.textBox_ValorTextoFijo.Text;
+            ((Form_Configuracion_Banner)this.Owner).ActualizarFuente(this.iFuenteTextoFijo);
             this.Close();
         }
 

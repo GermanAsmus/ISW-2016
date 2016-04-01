@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Dominio
 {
-    class FuenteRSS : Fuente
+    class FuenteRSS : IFuente
     {
         private string iURL;
         private string iDescripcion;
@@ -74,9 +74,9 @@ namespace Dominio
                 }
                 return this.iValorAnterior;
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 Logging.Logger.Info("Problemas de conectividad, excepcion capturada:",ex);
-
                 return this.iValorAnterior;
             }
         }
@@ -97,11 +97,20 @@ namespace Dominio
         }
 
         /// <summary>
+        /// Determina si la fuenteRSS debe actualizarse
+        /// </summary>
+        /// <returns>Tipo de dato bool que representa si debe actualizarse o no la fuenteRSS</returns>
+        public bool Actualizable()
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Determina si dos fuentes son iguales
         /// </summary>
         /// <param name="other">Otra Fuente a comparar</param>
         /// <returns>Tipo de dato bool que representa si dos Fuentes son iguales</returns>
-        public bool Equals(Fuente other)
+        public bool Equals(IFuente other)
         {
             return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
         }

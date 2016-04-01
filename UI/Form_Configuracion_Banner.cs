@@ -670,7 +670,7 @@ namespace UI
         private void backgroundWorker_BotonAceptar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             this.iFuncionVentana(this.iBanner);
-            if(this.iFuente != null)
+            if ((this.iFuente != null) && (this.iFuente.GetType() == typeof(FuenteTextoFijo))) 
             {
                 FachadaServicios.EliminarFuente(this.iFuente);
             }

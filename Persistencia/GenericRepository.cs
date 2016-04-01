@@ -31,16 +31,19 @@ namespace Persistencia
         public virtual TEntity GetByCodigo(object id)
         {
             TEntity entity = (TEntity)this.dbSet.Find(id);
-            //Todas las propiedades virtualess carga su valor
-            foreach (PropertyInfo propiedad in typeof(TEntity).GetProperties())
+            if(entity != null)
             {
-                if (typeof(ICollection).IsAssignableFrom(propiedad.PropertyType))
+                //Todas las propiedades virtualess carga su valor
+                foreach (PropertyInfo propiedad in typeof(TEntity).GetProperties())
                 {
-                    this.context.Entry(entity).Collection(propiedad.Name).Load();
-                }
-                else if (propiedad.GetValue(entity) == null)
-                {
-                    this.context.Entry(entity).Reference(propiedad.Name).Load();
+                    if (typeof(ICollection).IsAssignableFrom(propiedad.PropertyType))
+                    {
+                        this.context.Entry(entity).Collection(propiedad.Name).Load();
+                    }
+                    else if (propiedad.GetValue(entity) == null)
+                    {
+                        this.context.Entry(entity).Reference(propiedad.Name).Load();
+                    }
                 }
             }
             return entity;
