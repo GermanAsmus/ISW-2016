@@ -1,10 +1,7 @@
 ﻿using Persistencia;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Dominio;
 using System.Runtime.CompilerServices;
-using log4net;
 using System.Threading;
 
 [assembly: InternalsVisibleTo("UI")]

@@ -61,13 +61,12 @@ namespace Dominio
         /// <summary>
         /// Determina si un Rango de Fecha está dentro del actual
         /// </summary>
-        /// <param name="pRangoFecha">Rango Fecha a verificar</param>
         /// <param name="pFecha">Fecha a verificar</param>
         /// <returns>Tipo de dato booleano que representa si un Rango de Fecha es actual</returns>
-        public static bool RangoContieneFecha(RangoFecha pRangoFecha, DateTime pFecha)
+        public bool RangoContieneFecha(DateTime pFecha)
         {
             DateTime hoy = pFecha.Date;
-            return (pRangoFecha.FechaInicio.Date.CompareTo(hoy) <= 0 && pRangoFecha.FechaFin.Date.CompareTo(hoy) >= 0);
+            return (this.FechaInicio.Date.CompareTo(hoy) <= 0 && this.FechaFin.Date.CompareTo(hoy) >= 0);
         }
     }
 }

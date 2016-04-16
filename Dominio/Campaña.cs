@@ -102,7 +102,7 @@ namespace Dominio
             List<RangoHorario> listaRangosHorarios = new List<RangoHorario>();
             foreach (RangoFecha pRangoFecha in this.ListaRangosFecha)
             {
-                if (RangoFecha.RangoContieneFecha(pRangoFecha, pFecha))
+                if (pRangoFecha.RangoContieneFecha(pFecha))
                 {
                     listaRangosHorarios.AddRange(pRangoFecha.ListaRangosHorario);
                 }

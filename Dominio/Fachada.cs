@@ -340,14 +340,6 @@ namespace Dominio
         }
 
         /// <summary>
-        /// Get de la Lista de Banners Actuales
-        /// </summary>
-        public SortedList<int, Banner> ListaBannersActual
-        {
-            get { return this.iListaBannersActual; }
-        }
-
-        /// <summary>
         /// Obtiene todos los Rangos Horarios ocupados por las Banners dadas
         /// </summary>
         /// <param name="pListaBanners">Lista de Banners</param>
