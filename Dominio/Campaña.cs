@@ -67,8 +67,7 @@ namespace Dominio
             get { return this.iListaImagenes; }
             set { this.iListaImagenes = value; }
         }
-
-
+        
         /// <summary>
         /// Determina si dos campañas son iguales
         /// </summary>
@@ -77,6 +76,38 @@ namespace Dominio
         public bool Equals(Campaña other)
         {
             return this.Codigo == other.Codigo;
+        }
+
+        /// <summary>
+        /// Devuelve los rangos Horarios ocupados por la campaña
+        /// </summary>
+        /// <returns>Tipo de dato Lista de Rangos Horarios que representan aquellos ocupados por la campaña</returns>
+        public List<RangoHorario> ObtenerRangosHorariosOcupados()
+        {
+            List<RangoHorario> listaResultado = new List<RangoHorario>();
+            foreach(RangoFecha pRangoFecha in this.iListaRangosFecha)
+            {
+                listaResultado.AddRange(pRangoFecha.ListaRangosHorario);
+            }
+            return listaResultado;
+        }
+
+        /// <summary>
+        /// Devuelve los Rangos Horarios de los Rangos de Fecha que contienen la fecha suministrada
+        /// </summary>
+        /// <param name="pFecha">Fecha a contener</param>
+        /// <returns>Tipo de dato Lista de Rangos Horarios que pertenencen a los Rangos de fecha que contienen la fecha suministrada</returns>
+        public List<RangoHorario> RangosHorariosDeFecha(DateTime pFecha)
+        {
+            List<RangoHorario> listaRangosHorarios = new List<RangoHorario>();
+            foreach (RangoFecha pRangoFecha in this.ListaRangosFecha)
+            {
+                if (RangoFecha.RangoContieneFecha(pRangoFecha, pFecha))
+                {
+                    listaRangosHorarios.AddRange(pRangoFecha.ListaRangosHorario);
+                }
+            }
+            return listaRangosHorarios;
         }
     }
 }

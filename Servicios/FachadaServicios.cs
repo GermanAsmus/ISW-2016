@@ -89,12 +89,7 @@ namespace Servicios
             Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             argumentos.Add(typeof(string), "");
             argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
-            List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
-            foreach (Dominio.Banner pBanner in ObtenerBanners(argumentos))
-            {
-                listaRangosFecha.AddRange(pBanner.ListaRangosFecha);
-            }
-            return ListaRangosHorariosRH(listaRangosFecha);
+            return Dominio.Fachada.RangosHorariosOcupadosBanner(ObtenerBanners(argumentos));
         }
 
         /// <summary>
@@ -108,8 +103,7 @@ namespace Servicios
             Dominio.Banner bannerSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerBannerSiguiente();
             if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
-                CargarBannersEnMemoria(DiaMañana);
+                CargarBannersEnMemoria(DateTime.Today.AddDays(1).Date);
             }
 
             if (DateTime.Now.Minute % 60 == 0)
@@ -213,12 +207,7 @@ namespace Servicios
             Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             argumentos.Add(typeof(string), "");
             argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
-            List<Dominio.RangoFecha> listaRangosFecha = new List<Dominio.RangoFecha>();
-            foreach (Dominio.Campaña pCampaña in ObtenerCampañas(argumentos))
-            {
-                listaRangosFecha.AddRange(pCampaña.ListaRangosFecha);
-            }
-            return ListaRangosHorariosRH(listaRangosFecha);
+            return Dominio.Fachada.RangoHorariosOcupadosCampaña(ObtenerCampañas(argumentos));
         }
 
         /// <summary>
@@ -231,8 +220,7 @@ namespace Servicios
             Dominio.Campaña campañaSiguiente;
             if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
-                DateTime DiaMañana = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day + 1);
-                CargarCampañasEnMemoria(DiaMañana);
+                CargarCampañasEnMemoria(DateTime.Today.AddDays(1).Date);
             }
             if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
             {
@@ -248,7 +236,7 @@ namespace Servicios
         }
 
         /// <summary>
-        /// Carga las Campañas del día en la Fachada
+        /// Carga las Campañas del día de la fecha en la Fachada
         /// </summary>
         /// <param name="pFecha">Fecha Actual de Carga</param>
         public static void CargarCampañasEnMemoria(DateTime pFecha)
@@ -327,21 +315,6 @@ namespace Servicios
         #endregion
 
         #region Extra
-        /// <summary>
-        /// Obtiene los rangos horarios de una lista de rangos de fecha (concatena)
-        /// </summary>
-        /// <param name="listaRangosFecha">Lista de Rangos de Fecha</param>
-        /// <returns>Tipo de dato Lista de Rangos Horarios que representa los rangos horarios que poseen los de fecha</returns>
-        private static List<Dominio.RangoHorario> ListaRangosHorariosRH(List<Dominio.RangoFecha> listaRangosFecha)
-        {
-            List<Dominio.RangoHorario> listaRangoHorarios = new List<Dominio.RangoHorario>();
-            foreach (Dominio.RangoFecha pRangoFecha in listaRangosFecha)
-            {
-                listaRangoHorarios.AddRange(pRangoFecha.ListaRangosHorario);
-            }
-            return listaRangoHorarios;
-        }       
-
         /// <summary>
         /// Carga las Listas inicialmentes
         /// </summary>

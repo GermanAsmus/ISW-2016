@@ -44,5 +44,29 @@ namespace Dominio
             get { return this.iHoraFin; }
             set { this.iHoraFin = value; }
         }
+
+        /// <summary>
+        /// Get del código de la Hora de Inicio
+        /// </summary>
+        /// <returns>Tipo de dato entero que representa el código de la hora de inicio</returns>
+        public int CodigoInicio
+        {
+            get
+            {
+                return (int)this.iHoraInicio.TotalMinutes;
+            }
+        }
+
+        /// <summary>
+        /// Get del código de la Hora de Fin
+        /// </summary>
+        /// <returns>Tipo de dato entero que representa el código de la hora de fin</returns>
+        public int CodigoFin
+        {
+            get
+            {
+                return (int)this.iHoraFin.TotalMinutes;
+            }
+        }
     }
 }

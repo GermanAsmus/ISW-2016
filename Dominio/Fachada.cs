@@ -90,30 +90,20 @@ namespace Dominio
         /// <param name="pBanner">Banner a agregar</param>
         public void Agregar(Banner pBanner)
         {
-            foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
+            //Lista Actual
+            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
             {
-                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
-                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
-                if (esHoy || esMañana)
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                 {
-                    SortedList<int, Banner> listaBanners = null;
-                    if (esHoy)
-                    {
-                        listaBanners = this.iListaBannersActual;
-                    }
-                    else
-                    {
-                        listaBanners = this.iListaBannersProxima;
-                    }
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i < minutoFin; i++)
-                        {
-                            listaBanners[i] = pBanner;
-                        }
-                    }
+                    this.iListaBannersActual[i] = pBanner;
+                }
+            }
+            //Lista Próxima
+            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            {
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
+                {
+                    this.iListaBannersProxima[i] = pBanner;
                 }
             }
         }
@@ -127,13 +117,11 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha,DateTime.Now))
+                if (RangoFecha.RangoContieneFecha(pRangoFecha,DateTime.Now))
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i < minutoFin; i++) 
+                        for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                         {
                             listaBanners[i] = pBanner;
                         }
@@ -148,30 +136,20 @@ namespace Dominio
         /// <param name="pBanner">Campaña a agregar</param>
         public void Agregar(Campaña pCampaña)
         {
-            foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
+            //Lista Actual
+            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.Date))
             {
-                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
-                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
-                if (esHoy || esMañana)
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                 {
-                    SortedList<int, int> listaCampañas = null;
-                    if (esHoy)
-                    {
-                        listaCampañas = this.iListaCampañaActual;
-                    }
-                    else
-                    {
-                        listaCampañas = this.iListaCampañaProxima;
-                    }
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i < minutoFin; i++)
-                        {
-                            listaCampañas[i] = pCampaña.Codigo;
-                        }
-                    }
+                    this.iListaCampañaActual[i] = pCampaña.Codigo;
+                }
+            }
+            //Lista Próxima
+            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            {
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
+                {
+                    this.iListaCampañaProxima[i] = pCampaña.Codigo;
                 }
             }
         }
@@ -185,13 +163,11 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
             {
-                if (this.RangoFechaActual(pRangoFecha,DateTime.Now))
+                if (RangoFecha.RangoContieneFecha(pRangoFecha,DateTime.Now))
                 {
                     foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
                     {
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i < minutoFin; i++)
+                        for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                         {
                             iListaCampañas[i] = pCampaña.Codigo;
                         }
@@ -208,8 +184,8 @@ namespace Dominio
         {
             foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
             {
-                bool esHoy = this.RangoFechaActual(pRangoFecha, DateTime.Now);
-                bool esMañana = this.RangoFechaActual(pRangoFecha, DateTime.Now.AddDays(1));
+                bool esHoy = RangoFecha.RangoContieneFecha(pRangoFecha, DateTime.Now);
+                bool esMañana = RangoFecha.RangoContieneFecha(pRangoFecha, DateTime.Now.AddDays(1));
                 if (esHoy || esMañana)
                 {
                     SortedList<int, Banner> listaBanners = null;
@@ -303,18 +279,6 @@ namespace Dominio
         {
             this.Eliminar(pCampaña);
             this.Agregar(pCampaña);
-        }
-
-        /// <summary>
-        /// Determina si un Rango de Fecha está dentro del actual
-        /// </summary>
-        /// <param name="pRangoFecha">Rango Fecha a verificar</param>
-        /// <param name="pFecha">Fecha a verificar</param>
-        /// <returns>Tipo de dato booleano que representa si un Rango de Fecha es actual</returns>
-        private bool RangoFechaActual(RangoFecha pRangoFecha,DateTime pFecha)
-        {
-            DateTime hoy = pFecha.Date;
-            return (pRangoFecha.FechaInicio.Date.CompareTo(hoy) <= 0 && pRangoFecha.FechaFin.Date.CompareTo(hoy) >= 0);
         }
 
         /// <summary>
@@ -430,9 +394,42 @@ namespace Dominio
             return resultado;
         }
 
+        /// <summary>
+        /// Get de la Lista de Banners Actuales
+        /// </summary>
         public SortedList<int, Banner> ListaBannersActual
         {
             get { return this.iListaBannersActual; }
+        }
+
+        /// <summary>
+        /// Obtiene todos los Rangos Horarios ocupados por las Banners dadas
+        /// </summary>
+        /// <param name="pListaBanners">Lista de Banners</param>
+        /// <returns>Tipo de dato Lista de Rangos Horario que representan los ocupados por los Banners</returns>
+        public static List<RangoHorario> RangosHorariosOcupadosBanner(List<Banner> pListaBanners)
+        {
+            List<RangoHorario> listaResultado = new List<RangoHorario>();
+            foreach (Banner pBanner in pListaBanners)
+            {
+                listaResultado.AddRange(pBanner.ObtenerRangosHorariosOcupados());
+            }
+            return listaResultado;
+        }
+
+        /// <summary>
+        /// Obtiene todos los Rangos Horarios ocupados por las Campañas dadas
+        /// </summary>
+        /// <param name="pListaCampaña">Lista de Campañas</param>
+        /// <returns>Tipo de dato Lista de Rangos Horario que representan los ocupados por las Campañas</returns>
+        public static List<RangoHorario> RangoHorariosOcupadosCampaña(List<Campaña> pListaCampaña)
+        {
+            List<RangoHorario> listaResultado = new List<RangoHorario>();
+            foreach (Campaña pCampaña in pListaCampaña)
+            {
+                listaResultado.AddRange(pCampaña.ObtenerRangosHorariosOcupados());
+            }
+            return listaResultado;
         }
     }
 }
