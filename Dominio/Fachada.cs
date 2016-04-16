@@ -112,20 +112,14 @@ namespace Dominio
         /// Agrega un Banner en la lista suministrada
         /// </summary>
         /// <param name="pBanner">Banner a agregar</param>
-        /// <param name="listaBanners">Lista de Banners en la cual agregar</param>
-        private void Agregar(Banner pBanner, SortedList<int, Banner> listaBanners)
+        /// <param name="pListaBanners">Lista de Banners en la cual agregar</param>
+        private void Agregar(Banner pBanner, SortedList<int, Banner> pListaBanners)
         {
-            foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
+            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
             {
-                if (RangoFecha.RangoContieneFecha(pRangoFecha,DateTime.Now))
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                 {
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                        for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                        {
-                            listaBanners[i] = pBanner;
-                        }
-                    }
+                    pListaBanners[i] = pBanner;
                 }
             }
         }
@@ -159,19 +153,13 @@ namespace Dominio
         /// </summary>
         /// <param name="pBanner">Campaña a agregar</param>
         /// <param name="listaBanners">Lista de Campañas en la cual agregar</param>
-        private void Agregar(Campaña pCampaña, SortedList<int, int> iListaCampañas)
+        private void Agregar(Campaña pCampaña, SortedList<int, int> pListaCampañas)
         {
-            foreach (RangoFecha pRangoFecha in pCampaña.ListaRangosFecha)
+            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.Date))
             {
-                if (RangoFecha.RangoContieneFecha(pRangoFecha,DateTime.Now))
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                 {
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                        for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                        {
-                            iListaCampañas[i] = pCampaña.Codigo;
-                        }
-                    }
+                    pListaCampañas[i] = pCampaña.Codigo;
                 }
             }
         }
@@ -182,30 +170,20 @@ namespace Dominio
         /// <param name="pBanner">Banner a eliminar</param>
         public void Eliminar(Banner pBanner)
         {
-            foreach (RangoFecha pRangoFecha in pBanner.ListaRangosFecha)
+            //Lista Actual
+            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
             {
-                bool esHoy = RangoFecha.RangoContieneFecha(pRangoFecha, DateTime.Now);
-                bool esMañana = RangoFecha.RangoContieneFecha(pRangoFecha, DateTime.Now.AddDays(1));
-                if (esHoy || esMañana)
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
                 {
-                    SortedList<int, Banner> listaBanners = null;
-                    if (esHoy)
-                    {
-                        listaBanners = this.iListaBannersActual;
-                    }
-                    else
-                    {
-                        listaBanners = this.iListaBannersProxima;
-                    }
-                    foreach (RangoHorario pRangoHorario in pRangoFecha.ListaRangosHorario)
-                    {
-                        int minutoInicio = (int)pRangoHorario.HoraInicio.TotalMinutes;
-                        int minutoFin = (int)pRangoHorario.HoraFin.TotalMinutes;
-                        for (int i = minutoInicio; i <= minutoFin; i++)
-                        {
-                            listaBanners[i]= this.iBannerNulo;
-                        }
-                    }
+                    this.iListaBannersActual[i] = this.iBannerNulo;
+                }
+            }
+            //Lista Próxima
+            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            {
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
+                {
+                    this.iListaBannersProxima[i] = this.iBannerNulo;
                 }
             }
         }
@@ -247,25 +225,18 @@ namespace Dominio
         private Banner BuscarBanner(Banner pBanner)
         {
             int i = 0;
-            Banner resultado = null;
-            while (i < this.iListaBannersActual.Count && resultado == null)
+            Banner resultado = this.iBannerNulo;
+            i = this.iListaBannersActual.IndexOfValue(pBanner);
+            if(i != -1)
             {
-                if (this.iListaBannersActual.Values[i].Equals(pBanner))
-                {
-                    resultado = this.iListaBannersActual.Values[i];
-                }
-                i++;
+                resultado = this.iListaBannersActual.Values[i];
             }
-            if(resultado == null)
+            else if(i == -1)
             {
-                i = 0;
-                while (i < this.iListaBannersProxima.Count && resultado == null)
+                i = this.iListaBannersProxima.IndexOfValue(pBanner);
+                if (i != -1)
                 {
-                    if (this.iListaBannersProxima.Values[i].Equals(pBanner))
-                    {
-                        resultado = this.iListaBannersProxima.Values[i];
-                    }
-                    i++;
+                    resultado = this.iListaBannersProxima.Values[i];
                 }
             }
             return resultado;
@@ -430,6 +401,25 @@ namespace Dominio
                 listaResultado.AddRange(pCampaña.ObtenerRangosHorariosOcupados());
             }
             return listaResultado;
+        }
+        
+        /// <summary>
+        /// Actualiza las Fuentes RSS y las devuelve actualizardas
+        /// </summary>
+        /// <returns>Tipo de dato Lista de Fuentes RSS qeu representa las del día de hoy actualizadas</returns>
+        public List<IFuente> ActualizarFuentes()
+        {
+            List<IFuente> resultado = new List<IFuente>();
+            foreach (Banner pBanners in this.iListaBannersActual.Values)
+            {
+                IFuente pFuente = pBanners.InstanciaFuente;
+                if (pFuente.Actualizable())
+                {
+                    pFuente.Texto();
+                    resultado.Add(pFuente);
+                }
+            }
+            return resultado;
         }
     }
 }

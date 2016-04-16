@@ -105,7 +105,6 @@ namespace Servicios
             {
                 CargarBannersEnMemoria(DateTime.Today.AddDays(1).Date);
             }
-
             if (DateTime.Now.Minute % 60 == 0)
             {
                 ThreadStart delegadoPS = new ThreadStart(ActualizarFuentesRSS);
@@ -299,18 +298,12 @@ namespace Servicios
         /// </summary>
         private static void ActualizarFuentesRSS()
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            SortedList<int, Dominio.Banner> listaBanners = IoCContainerLocator.GetType<Dominio.Fachada>().ListaBannersActual;
-            foreach (Dominio.Banner pBanners in listaBanners.Values)
+            Persistencia.Fachada fachadaPersistencia = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Dominio.Fachada fachadaDominio = IoCContainerLocator.GetType<Dominio.Fachada>();
+            foreach (Dominio.IFuente pFuente in fachadaDominio.ActualizarFuentes())
             {
-                Dominio.IFuente pFuente = pBanners.InstanciaFuente;
-                if (pFuente.Actualizable())
-                {
-                    pFuente.Texto();
-                    fachada.ActualizarFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
-                }
+                fachadaPersistencia.ActualizarFuente(AutoMapper.Map<Dominio.IFuente, Persistencia.Fuente>(pFuente));
             }
-
         }
         #endregion
 
