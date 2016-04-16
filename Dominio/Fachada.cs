@@ -6,6 +6,7 @@ namespace Dominio
     class Fachada
     {
         private Banner iBannerNulo;
+        private Campaña iCampañaNula;
         private SortedList<int, Banner> iListaBannersActual;
         private SortedList<int, Banner> iListaBannersProxima;
         private SortedList<int, int> iListaCampañaActual;
@@ -18,12 +19,21 @@ namespace Dominio
         /// </summary>
         public Fachada()
         {
+            //BANNER NULO
             FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
             this.iBannerNulo = new Banner()
             {
                 Codigo = -1,
                 InstanciaFuente = pTextoFijo
             };
+            //CAMPAÑA NULA
+            List<Imagen> lImagenesNula = new List<Imagen>();
+            Imagen imagenNula = new Imagen();
+            imagenNula.Picture = Properties.Resources.sinCampaña;
+            imagenNula.Tiempo = 60;
+            lImagenesNula.Add(imagenNula);
+            this.iCampañaNula = new Campaña { Codigo = CodigoCampañaNula(), Nombre = "", ListaImagenes = lImagenesNula };
+
             this.iListaBannersActual = new SortedList<int, Banner>();
             this.iListaBannersProxima = new SortedList<int, Banner>();
             this.iListaCampañaActual = new SortedList<int, int>();
@@ -91,20 +101,14 @@ namespace Dominio
         public void Agregar(Banner pBanner)
         {
             //Lista Actual
-            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
+            foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaBannersActual[i] = pBanner;
-                }
+                this.iListaBannersActual[pIndice] = pBanner;
             }
             //Lista Próxima
-            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.AddDays(1).Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaBannersProxima[i] = pBanner;
-                }
+                this.iListaBannersProxima[pIndice] = pBanner;
             }
         }
 
@@ -115,12 +119,9 @@ namespace Dominio
         /// <param name="pListaBanners">Lista de Banners en la cual agregar</param>
         private void Agregar(Banner pBanner, SortedList<int, Banner> pListaBanners)
         {
-            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
+            foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    pListaBanners[i] = pBanner;
-                }
+                pListaBanners[pIndice] = pBanner;
             }
         }
 
@@ -131,20 +132,14 @@ namespace Dominio
         public void Agregar(Campaña pCampaña)
         {
             //Lista Actual
-            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.Date))
+            foreach (int pIndice in pCampaña.ListaDeIndices(DateTime.Now.Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaCampañaActual[i] = pCampaña.Codigo;
-                }
+                this.iListaCampañaActual[pIndice] = pCampaña.Codigo;
             }
             //Lista Próxima
-            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            foreach (int pIndice in pCampaña.ListaDeIndices(DateTime.Now.AddDays(1).Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaCampañaProxima[i] = pCampaña.Codigo;
-                }
+                this.iListaCampañaProxima[pIndice] = pCampaña.Codigo;
             }
         }
 
@@ -155,12 +150,10 @@ namespace Dominio
         /// <param name="listaBanners">Lista de Campañas en la cual agregar</param>
         private void Agregar(Campaña pCampaña, SortedList<int, int> pListaCampañas)
         {
-            foreach (RangoHorario pRangoHorario in pCampaña.RangosHorariosDeFecha(DateTime.Now.Date))
+            //Lista Actual
+            foreach (int pIndice in pCampaña.ListaDeIndices(DateTime.Now.Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    pListaCampañas[i] = pCampaña.Codigo;
-                }
+                pListaCampañas[pIndice] = pCampaña.Codigo;
             }
         }
 
@@ -171,20 +164,14 @@ namespace Dominio
         public void Eliminar(Banner pBanner)
         {
             //Lista Actual
-            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.Date))
+            foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaBannersActual[i] = this.iBannerNulo;
-                }
+                this.iListaBannersActual[pIndice] = this.iBannerNulo;
             }
             //Lista Próxima
-            foreach (RangoHorario pRangoHorario in pBanner.RangosHorariosDeFecha(DateTime.Now.AddDays(1).Date))
+            foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.AddDays(1).Date))
             {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    this.iListaBannersProxima[i] = this.iBannerNulo;
-                }
+                this.iListaBannersProxima[pIndice] = this.iBannerNulo;
             }
         }
 
@@ -281,7 +268,7 @@ namespace Dominio
         /// Obtiene la Campaña siguiente
         /// </summary>
         /// <returns>Tipo de dato Campaña que representa la Campaña siguiente</returns>
-        public int ObtenerCampañaSiguiente()
+        public Campaña ObtenerCampañaSiguiente()
         {
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
@@ -296,7 +283,12 @@ namespace Dominio
                 horaInicio = 0;
             }
             int campañaResultado = this.iListaCampañaActual.Values[horaInicio];
-            return campañaResultado;
+            Campaña resultado = new Campaña() { Codigo = campañaResultado };
+            if (EsCampañaNula(resultado))
+            {
+                resultado = this.iCampañaNula;
+            }
+            return resultado;
         }
 
         /// <summary>
@@ -338,31 +330,13 @@ namespace Dominio
         }
 
         /// <summary>
-        /// Devuelve una campaña nula (código -1)
+        /// Comprueba si la Campaña es nula o no
         /// </summary>
-        /// <returns>tipo de dato Campaña que representa la Campaña de código -1</returns>
-        public static Campaña CampañaNula()
+        /// <param name="pCampaña">Campaña a copmrobar</param>
+        /// <returns>Valor bool que indica si es nula o no la Campaña</returns>
+        public static bool EsCampañaNula(Campaña pCampaña)
         {
-            List<Imagen> lImagenesNula = new List<Imagen>();
-            Imagen imagenNula = new Imagen();
-            imagenNula.Picture = Properties.Resources.sinCampaña;
-            imagenNula.Tiempo = 60;
-            lImagenesNula.Add(imagenNula);
-            return new Campaña { Codigo = CodigoCampañaNula(), Nombre = "", ListaImagenes = lImagenesNula };
-        }
-
-        /// <summary>
-        /// Comprueba si la Campaña es nula o no.
-        /// </summary>
-        /// <returns>Devuelve verdadero si es nulo la Campaña</returns>
-        public static bool EsCampañaNula(int pCampaña)
-        {
-            bool resultado = false;
-            if (pCampaña == -1)
-            {
-                resultado = true;
-            }
-            return resultado;
+            return pCampaña.Codigo == -1;
         }
 
         /// <summary>

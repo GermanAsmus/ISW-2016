@@ -98,7 +98,7 @@ namespace Dominio
         /// </summary>
         /// <param name="pFecha">Fecha a contener</param>
         /// <returns>Tipo de dato Lista de Rangos Horarios que pertenencen a los Rangos de fecha que contienen la fecha suministrada</returns>
-        public List<RangoHorario> RangosHorariosDeFecha(DateTime pFecha)
+        private List<RangoHorario> RangosHorariosDeFecha(DateTime pFecha)
         {
             List<RangoHorario> listaRangosHorarios = new List<RangoHorario>();
             foreach(RangoFecha pRangoFecha in this.ListaRangosFecha)
@@ -109,6 +109,25 @@ namespace Dominio
                 }
             }
             return listaRangosHorarios;
+        }
+
+        /// <summary>
+        /// Devuelve los Rangos Horarios de los Rangos de Fecha que contienen la fecha suministrada
+        /// </summary>
+        /// <param name="pFecha">Fecha a contener</param>
+        /// <returns>Tipo de dato Lista de Rangos Horarios que pertenencen a los Rangos de fecha que contienen la fecha suministrada</returns>
+        public List<int> ListaDeIndices(DateTime pFecha)
+        {
+            List<int> listaResultado = new List<int>();
+            List<RangoHorario> listaRangosHorarios = this.RangosHorariosDeFecha(pFecha);
+            foreach (RangoHorario pRangoHorario in listaRangosHorarios)
+            {
+                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
+                {
+                    listaResultado.Add(i);
+                }
+            }
+            return listaResultado;
         }
     }
 }

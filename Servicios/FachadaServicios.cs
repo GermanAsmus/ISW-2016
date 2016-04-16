@@ -107,7 +107,7 @@ namespace Servicios
             }
             if (DateTime.Now.Minute % 60 == 0)
             {
-                ThreadStart delegadoPS = new ThreadStart(ActualizarFuentesRSS);
+                ThreadStart delegadoPS = new ThreadStart(ActualizarFuente);
                 Thread hiloSecundario = new Thread(delegadoPS);
                 hiloSecundario.Start();
             }
@@ -215,20 +215,15 @@ namespace Servicios
         /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
         public static Dominio.Campaña ObtenerCampañaSiguiente()
         {
-            int codigoCampaña = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
-            Dominio.Campaña campañaSiguiente;
+            Dominio.Campaña campañaSiguiente = IoCContainerLocator.GetType<Dominio.Fachada>().ObtenerCampañaSiguiente();
             if (IoCContainerLocator.GetType<Dominio.Fachada>().NecesitaActualizarListas())
             {
                 CargarCampañasEnMemoria(DateTime.Today.AddDays(1).Date);
             }
-            if (Dominio.Fachada.EsCampañaNula(codigoCampaña))
-            {
-                campañaSiguiente = Dominio.Fachada.CampañaNula();
-            }
-            else
+            if (! Dominio.Fachada.EsCampañaNula(campañaSiguiente))
             {
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-                campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(codigoCampaña));
+                campañaSiguiente = AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(fachadaCampaña.GetByCodigo(campañaSiguiente.Codigo));
                 campañaSiguiente.ListaImagenes = ObtenerImagenesCampaña(campañaSiguiente.Codigo);
             }
             return campañaSiguiente;
@@ -296,7 +291,7 @@ namespace Servicios
         /// <summary>
         /// Actualiza las fuentes RSS
         /// </summary>
-        private static void ActualizarFuentesRSS()
+        private static void ActualizarFuente()
         {
             Persistencia.Fachada fachadaPersistencia = IoCContainerLocator.GetType<Persistencia.Fachada>();
             Dominio.Fachada fachadaDominio = IoCContainerLocator.GetType<Dominio.Fachada>();
