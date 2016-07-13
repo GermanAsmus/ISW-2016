@@ -314,7 +314,6 @@
             this.comboBox_Fuente.Name = "comboBox_Fuente";
             this.comboBox_Fuente.Size = new System.Drawing.Size(282, 24);
             this.comboBox_Fuente.TabIndex = 20;
-            this.comboBox_Fuente.SelectedIndexChanged += new System.EventHandler(this.comboBox_Fuente_SelectedIndexChanged);
             // 
             // label_Fuente
             // 

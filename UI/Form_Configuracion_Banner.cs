@@ -70,6 +70,7 @@ namespace UI
                 this.iBanner = new ControladorBanner();
                 // Acá se valida el tipo de fuente del banner
             }
+            this.comboBox_Fuente.SelectedIndexChanged += new System.EventHandler(this.comboBox_Fuente_SelectedIndexChanged);
             this.iSCEActive = true;
             this.ConfigInicialForms();
             this.Configuracion(auxiliar);
