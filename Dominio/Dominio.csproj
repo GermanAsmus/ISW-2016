@@ -67,9 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extras\AutoMapper.cs" />
-    <Compile Include="Banner.cs" />
-    <Compile Include="Campaña.cs" />
-    <Compile Include="Fuente.cs" />
+    <Compile Include="ControladorBanner.cs" />
+    <Compile Include="ControladorCampaña.cs" />
+    <Compile Include="ControladorFuente.cs" />
     <Compile Include="Imagen.cs" />
     <Compile Include="IFuente.cs" />
     <Compile Include="ImagenServices.cs" />

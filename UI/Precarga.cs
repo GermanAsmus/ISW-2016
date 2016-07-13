@@ -13,8 +13,8 @@ namespace UI
         public Precarga()
         {
             InitializeComponent();
-            Banner.Inicializar();
-            Campaña.Inicializar();
+            ControladorBanner.Inicializar();
+            ControladorCampaña.Inicializar();
         }
 
         /// <summary>
@@ -37,10 +37,10 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargaDeDatos_DoWork(object sender, DoWorkEventArgs e)
         {
-            Banner.CargarEnMemoria(DateTime.Today);
-            Campaña.CargarEnMemoria(DateTime.Today);
-            Banner.CargaInicial();
-            Campaña.CargaInicial();
+            ControladorBanner.CargarEnMemoria(DateTime.Today);
+            ControladorCampaña.CargarEnMemoria(DateTime.Today);
+            ControladorBanner.CargaInicial();
+            ControladorCampaña.CargaInicial();
 
         }
 

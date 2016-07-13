@@ -381,15 +381,15 @@ namespace UI
             AdministracionRSS administracionRSS = (AdministracionRSS)e.Argument;
             foreach(FuenteRSS pFuente in administracionRSS.ListaRSSActualizar)
             {
-                Fuente.Modificar(pFuente);
+                ControladorFuente.Modificar(pFuente);
             }
             foreach (FuenteRSS pFuente in administracionRSS.ListaRSSEliminar)
             {
-                Fuente.Eliminar(pFuente);
+                ControladorFuente.Eliminar(pFuente);
             }
             foreach (FuenteRSS pFuente in administracionRSS.ListaRSSAgregar)
             {
-                Fuente.Agregar(pFuente);
+                ControladorFuente.Agregar(pFuente);
             }
         }
 
@@ -413,7 +413,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ObtenerRSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Fuente.ObtenerFuentes(new FuenteRSS());
+            e.Result = ControladorFuente.ObtenerFuentes(new FuenteRSS());
         }
 
         /// <summary>
@@ -440,7 +440,7 @@ namespace UI
         private void backgroundWorker_FuenteRSSSeleccion_DoWork(object sender, DoWorkEventArgs e)
         {
             FuenteRSS pFuente = (FuenteRSS)e.Argument;
-            Fuente.Agregar(pFuente);
+            ControladorFuente.Agregar(pFuente);
             e.Result = pFuente;
         }
 

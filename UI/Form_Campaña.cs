@@ -14,15 +14,15 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        internal delegate void delegado(Campaña campaña);
+        internal delegate void delegado(ControladorCampaña campaña);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Campaña.Agregar);
+        private delegado agregar = new delegado(ControladorCampaña.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Campaña.Modificar);
+        private delegado modificar = new delegado(ControladorCampaña.Modificar);
         /// <summary>
         /// Cantidad de campañas que están siendo guardadas
         /// </summary>
@@ -298,9 +298,9 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        internal void ActualizarLista(List<Campaña> fuenteCampañas)
+        internal void ActualizarLista(List<ControladorCampaña> fuenteCampañas)
         {
-            this.dataGridView.DataSource = typeof(List<Campaña>);
+            this.dataGridView.DataSource = typeof(List<ControladorCampaña>);
             this.dataGridView.DataSource = fuenteCampañas;
             this.ReDibujarDGV();
         }
@@ -319,9 +319,9 @@ namespace UI
         /// Devuelve el elemento seleccionado
         /// </summary>
         /// <returns>Tipo de dato Campaña que representa la camapaña seleccionado</returns>
-        private Campaña ElementoSeleccionado()
+        private ControladorCampaña ElementoSeleccionado()
         {
-            return (Campaña)this.dataGridView.CurrentRow.DataBoundItem;
+            return (ControladorCampaña)this.dataGridView.CurrentRow.DataBoundItem;
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace UI
         private void backgroundWorker_Obtener_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
-            e.Result = Campaña.ObtenerCampañas(argumentos);
+            e.Result = ControladorCampaña.ObtenerCampañas(argumentos);
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace UI
         {
             if ((e.Error == null) && (!e.Cancelled))
             {
-                List<Campaña> resultado = (List<Campaña>)e.Result;
+                List<ControladorCampaña> resultado = (List<ControladorCampaña>)e.Result;
                 this.ActualizarLista(resultado);
             }
             this.label_Operacion.Visible = false;
@@ -470,7 +470,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Campaña.Eliminar((Campaña)e.Argument);
+            ControladorCampaña.Eliminar((ControladorCampaña)e.Argument);
         }
 
         /// <summary>
@@ -482,7 +482,7 @@ namespace UI
         {
             if (e.Error != null)
             {
-                Campaña auxCampaña = (Campaña)e.Result;
+                ControladorCampaña auxCampaña = (ControladorCampaña)e.Result;
                 MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar la Campaña\n" +
                                 "\t- Nombre: " + auxCampaña.Nombre + "\n" +
                                 "\t- Intervalo Tiempo: " + auxCampaña.IntervaloTiempo + "\n" +
@@ -490,7 +490,7 @@ namespace UI
             }
             else
             {
-                ((List<Campaña>)this.dataGridView.DataSource).Remove((Campaña)e.Result);
+                ((List<ControladorCampaña>)this.dataGridView.DataSource).Remove((ControladorCampaña)e.Result);
                 this.ReDibujarDGV();
             }
         }

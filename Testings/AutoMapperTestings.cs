@@ -94,10 +94,10 @@ namespace Testings
             List<Persistencia.RangoFecha> listaRangosFechas = new List<Persistencia.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
             persistenciaObjeto.RangosFecha = listaRangosFechas;
-            Dominio.Banner dominioObjeto =
-                AutoMapper.Map<Persistencia.Banner, Dominio.Banner>(persistenciaObjeto);
+            Dominio.ControladorBanner dominioObjeto =
+                AutoMapper.Map<Persistencia.Banner, Dominio.ControladorBanner>(persistenciaObjeto);
             Persistencia.Banner persitenciaAuxiliar =
-                AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(dominioObjeto);
+                AutoMapper.Map<Dominio.ControladorBanner, Persistencia.Banner>(dominioObjeto);
             bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
             Assert.IsTrue(resul);
         }
@@ -129,7 +129,7 @@ namespace Testings
             };
             List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            Dominio.Banner dominioObjeto = new Dominio.Banner()
+            Dominio.ControladorBanner dominioObjeto = new Dominio.ControladorBanner()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
@@ -137,9 +137,9 @@ namespace Testings
                 ListaRangosFecha = listaRangosFechas
             };
             Persistencia.Banner persistenciaObjeto =
-                AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(dominioObjeto);
-            Dominio.Banner dominioAuxiliar =
-                AutoMapper.Map<Persistencia.Banner, Dominio.Banner >(persistenciaObjeto);
+                AutoMapper.Map<Dominio.ControladorBanner, Persistencia.Banner>(dominioObjeto);
+            Dominio.ControladorBanner dominioAuxiliar =
+                AutoMapper.Map<Persistencia.Banner, Dominio.ControladorBanner >(persistenciaObjeto);
             bool resul = Equality.Equals(dominioObjeto, dominioAuxiliar);
             Assert.IsTrue(resul);
         }
@@ -194,10 +194,10 @@ namespace Testings
             listaRangosFechas.Add(rangoFecha);
             persistenciaObjeto.RangosFecha = listaRangosFechas;
             persistenciaObjeto.Imagenes = listaImagenes;
-            Dominio.Campaña dominioObjeto =
-                AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(persistenciaObjeto);
+            Dominio.ControladorCampaña dominioObjeto =
+                AutoMapper.Map<Persistencia.Campaña, Dominio.ControladorCampaña>(persistenciaObjeto);
             Persistencia.Campaña persitenciaAuxiliar =
-                AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(dominioObjeto);
+                AutoMapper.Map<Dominio.ControladorCampaña, Persistencia.Campaña>(dominioObjeto);
             bool resul = Equality.Equals(persistenciaObjeto, persitenciaAuxiliar);
             Assert.IsTrue(resul);
         }
@@ -236,7 +236,7 @@ namespace Testings
             };
             List<Dominio.RangoFecha> listaRangosFechas = new List<Dominio.RangoFecha>();
             listaRangosFechas.Add(rangoFecha);
-            Dominio.Campaña dominioObjeto = new Dominio.Campaña()
+            Dominio.ControladorCampaña dominioObjeto = new Dominio.ControladorCampaña()
             {
                 Codigo = 1,
                 Nombre = "Prueba",
@@ -245,9 +245,9 @@ namespace Testings
                 ListaRangosFecha = listaRangosFechas
             };
             Persistencia.Campaña persistenciaObjeto =
-                AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(dominioObjeto);
-            Dominio.Campaña dominioAuxiliar =
-                AutoMapper.Map<Persistencia.Campaña, Dominio.Campaña>(persistenciaObjeto);
+                AutoMapper.Map<Dominio.ControladorCampaña, Persistencia.Campaña>(dominioObjeto);
+            Dominio.ControladorCampaña dominioAuxiliar =
+                AutoMapper.Map<Persistencia.Campaña, Dominio.ControladorCampaña>(persistenciaObjeto);
             bool resul = Equality.Equals(dominioObjeto, dominioAuxiliar);
             Assert.IsTrue(resul);
         }

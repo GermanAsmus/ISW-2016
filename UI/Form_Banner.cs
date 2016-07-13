@@ -14,15 +14,15 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        internal delegate void delegado(Banner banner);
+        internal delegate void delegado(ControladorBanner banner);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Banner.Agregar);
+        private delegado agregar = new delegado(ControladorBanner.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Banner.Modificar);
+        private delegado modificar = new delegado(ControladorBanner.Modificar);
         /// <summary>
         /// Cantidad de campañas que están siendo guardadas
         /// </summary>
@@ -302,9 +302,9 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        private void ActualizarFuente(List<Banner> fuenteBanners)
+        private void ActualizarFuente(List<ControladorBanner> fuenteBanners)
         {
-            this.dataGridView.DataSource = typeof(List<Banner>);
+            this.dataGridView.DataSource = typeof(List<ControladorBanner>);
             this.dataGridView.DataSource = fuenteBanners;
             this.ReDibujarDGV();
         }
@@ -323,9 +323,9 @@ namespace UI
         /// Devuelve el elemento seleccionado
         /// </summary>
         /// <returns>Tipo de dato Banner que representa el Banner seleccionado</returns>
-        private Banner ElementoSeleccionado()
+        private ControladorBanner ElementoSeleccionado()
         {
-            return (Banner)this.dataGridView.CurrentRow.DataBoundItem;
+            return (ControladorBanner)this.dataGridView.CurrentRow.DataBoundItem;
         }
 
         /// <summary>
@@ -463,11 +463,11 @@ namespace UI
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Banner.ObtenerBanners();
+                resultado = ControladorBanner.ObtenerBanners();
             }
             else
             {
-                resultado = Banner.ObtenerBanners(argumentos);
+                resultado = ControladorBanner.ObtenerBanners(argumentos);
             }
             e.Result = resultado;
         }
@@ -481,7 +481,7 @@ namespace UI
         {
             if ((e.Error == null) && (!e.Cancelled))
             {
-                List<Banner> resultado = (List<Banner>)e.Result;
+                List<ControladorBanner> resultado = (List<ControladorBanner>)e.Result;
                 this.ActualizarFuente(resultado);
             }
             this.label_Operacion.Visible = false;
@@ -495,7 +495,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Banner.Eliminar((Banner) e.Argument);
+            ControladorBanner.Eliminar((ControladorBanner) e.Argument);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace UI
         {
             if (e.Error != null)
             {
-                Banner auxBanner = (Banner)e.Result;
+                ControladorBanner auxBanner = (ControladorBanner)e.Result;
                 MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar el banner\n" +
                                 "\t- Nombre: " + auxBanner.Nombre + "\n" +
                                 "Problema:" + e.Error.Message +
@@ -515,7 +515,7 @@ namespace UI
             }
             else
             {
-                ((List<Banner>)this.dataGridView.DataSource).Remove((Banner)e.Result);
+                ((List<ControladorBanner>)this.dataGridView.DataSource).Remove((ControladorBanner)e.Result);
                 this.ReDibujarDGV();
             }
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Dominio
 {
-    class Campaña : IEquatable<Campaña>
+    class ControladorCampaña : IEquatable<ControladorCampaña>
     {
         #region Instancia
         private int iCodigo;
@@ -16,7 +16,7 @@ namespace Dominio
         /// <summary>
         /// Constructor de la Campaña
         /// </summary>
-        public Campaña()
+        public ControladorCampaña()
         {
             this.iListaRangosFecha = new List<RangoFecha>();
             this.iListaImagenes = new List<Imagen>();
@@ -72,7 +72,7 @@ namespace Dominio
         /// </summary>
         /// <param name="other">Otra campaña a comparar</param>
         /// <returns>Tipo de dato booleano que representa si dos campañas son iguales</returns>
-        public bool Equals(Campaña other)
+        public bool Equals(ControladorCampaña other)
         {
             return this.Codigo == other.Codigo;
         }
@@ -131,7 +131,7 @@ namespace Dominio
 
         #region Logica
         #region Atributos
-        private static Campaña CampañaNula;
+        private static ControladorCampaña CampañaNula;
         private static SortedList<int, int> ListaCampañaActual;
         private static SortedList<int, int> ListaCampañaProxima;
         private static bool ActualizarListaCampaña = false;
@@ -149,7 +149,7 @@ namespace Dominio
             imagenNula.Picture = Properties.Resources.sinCampaña;
             imagenNula.Tiempo = 60;
             lImagenesNula.Add(imagenNula);
-            CampañaNula = new Campaña { Codigo = CodigoCampañaNula(), Nombre = "", ListaImagenes = lImagenesNula };
+            CampañaNula = new ControladorCampaña { Codigo = CodigoCampañaNula(), Nombre = "", ListaImagenes = lImagenesNula };
             ListaCampañaActual = new SortedList<int, int>();
             ListaCampañaProxima = new SortedList<int, int>();
             InicializarListaCampaña();
@@ -175,9 +175,9 @@ namespace Dominio
         /// Carga la lista de Campañas en la lógica
         /// </summary>
         /// <param name="listaCampañas">Lista de Campañas a cargar</param>
-        public static void Cargar(List<Campaña> listaCampañas)
+        public static void Cargar(List<ControladorCampaña> listaCampañas)
         {
-            foreach (Campaña pCampaña in listaCampañas)
+            foreach (ControladorCampaña pCampaña in listaCampañas)
             {
                 foreach (int pIndice in pCampaña.ListaDeIndices(DateTime.Now.Date))
                 {
@@ -223,10 +223,10 @@ namespace Dominio
         /// Agrega una Campaña en la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Campaña a agregar</param>
-        public static void Agregar(Campaña pCampaña)
+        public static void Agregar(ControladorCampaña pCampaña)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            pCampaña.Codigo = fachada.CrearCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            pCampaña.Codigo = fachada.CrearCampaña(AutoMapper.Map<Dominio.ControladorCampaña, Persistencia.Campaña>(pCampaña));
             //Lista Actual
             foreach (int pIndice in pCampaña.ListaDeIndices(DateTime.Now.Date))
             {
@@ -244,10 +244,10 @@ namespace Dominio
         /// Modifica una Campaña de la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Banner a modificar</param>
-        public static void Modificar(Campaña pCampaña)
+        public static void Modificar(ControladorCampaña pCampaña)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.ActualizarCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            fachada.ActualizarCampaña(AutoMapper.Map<Dominio.ControladorCampaña, Persistencia.Campaña>(pCampaña));
             Eliminar(pCampaña);
             Agregar(pCampaña);
         }
@@ -256,10 +256,10 @@ namespace Dominio
         /// Elimina una Campaña de la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Campaña a eliminar</param>
-        public static void Eliminar(Campaña pCampaña)
+        public static void Eliminar(ControladorCampaña pCampaña)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.EliminarCampaña(AutoMapper.Map<Dominio.Campaña, Persistencia.Campaña>(pCampaña));
+            fachada.EliminarCampaña(AutoMapper.Map<Dominio.ControladorCampaña, Persistencia.Campaña>(pCampaña));
             for (int i = 0; i < ListaCampañaActual.Count; i++)
             {
                 if (ListaCampañaActual[i] == pCampaña.Codigo)
@@ -278,7 +278,7 @@ namespace Dominio
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Campañas</param>
         /// <returns>Tipo de dato Lista que representa las Campañas filtradas</returns>
-        public static List<Dominio.Campaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado = null)
+        public static List<Dominio.ControladorCampaña> ObtenerCampañas(Dictionary<Type, object> argumentosFiltrado = null)
         {
             Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
             if (argumentosFiltrado != null)
@@ -291,16 +291,16 @@ namespace Dominio
                     argumentosFiltrado.Remove(typeof(RangoFecha));
                 }
             }
-            return (AutoMapper.Map<List<Persistencia.Campaña>, List<Campaña>>(fachada.ObtenerCampañas(argumentosFiltrado)));
+            return (AutoMapper.Map<List<Persistencia.Campaña>, List<ControladorCampaña>>(fachada.ObtenerCampañas(argumentosFiltrado)));
         }
 
         /// <summary>
         /// Obtiene la campaña correspondiente con respecto a la fecha y a la hora
         /// </summary>
         /// <returns>Tipo de dato Campaña que representa la campaña Siguiente a mostrar</returns>
-        public static Campaña ObtenerSiguiente()
+        public static ControladorCampaña ObtenerSiguiente()
         {
-            Campaña campañaResultado;
+            ControladorCampaña campañaResultado;
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
             if (horaInicio > 1380)
@@ -320,7 +320,7 @@ namespace Dominio
             else
             {
                 FachadaCRUDCampaña fachadaCampaña = IoCContainerLocator.GetType<FachadaCRUDCampaña>();
-                campañaResultado = AutoMapper.Map<Persistencia.Campaña, Campaña>(fachadaCampaña.GetByCodigo(codigoCampañaResultado));
+                campañaResultado = AutoMapper.Map<Persistencia.Campaña, ControladorCampaña>(fachadaCampaña.GetByCodigo(codigoCampañaResultado));
                 campañaResultado.ListaImagenes = ObtenerImagenesCampaña(codigoCampañaResultado);
             }
             if (ActualizarListaCampaña)
@@ -351,9 +351,9 @@ namespace Dominio
             Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             argumentos.Add(typeof(string), "");
             argumentos.Add(typeof(Dominio.RangoFecha), pRangoFecha);
-            List<Campaña> pListaCampaña = ObtenerCampañas(argumentos);
+            List<ControladorCampaña> pListaCampaña = ObtenerCampañas(argumentos);
             List<RangoHorario> listaResultado = new List<RangoHorario>();
-            foreach (Campaña pCampaña in pListaCampaña)
+            foreach (ControladorCampaña pCampaña in pListaCampaña)
             {
                 listaResultado.AddRange(pCampaña.ObtenerRangosHorariosOcupados());
             }

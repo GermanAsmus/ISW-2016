@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    class Fuente
+    class ControladorFuente
     {
         /// <summary>
         /// Agrega la Fuente a la base de datos
@@ -57,7 +57,7 @@ namespace Dominio
         internal static void Actualizar()
         {
             Persistencia.Fachada fachadaPersistencia = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            foreach (IFuente pFuente in Banner.ActualizarFuentes())
+            foreach (IFuente pFuente in ControladorBanner.ActualizarFuentes())
             {
                 fachadaPersistencia.ActualizarFuente(AutoMapper.Map<IFuente, Persistencia.Fuente>(pFuente));
             }
