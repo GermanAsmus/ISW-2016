@@ -67,7 +67,7 @@ namespace Dominio
         public string Texto()
         {
             try {
-                string aux = this.ActualizarFuente();
+                string aux = this.ValorActualizado();
                 if (!(aux == ""))
                 {
                     this.iValorAnterior = aux;
@@ -84,7 +84,7 @@ namespace Dominio
         /// <summary>
         /// Actualiza la fuente RSS
         /// </summary>
-        public string ActualizarFuente()
+        public string ValorActualizado()
         {
             IRssReader mRssReader = new RawXmlRssReader();
             IEnumerable<RssItem> mItmes = mRssReader.Read(this.URL);
@@ -113,6 +113,14 @@ namespace Dominio
         public bool Equals(IFuente other)
         {
             return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
+        }
+
+        /// <summary>
+        /// Actualiza la fuente RSS con su último valor
+        /// </summary>
+        public void Actualizar()
+        {
+            this.Texto();
         }
     }
 }

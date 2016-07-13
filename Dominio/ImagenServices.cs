@@ -3,7 +3,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Clase responsable de las Imágenes y sus respectivas transformaciones/representaciones

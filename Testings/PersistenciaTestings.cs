@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Persistencia;
-using Servicios;
-using System.Drawing;
 using System.Collections.Generic;
 
 namespace Testings

@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity.Configuration;
 using System;
 using System.Configuration;
 
-namespace Servicios
+namespace Dominio
 {
     /// <summary>
     /// Acceso al contenedor de IoC

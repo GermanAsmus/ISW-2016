@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
 //Hace que sea visible para el Testing y los Servicios
 [assembly: InternalsVisibleTo("Testings")]
+[assembly: InternalsVisibleTo("Dominio")]
 [assembly: InternalsVisibleTo("Servicios")]
+
 namespace Persistencia
 {
     class FachadaCRUDBanner

@@ -184,10 +184,6 @@
       <Project>{99913064-1a87-45eb-a137-c9c7239f0909}</Project>
       <Name>Dominio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Servicios\Servicios.csproj">
-      <Project>{b3c15444-6871-4d3b-8610-ed46371a402a}</Project>
-      <Name>Servicios</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\greenTick.png" />

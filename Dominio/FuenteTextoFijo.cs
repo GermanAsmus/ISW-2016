@@ -72,6 +72,12 @@ namespace Dominio
             return (other.GetType() == this.GetType()) && (this.Codigo == other.Codigo);
         }
 
-        
+        /// <summary>
+        /// Actualiza el Texto fijo (el texto fijo no cambia, es estático)
+        /// </summary>
+        public void Actualizar()
+        {
+
+        }
     }
 }

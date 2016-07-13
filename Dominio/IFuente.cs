@@ -20,5 +20,10 @@ namespace Dominio
         /// </summary>
         /// <returns>Tipo de dato booleano que representa si la fuente debe actualizarse</returns>
         bool Actualizable();
+
+        /// <summary>
+        /// Actualiza el valor de la fuente si corresponde
+        /// </summary>
+        void Actualizar();
     }
 }

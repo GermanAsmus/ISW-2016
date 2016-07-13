@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
-using Servicios;
 using System.Collections.Generic;
 using Dominio;
 using System.Drawing;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Collections;
 
 namespace UI
 {
@@ -55,10 +55,13 @@ namespace UI
             InitializeComponent();
             this.ConfiguracionInicialDataGridView();
             bool auxiliar = pBanner != null;
+            this.ConfigurarComboBox();
             if (auxiliar)
             {
-                this.iBanner = pBanner;
+                this.iBanner = pBanner; 
                 this.ActualizarFuente(pBanner.InstanciaFuente);
+                Type tipo = pBanner.InstanciaFuente.GetType();
+                this.comboBox_Fuente.SelectedItem = tipo.Name;
             }
             else
             {
@@ -86,8 +89,22 @@ namespace UI
             this.iCantRangosFecha = this.iBanner.ListaRangosFecha.Count;
             this.textBox_Nombre.Text = this.iBanner.Nombre;
             this.button_AgregarHora.Image = ImagenServices.CambiarTamañoImagen(Properties.Resources.Modificar, this.button_AgregarHora.Size.Width, this.button_AgregarHora.Size.Height);
-            this.comboBox_Fuente.Items.Add("Fuente RSS (contenido Web)");
-            this.comboBox_Fuente.Items.Add("Fuente Texto Fijo");
+        }
+
+        public void ConfigurarComboBox()
+        {
+            IEnumerator enumerador = typeof(IFuente).Assembly.GetTypes().GetEnumerator();
+            List<string> listaNombres = new List<string>();
+            while (enumerador.MoveNext())
+            {
+                Type tipoActual = (Type) enumerador.Current;
+                if (typeof(IFuente).IsAssignableFrom(tipoActual) && tipoActual != typeof(IFuente))
+                {
+                    listaNombres.Add(tipoActual.Name);
+                }
+            }
+            this.comboBox_Fuente.Items.AddRange(listaNombres.ToArray());
+                
         }
 
         /// <summary>
@@ -671,7 +688,7 @@ namespace UI
             this.iFuncionVentana(this.iBanner);
             if ((this.iFuente != null) && (this.iFuente.GetType() == typeof(FuenteTextoFijo))) 
             {
-                FachadaServicios.EliminarFuente(this.iFuente);
+                Fuente.Eliminar(this.iFuente);
             }
         }
 

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Servicios;
-using System.IO;
 using Dominio;
 
 namespace UI
@@ -36,7 +34,7 @@ namespace UI
         /// <summary>
         /// Configura los Timers
         /// </summary>
-        public void ConfigurarTimers()
+        private void ConfigurarTimers()
         {
             this.timer_TextoDeslizante.Interval = 100;
             this.timer_TextoDeslizante.Enabled = true;
@@ -48,19 +46,19 @@ namespace UI
         /// <summary>
         /// Configura Primer Banner y Campaña
         /// </summary>
-        public void ConfigurarBannerCampaña()
+        private void ConfigurarBannerCampaña()
         {
             ///BANNER
-            this.iBannerActual = FachadaServicios.ObtenerBannerSiguiente();
+            this.iBannerActual = Banner.ObtenerSiguiente();
             //Ver como hacer para actualizarlo ahí
             this.label_TextoBanner.Text = iBannerActual.Texto;
-            this.iBannerProximo = FachadaServicios.ObtenerBannerSiguiente();
+            this.iBannerProximo = Banner.ObtenerSiguiente();
             this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
             ///CAMPAÑA
-            this.iCampañaActual = FachadaServicios.ObtenerCampañaSiguiente();
+            this.iCampañaActual = Campaña.ObtenerSiguiente();
             this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
             this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
-            this.iCampañaProxima = FachadaServicios.ObtenerCampañaSiguiente();
+            this.iCampañaProxima = Campaña.ObtenerSiguiente();
         }
         #endregion
 
@@ -86,7 +84,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = FachadaServicios.ObtenerBannerSiguiente();
+            e.Result = Banner.ObtenerSiguiente();
         }
 
         /// <summary>
@@ -152,7 +150,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = FachadaServicios.ObtenerCampañaSiguiente();
+            e.Result = Campaña.ObtenerSiguiente();
         }
 
         /// <summary>

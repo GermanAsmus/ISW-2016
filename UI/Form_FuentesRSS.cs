@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Servicios;
 using System.Windows.Forms;
 using Dominio;
 using System.Drawing;
@@ -382,15 +381,15 @@ namespace UI
             AdministracionRSS administracionRSS = (AdministracionRSS)e.Argument;
             foreach(FuenteRSS pFuente in administracionRSS.ListaRSSActualizar)
             {
-                FachadaServicios.ModificarFuente(pFuente);
+                Fuente.Modificar(pFuente);
             }
             foreach (FuenteRSS pFuente in administracionRSS.ListaRSSEliminar)
             {
-                FachadaServicios.EliminarFuente(pFuente);
+                Fuente.Eliminar(pFuente);
             }
             foreach (FuenteRSS pFuente in administracionRSS.ListaRSSAgregar)
             {
-                FachadaServicios.AgregarFuente(pFuente);
+                Fuente.Agregar(pFuente);
             }
         }
 
@@ -414,7 +413,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ObtenerRSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = FachadaServicios.ObtenerFuentes(new FuenteRSS());
+            e.Result = Fuente.ObtenerFuentes(new FuenteRSS());
         }
 
         /// <summary>
@@ -441,7 +440,7 @@ namespace UI
         private void backgroundWorker_FuenteRSSSeleccion_DoWork(object sender, DoWorkEventArgs e)
         {
             FuenteRSS pFuente = (FuenteRSS)e.Argument;
-            FachadaServicios.AgregarFuente(pFuente);
+            Fuente.Agregar(pFuente);
             e.Result = pFuente;
         }
 
@@ -465,7 +464,7 @@ namespace UI
             FuenteRSS pFuente = new FuenteRSS() { URL = (string)e.Argument };
             try
             {
-                pFuente.Valor = pFuente.ActualizarFuente();
+                pFuente.Valor = pFuente.ValorActualizado();
                 e.Result = pFuente.Valor;
             }
             catch(Exception ex)

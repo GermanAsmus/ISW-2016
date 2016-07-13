@@ -68,10 +68,6 @@
       <Project>{167b1131-2161-47b1-a62d-32d0cd01aab4}</Project>
       <Name>Persistencia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Servicios\Servicios.csproj">
-      <Project>{b3c15444-6871-4d3b-8610-ed46371a402a}</Project>
-      <Name>Servicios</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

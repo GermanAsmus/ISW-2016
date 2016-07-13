@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Servicios;
 using System.Collections.Generic;
 using System.Drawing;
 using System.ComponentModel;
@@ -1223,7 +1222,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargarImagenes_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = Servicios.FachadaServicios.ObtenerImagenesCampaña((int)e.Argument);
+            e.Result = Campaña.ObtenerImagenesCampaña((int)e.Argument);
         }
 
         /// <summary>

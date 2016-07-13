@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicios", "Servicios\Servicios.csproj", "{B3C15444-6871-4D3B-8610-ED46371A402A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{A46231B9-0F5C-4937-939C-12E79E2ADCBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Persistencia\Persistencia.csproj", "{167B1131-2161-47B1-A62D-32D0CD01AAB4}"
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B3C15444-6871-4D3B-8610-ED46371A402A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3C15444-6871-4D3B-8610-ED46371A402A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3C15444-6871-4D3B-8610-ED46371A402A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3C15444-6871-4D3B-8610-ED46371A402A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A46231B9-0F5C-4937-939C-12E79E2ADCBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A46231B9-0F5C-4937-939C-12E79E2ADCBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A46231B9-0F5C-4937-939C-12E79E2ADCBD}.Release|Any CPU.ActiveCfg = Release|Any CPU

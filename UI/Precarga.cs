@@ -1,7 +1,7 @@
 ﻿using System;
+using Dominio;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Servicios;
 
 namespace UI
 {
@@ -13,7 +13,9 @@ namespace UI
         public Precarga()
         {
             InitializeComponent();
-;        }
+            Banner.Inicializar();
+            Campaña.Inicializar();
+        }
 
         /// <summary>
         /// Evento que surge cuando la ventana se empieza a cargar
@@ -35,9 +37,11 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargaDeDatos_DoWork(object sender, DoWorkEventArgs e)
         {
-            Servicios.FachadaServicios.CargarCampañasEnMemoria(DateTime.Today);
-            Servicios.FachadaServicios.CargarBannersEnMemoria(DateTime.Today);
-            Servicios.FachadaServicios.CargaInicial();
+            Banner.CargarEnMemoria(DateTime.Today);
+            Campaña.CargarEnMemoria(DateTime.Today);
+            Banner.CargaInicial();
+            Campaña.CargaInicial();
+
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Dominio;
-using Servicios;
 using System.Text.RegularExpressions;
 using System.Drawing;
 
@@ -19,11 +18,11 @@ namespace UI
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(Servicios.FachadaServicios.AgregarBanner);
+        private delegado agregar = new delegado(Banner.Agregar);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(Servicios.FachadaServicios.ModificarBanner);
+        private delegado modificar = new delegado(Banner.Modificar);
         /// <summary>
         /// Cantidad de campañas que están siendo guardadas
         /// </summary>
@@ -464,11 +463,11 @@ namespace UI
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = Servicios.FachadaServicios.ObtenerBanners();
+                resultado = Banner.ObtenerBanners();
             }
             else
             {
-                resultado = Servicios.FachadaServicios.ObtenerBanners(argumentos);
+                resultado = Banner.ObtenerBanners(argumentos);
             }
             e.Result = resultado;
         }
@@ -496,7 +495,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            Servicios.FachadaServicios.EliminarBanner((Banner) e.Argument);
+            Banner.Eliminar((Banner) e.Argument);
         }
 
         /// <summary>
