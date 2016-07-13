@@ -189,7 +189,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            List<Campaña> lista = (List<Campaña>)this.dataGridView.DataSource;
+            List<ControladorCampaña> lista = (List<ControladorCampaña>)this.dataGridView.DataSource;
             if (lista.Count > 0)
             {
                 this.button_Eliminar.Enabled = true;
