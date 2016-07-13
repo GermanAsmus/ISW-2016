@@ -144,7 +144,14 @@ namespace UI
             this.iBanner.Nombre = this.textBox_Nombre.Text;
             IFuente temp = this.iBanner.InstanciaFuente;
             this.iBanner.InstanciaFuente = this.iFuente;
-            this.iFuente = temp;
+            if ((temp == null) || (temp.Equals(this.iBanner.InstanciaFuente)))
+            {
+                this.iFuente = null;
+            }
+            else
+            {
+                this.iFuente = temp;
+            }
             this.backgroundWorker_BotonAceptar.RunWorkerAsync();
             ((Form_Banner)this.Owner).Guardando(true);
             ((Form_Banner)this.Owner).HijoCerrandose();
