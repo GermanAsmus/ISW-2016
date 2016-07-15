@@ -16,7 +16,7 @@ namespace UI
         /// <summary>
         /// Banner sobre el cual trabajar
         /// </summary>
-        private ControladorBanner iBanner;
+        private Banner iBanner;
         /// <summary>
         /// Cantidad de Rangos Fecha agregados
         /// </summary>
@@ -50,7 +50,7 @@ namespace UI
         /// </summary>
         /// <param name="funcionVentana">Función que realizará la ventana a la hora de presionar boton Aceptar</param>
         /// <param name="pBanner">Banner sobre el cual trabajar, sino es nulo</param>
-        internal Form_Configuracion_Banner(Form_Banner.delegado funcionVentana, ControladorBanner pBanner = null)
+        internal Form_Configuracion_Banner(Form_Banner.delegado funcionVentana, Banner pBanner = null)
         {
             InitializeComponent();
             this.ConfiguracionInicialDataGridView();
@@ -67,7 +67,7 @@ namespace UI
             {
                 this.ChangeEnableGroupBoxHorario(false);
                 this.button_EliminarFecha.Enabled = false;
-                this.iBanner = new ControladorBanner();
+                this.iBanner = new Banner();
                 // Acá se valida el tipo de fuente del banner
             }
             this.comboBox_Fuente.SelectedIndexChanged += new System.EventHandler(this.comboBox_Fuente_SelectedIndexChanged);

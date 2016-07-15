@@ -14,7 +14,7 @@ namespace UI
         /// <summary>
         /// Campaña sobre la cual trabajar
         /// </summary>
-        private ControladorCampaña iCampaña;
+        private Campaña iCampaña;
         /// <summary>
         /// Cantidad de Rangos Fecha agregados
         /// </summary>
@@ -64,7 +64,7 @@ namespace UI
         /// </summary>
         /// <param name="funcionVentana">Función que realizará la ventana a la hora de presionar boton Aceptar</param>
         /// <param name="pCampaña">Campaña sobre la cual trabajar, sino es nulo</param>
-        internal Form_Configuracion_Campaña(Form_Campaña.delegado funcionVentana, ControladorCampaña pCampaña = null)
+        internal Form_Configuracion_Campaña(Form_Campaña.delegado funcionVentana, Campaña pCampaña = null)
         {
             InitializeComponent();
             this.ConfiguracionInicialDataGridView();
@@ -83,7 +83,7 @@ namespace UI
             {
                 this.ChangeEnableGroupBoxHorario(false);
                 this.button_EliminarFecha.Enabled = false;
-                this.iCampaña = new ControladorCampaña();
+                this.iCampaña = new Campaña();
             }
             this.iIndiceImagenActual = 0;
             this.ConfigInicialForms();
@@ -1222,7 +1222,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_CargarImagenes_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = ControladorCampaña.ObtenerImagenesCampaña((int)e.Argument);
+            e.Result = FachadaDominio.ObtenerCampañaPorCodigo((int)e.Argument);
         }
 
         /// <summary>
@@ -1249,7 +1249,7 @@ namespace UI
             }
             else
             {
-                this.iCampaña.ListaImagenes = (List<Imagen>)e.Result;
+                this.iCampaña = (Campaña)e.Result;
                 this.ConfigurarPestañaImagenes();
                 this.label_Imagenes_TiempoT.Text = this.textBox_IntervaloTiempo.Text + " segundos";
                 this.ActualizarTiempoRestante();

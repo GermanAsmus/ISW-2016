@@ -10,10 +10,10 @@ namespace UI
     public partial class Vista : Form
     {
         #region Variables
-        private ControladorBanner iBannerActual;
-        private ControladorBanner iBannerProximo;
-        private ControladorCampaña iCampañaActual;
-        private ControladorCampaña iCampañaProxima;
+        private Banner iBannerActual;
+        private Banner iBannerProximo;
+        private Campaña iCampañaActual;
+        private Campaña iCampañaProxima;
         private  IEnumerator<Imagen> enumeradorImagenes;
         #endregion
 
@@ -49,16 +49,16 @@ namespace UI
         private void ConfigurarBannerCampaña()
         {
             ///BANNER
-            this.iBannerActual = ControladorBanner.ObtenerSiguiente();
+            this.iBannerActual = FachadaDominio.ObtenerBannerSiguiente();
             //Ver como hacer para actualizarlo ahí
             this.label_TextoBanner.Text = iBannerActual.Texto;
-            this.iBannerProximo = ControladorBanner.ObtenerSiguiente();
+            this.iBannerProximo = FachadaDominio.ObtenerBannerSiguiente();
             this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
             ///CAMPAÑA
-            this.iCampañaActual = ControladorCampaña.ObtenerSiguiente();
+            this.iCampañaActual = FachadaDominio.ObtenerCampañaSiguiente();
             this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
             this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
-            this.iCampañaProxima = ControladorCampaña.ObtenerSiguiente();
+            this.iCampañaProxima = FachadaDominio.ObtenerCampañaSiguiente();
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = ControladorBanner.ObtenerSiguiente();
+            e.Result = FachadaDominio.ObtenerBannerSiguiente();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoBanner_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.iBannerProximo = (ControladorBanner)e.Result;
+            this.iBannerProximo = (Banner)e.Result;
             this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
         }
 
@@ -114,7 +114,7 @@ namespace UI
         /// </summary>
         /// <param name="pCampaña"></param>
         /// <returns></returns>
-        private Image ImagenCampañaCorrespondiente(ControladorCampaña pCampaña)
+        private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
             Image imagen;
             if(this.enumeradorImagenes.MoveNext())
@@ -150,7 +150,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = ControladorCampaña.ObtenerSiguiente();
+            e.Result = FachadaDominio.ObtenerCampañaSiguiente();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_ChequeoCampaña_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.iCampañaProxima = (ControladorCampaña)e.Result;
+            this.iCampañaProxima = (Campaña)e.Result;
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void backgroundWorker_RSS_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dominio.ControladorBanner pBanner = (Dominio.ControladorBanner)e.Argument;
+            Dominio.Banner pBanner = (Dominio.Banner)e.Argument;
             try
             {
                 string texto = pBanner.Texto;

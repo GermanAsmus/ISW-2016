@@ -191,7 +191,7 @@ namespace Testings
         /// <param name="objeto1">Primer objeto a verificar</param>
         /// <param name="objeto2">Segundo objeto a verificar</param>
         /// <returns>Tipo de dato boolean que representa True si son iguale o False si son diferentes</returns>
-        public static bool Equals(Dominio.ControladorBanner objeto1, Dominio.ControladorBanner objeto2)
+        public static bool Equals(Dominio.Banner objeto1, Dominio.Banner objeto2)
         {
             bool resultado = (objeto1.Codigo == objeto2.Codigo) && (objeto1.Nombre == objeto2.Nombre) &&
                              Equals(objeto1.ListaRangosFecha, objeto2.ListaRangosFecha) &&
@@ -205,7 +205,7 @@ namespace Testings
         /// <param name="objeto1">Primer objeto a verificar</param>
         /// <param name="objeto2">Segundo objeto a verificar</param>
         /// <returns>Tipo de dato boolean que representa True si son iguale o False si son diferentes</returns>
-        public static bool Equals(Dominio.ControladorCampaña objeto1, Dominio.ControladorCampaña objeto2)
+        public static bool Equals(Dominio.Campaña objeto1, Dominio.Campaña objeto2)
         {
             bool resultado = (objeto1.Codigo == objeto2.Codigo) && (objeto1.Nombre == objeto2.Nombre) &&
                              (objeto1.IntervaloTiempo == objeto2.IntervaloTiempo) &&

@@ -427,11 +427,11 @@ namespace UI
             List<RangoHorario> listaRangos;
             if (this.iEsBanner)
             {
-                listaRangos = ControladorBanner.RangosHorariosOcupados((RangoFecha)e.Argument);
+                listaRangos = FachadaDominio.RangosHorariosOcupadosBanner((RangoFecha)e.Argument);
             }
             else
             {
-                listaRangos = ControladorCampaña.RangosHorariosOcupados((RangoFecha)e.Argument);
+                listaRangos = FachadaDominio.RangosHorariosOcupadosCampaña((RangoFecha)e.Argument);
             }
             e.Result = listaRangos;
         }

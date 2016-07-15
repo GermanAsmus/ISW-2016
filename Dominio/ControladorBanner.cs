@@ -1,142 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
 
-//Hace que sea visible para el Testing, los Servicios y UI
-[assembly: InternalsVisibleTo("Testings")]
-[assembly: InternalsVisibleTo("UI")]
+using System.Threading;
 
 namespace Dominio
 {
-    class ControladorBanner : IEquatable<ControladorBanner>
+    class ControladorBanner
     {
-        #region Instanica
-        private int iCodigo;
-        private string iNombre;
-        private IFuente iFuente;
-        private List<RangoFecha> iListaRangosFecha;
-
-        /// <summary>
-        /// Constructor del Banner
-        /// </summary>
-        public ControladorBanner()
-        {
-            this.iListaRangosFecha = new List<RangoFecha>();
-        }
-
-        /// <summary>
-        /// Get/Set del código del Banner
-        /// </summary>
-        public int Codigo
-        {
-            get { return this.iCodigo; }
-            set { this.iCodigo = value; }
-        }
-
-        /// <summary>
-        /// Get/Set del nombre del Banner
-        /// </summary>
-        public string Nombre
-        {
-            get { return this.iNombre; }
-            set { this.iNombre = value; }
-        }
-
-        /// <summary>
-        /// Get del Texto del Banner
-        /// </summary>
-        public string Texto
-        {
-            get { return this.iFuente.Texto(); }
-
-        }
-
-        /// <summary>
-        /// Get/Set de la Fuente del Banner
-        /// </summary>
-        public IFuente InstanciaFuente
-        {
-            get { return this.iFuente; }
-            set { this.iFuente = value; }
-        }
-
-        /// <summary>
-        /// Get/Set de la Lista de Rangos de Fechas
-        /// </summary>
-        public List<RangoFecha> ListaRangosFecha
-        {
-            get { return this.iListaRangosFecha; }
-            set { this.iListaRangosFecha = value; }
-        }
-
-        /// <summary>
-        /// Compara dos intancias de Banner
-        /// </summary>
-        /// <param name="other">Otro Banner a comparar</param>
-        /// <returns>Tipo de dato booleano que representa si dos instancias de Banner son diferentes</returns>
-        public bool Equals(ControladorBanner other)
-        {
-            return this.Codigo == other.Codigo;
-        }
-
-        /// <summary>
-        /// Devuelve los rangos Horarios ocupados por el Banner
-        /// </summary>
-        /// <returns>Tipo de dato Lista de Rangos Horarios que representan aquellos ocupados por el Banner</returns>
-        public List<RangoHorario> ObtenerRangosHorariosOcupados()
-        {
-            List<RangoHorario> listaResultado = new List<RangoHorario>();
-            foreach (RangoFecha pRangoFecha in this.iListaRangosFecha)
-            {
-                listaResultado.AddRange(pRangoFecha.ListaRangosHorario);
-            }
-            return listaResultado;
-        }
-
-        /// <summary>
-        /// Devuelve los Rangos Horarios de los Rangos de Fecha que contienen la fecha suministrada
-        /// </summary>
-        /// <param name="pFecha">Fecha a contener</param>
-        /// <returns>Tipo de dato Lista de Rangos Horarios que pertenencen a los Rangos de fecha que contienen la fecha suministrada</returns>
-        private List<RangoHorario> RangosHorariosDeFecha(DateTime pFecha)
-        {
-            List<RangoHorario> listaRangosHorarios = new List<RangoHorario>();
-            foreach(RangoFecha pRangoFecha in this.ListaRangosFecha)
-            {
-                if (pRangoFecha.RangoContieneFecha(pFecha))
-                {
-                    listaRangosHorarios.AddRange(pRangoFecha.ListaRangosHorario);
-                }
-            }
-            return listaRangosHorarios;
-        }
-
-        /// <summary>
-        /// Devuelve los Rangos Horarios de los Rangos de Fecha que contienen la fecha suministrada
-        /// </summary>
-        /// <param name="pFecha">Fecha a contener</param>
-        /// <returns>Tipo de dato Lista de Rangos Horarios que pertenencen a los Rangos de fecha que contienen la fecha suministrada</returns>
-        public List<int> ListaDeIndices(DateTime pFecha)
-        {
-            List<int> listaResultado = new List<int>();
-            List<RangoHorario> listaRangosHorarios = this.RangosHorariosDeFecha(pFecha);
-            foreach (RangoHorario pRangoHorario in listaRangosHorarios)
-            {
-                for (int i = pRangoHorario.CodigoInicio; i < pRangoHorario.CodigoFin; i++)
-                {
-                    listaResultado.Add(i);
-                }
-            }
-            return listaResultado;
-        }
-        #endregion
-
-        #region Logica
         #region Atributos
-        private static ControladorBanner BannerNulo;
-        private static SortedList<int, ControladorBanner> ListaBannersActual;
-        private static SortedList<int, ControladorBanner> ListaBannersProxima;
+        private static Banner BannerNulo;
+        private static SortedList<int, Banner> ListaBannersActual;
+        private static SortedList<int, Banner> ListaBannersProxima;
         private static bool ActualizarListaBanner = false;
         #endregion
 
@@ -147,13 +21,13 @@ namespace Dominio
         public static void Inicializar()
         {
             FuenteTextoFijo pTextoFijo = new FuenteTextoFijo() { Valor = "Publicite Aquí" };
-            BannerNulo = new ControladorBanner()
+            BannerNulo = new Banner()
             {
                 Codigo = -1,
                 InstanciaFuente = pTextoFijo
             };
-            ListaBannersActual = new SortedList<int, ControladorBanner>();
-            ListaBannersProxima = new SortedList<int, ControladorBanner>();
+            ListaBannersActual = new SortedList<int, Banner>();
+            ListaBannersProxima = new SortedList<int, Banner>();
             InicializarListaBanner();
         }
 
@@ -162,7 +36,7 @@ namespace Dominio
         /// </summary>
         private static void InicializarListaBanner()
         {
-            ListaBannersProxima = new SortedList<int, ControladorBanner>();
+            ListaBannersProxima = new SortedList<int, Banner>();
             int totalMinutosDia = (int)(new TimeSpan(23, 59, 00)).TotalMinutes;
             for (int i = 0; i <= totalMinutosDia; i++)
             {
@@ -177,9 +51,9 @@ namespace Dominio
         /// Carga la lista de Banners en la lógica
         /// </summary>
         /// <param name="listaBanners">Lista de Banners a cargar</param>
-        public static void Cargar(List<ControladorBanner> listaBanners)
+        private static void Cargar(List<Banner> listaBanners)
         {
-            foreach (ControladorBanner pBanner in listaBanners)
+            foreach (Banner pBanner in listaBanners)
             {
                 foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
                 {
@@ -191,7 +65,7 @@ namespace Dominio
         /// <summary>
         /// Carga las Listas inicialmente, efectuando el correspondiente cambio de proximo a actual
         /// </summary>
-        public static void CargaInicial()
+        internal static void CargaInicial()
         {
             CambiarListas();
         }
@@ -200,7 +74,7 @@ namespace Dominio
         /// Carga los Banners del día en la Fachada
         /// </summary>
         /// <param name="pFecha">Fecha Actual de Carga</param>
-        public static void CargarEnMemoria(DateTime pFecha)
+        internal static void CargarEnMemoria(DateTime pFecha)
         {
             //Argumentos de filtrado de Banner
             Dictionary<Type, object> argumentosBanner = new Dictionary<Type, object>();
@@ -215,7 +89,7 @@ namespace Dominio
         /// </summary>
         private static void CambiarListas()
         {
-            SortedList<int, ControladorBanner> listaAuxBanner = ListaBannersProxima;
+            SortedList<int, Banner> listaAuxBanner = ListaBannersProxima;
             InicializarListaBanner();
             ListaBannersActual = listaAuxBanner;
         }
@@ -225,10 +99,10 @@ namespace Dominio
         /// Agrega un Banner en la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Banner a agregar</param>
-        public static void Agregar(ControladorBanner pBanner)
+        internal static void Agregar(Banner pBanner)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            pBanner.Codigo = fachada.CrearBanner(AutoMapper.Map<ControladorBanner, Persistencia.Banner>(pBanner));
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
+            pBanner.Codigo = fachada.CrearBanner(AutoMapper.Map<Banner, Persistencia.Banner>(pBanner));
             AgregarLocal(pBanner);
         }
 
@@ -236,7 +110,7 @@ namespace Dominio
         /// Agrega un Banner en la lista Caché local
         /// </summary>
         /// <param name="pBanner">Banner a agregar</param>
-        private static void AgregarLocal(ControladorBanner pBanner)
+        private static void AgregarLocal(Banner pBanner)
         {
             //Lista Actual
             foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
@@ -254,10 +128,10 @@ namespace Dominio
         /// Modifica un Banner de la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Banner a modificar</param>
-        public static void Modificar(ControladorBanner pBanner)
+        internal static void Modificar(Banner pBanner)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.ActualizarBanner(AutoMapper.Map<Dominio.ControladorBanner, Persistencia.Banner>(pBanner));
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
+            fachada.ActualizarBanner(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
             EliminarLocal(BuscarBanner(pBanner));
             AgregarLocal(pBanner);
         }
@@ -266,10 +140,10 @@ namespace Dominio
         /// Elimina un Banner de la lista de la lógica
         /// </summary>
         /// <param name="pBanner">Banner a eliminar</param>
-        public static void Eliminar(ControladorBanner pBanner)
+        internal static void Eliminar(Banner pBanner)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
-            fachada.EliminarBanner(AutoMapper.Map<Dominio.ControladorBanner, Persistencia.Banner>(pBanner));
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
+            fachada.EliminarBanner(AutoMapper.Map<Dominio.Banner, Persistencia.Banner>(pBanner));
             EliminarLocal(pBanner);
         }
 
@@ -277,7 +151,7 @@ namespace Dominio
         /// Elimina el Banner de la Lista Caché local
         /// </summary>
         /// <param name="pBanner">Banner a eliminar localmente</param>
-        private static void EliminarLocal(ControladorBanner pBanner)
+        internal static void EliminarLocal(Banner pBanner)
         {
             //Lista Actual
             foreach (int pIndice in pBanner.ListaDeIndices(DateTime.Now.Date))
@@ -296,9 +170,9 @@ namespace Dominio
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Banners</param>
         /// <returns>Tipo de dato Lista que representa los Banners filtrados</returns>
-        public static List<ControladorBanner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado = null)
+        internal static List<Banner> ObtenerBanners(Dictionary<Type, object> argumentosFiltrado = null)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             Type tipoDeFiltrado = typeof(Dominio.RangoFecha);
             if (argumentosFiltrado != null)
             {
@@ -317,7 +191,7 @@ namespace Dominio
                     argumentosFiltrado.Remove(typeof(Dominio.IFuente));
                 }
             }
-            return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.ControladorBanner>>(fachada.ObtenerBanners(argumentosFiltrado)));
+            return (AutoMapper.Map<List<Persistencia.Banner>, List<Dominio.Banner>>(fachada.ObtenerBanners(argumentosFiltrado)));
         }
 
         /// <summary>
@@ -325,14 +199,14 @@ namespace Dominio
         /// </summary>
         /// <param name="pRangoFecha">Rango de Fechas</param>
         /// <returns>Tipo de dato Lista de Rangos Horarios que representa los rangos horarios ocupados</returns>
-        public static List<RangoHorario> RangosHorariosOcupados(RangoFecha pRangoFecha)
+        internal static List<RangoHorario> RangosHorariosOcupados(RangoFecha pRangoFecha)
         {
             Dictionary<Type, object> argumentos = new Dictionary<Type, object>();
             argumentos.Add(typeof(string), "");
             argumentos.Add(typeof(RangoFecha), pRangoFecha);
-            List<ControladorBanner> pListaBanners = ObtenerBanners(argumentos);
+            List<Banner> pListaBanners = ObtenerBanners(argumentos);
             List<RangoHorario> listaResultado = new List<RangoHorario>();
-            foreach (ControladorBanner pBanner in pListaBanners)
+            foreach (Banner pBanner in pListaBanners)
             {
                 listaResultado.AddRange(pBanner.ObtenerRangosHorariosOcupados());
             }
@@ -345,9 +219,9 @@ namespace Dominio
         /// <param name="pHoraActual">Hora Actual</param>
         /// <param name="pFechaActual">Fecha Actual</param>
         /// <returns>Tipo de dato Banner que representa el Banner Siguiente a mostrar</returns>
-        public static ControladorBanner ObtenerSiguiente()
+        internal static Banner ObtenerSiguiente()
         {
-            ControladorBanner bannerResultado;
+            Banner bannerResultado;
             DateTime fechaActual = DateTime.Now;
             int horaInicio = (int)(new TimeSpan(fechaActual.Hour, fechaActual.Minute, 0).TotalMinutes) + 1;
             if (horaInicio > 1380)
@@ -380,7 +254,7 @@ namespace Dominio
         internal static List<IFuente> ActualizarFuentes()
         {
             List<IFuente> resultado = new List<IFuente>();
-            foreach (ControladorBanner pBanners in ListaBannersActual.Values)
+            foreach (Banner pBanners in ListaBannersActual.Values)
             {
                 IFuente pFuente = pBanners.InstanciaFuente;
                 if (pFuente.Actualizable())
@@ -397,10 +271,10 @@ namespace Dominio
         /// </summary>
         /// <param name="pBanner">Banner suministrado</param>
         /// <returns>Tipo de dato Banner que representa aquel almacenado</returns>
-        private static ControladorBanner BuscarBanner(ControladorBanner pBanner)
+        private static Banner BuscarBanner(Banner pBanner)
         {
             int i = 0;
-            ControladorBanner resultado = BannerNulo;
+            Banner resultado = BannerNulo;
             i = ListaBannersActual.IndexOfValue(pBanner);
             if (i != -1)
             {
@@ -416,6 +290,16 @@ namespace Dominio
             }
             return resultado;
         }
-        #endregion
+
+        /// <summary>
+        /// Obtiene el Banner que se corresponde con el código
+        /// </summary>
+        /// <param name="pCodigoBanner">Codigo de Banner de la imagen a buscar</param>
+        /// <returns>Banner cuyo código es el suminitrado</returns>
+        internal static Banner ObtenerBannerPorCodigo(int pCodigoBanner)
+        {
+            return AutoMapper.Map<Persistencia.Banner, Banner>
+                        (IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>().ObtenerBanner(pCodigoBanner));
+        }
     }
 }

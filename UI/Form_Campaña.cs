@@ -14,15 +14,15 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        internal delegate void delegado(ControladorCampaña campaña);
+        internal delegate void delegado(Campaña campaña);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(ControladorCampaña.Agregar);
+        private delegado agregar = new delegado(FachadaDominio.AgregarCampaña);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(ControladorCampaña.Modificar);
+        private delegado modificar = new delegado(FachadaDominio.ModificarCampaña);
         /// <summary>
         /// Cantidad de campañas que están siendo guardadas
         /// </summary>
@@ -189,7 +189,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            List<ControladorCampaña> lista = (List<ControladorCampaña>)this.dataGridView.DataSource;
+            List<Campaña> lista = (List<Campaña>)this.dataGridView.DataSource;
             if (lista.Count > 0)
             {
                 this.button_Eliminar.Enabled = true;
@@ -299,9 +299,9 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        internal void ActualizarLista(List<ControladorCampaña> fuenteCampañas)
+        internal void ActualizarLista(List<Campaña> fuenteCampañas)
         {
-            this.dataGridView.DataSource = typeof(List<ControladorCampaña>);
+            this.dataGridView.DataSource = typeof(List<Campaña>);
             this.dataGridView.DataSource = fuenteCampañas;
             this.ReDibujarDGV();
         }
@@ -320,9 +320,9 @@ namespace UI
         /// Devuelve el elemento seleccionado
         /// </summary>
         /// <returns>Tipo de dato Campaña que representa la camapaña seleccionado</returns>
-        private ControladorCampaña ElementoSeleccionado()
+        private Campaña ElementoSeleccionado()
         {
-            return (ControladorCampaña)this.dataGridView.CurrentRow.DataBoundItem;
+            return (Campaña)this.dataGridView.CurrentRow.DataBoundItem;
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace UI
         private void backgroundWorker_Obtener_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
-            e.Result = ControladorCampaña.ObtenerCampañas(argumentos);
+            e.Result = FachadaDominio.ObtenerCampañas(argumentos);
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace UI
         {
             if ((e.Error == null) && (!e.Cancelled))
             {
-                List<ControladorCampaña> resultado = (List<ControladorCampaña>)e.Result;
+                List<Campaña> resultado = (List<Campaña>)e.Result;
                 this.ActualizarLista(resultado);
             }
             this.label_Operacion.Visible = false;
@@ -471,7 +471,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            ControladorCampaña.Eliminar((ControladorCampaña)e.Argument);
+            FachadaDominio.EliminarCampaña((Campaña)e.Argument);
         }
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace UI
         {
             if (e.Error != null)
             {
-                ControladorCampaña auxCampaña = (ControladorCampaña)e.Result;
+                Campaña auxCampaña = (Campaña)e.Result;
                 MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar la Campaña\n" +
                                 "\t- Nombre: " + auxCampaña.Nombre + "\n" +
                                 "\t- Intervalo Tiempo: " + auxCampaña.IntervaloTiempo + "\n" +
@@ -491,7 +491,7 @@ namespace UI
             }
             else
             {
-                ((List<ControladorCampaña>)this.dataGridView.DataSource).Remove((ControladorCampaña)e.Result);
+                ((List<Campaña>)this.dataGridView.DataSource).Remove((Campaña)e.Result);
                 this.ReDibujarDGV();
             }
         }

@@ -4,10 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-//Hace que sea visible para el Testing y los Servicios
+//Hace que sea visible para el Testing y el Dominio
 [assembly: InternalsVisibleTo("Testings")]
 [assembly: InternalsVisibleTo("Dominio")]
-[assembly: InternalsVisibleTo("Servicios")]
 
 namespace Persistencia
 {

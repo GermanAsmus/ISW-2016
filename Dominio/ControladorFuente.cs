@@ -12,9 +12,9 @@ namespace Dominio
         /// Agrega la Fuente a la base de datos
         /// </summary>
         /// <param name="pFuente">Fuente a agregar</param>
-        public static void Agregar(IFuente pFuente)
+        internal static void Agregar(IFuente pFuente)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             pFuente.Codigo = fachada.CrearFuente(AutoMapper.Map<IFuente, Persistencia.Fuente>(pFuente));
             GC.Collect();
         }
@@ -23,9 +23,9 @@ namespace Dominio
         /// Modifica la Fuente en la base de datos
         /// </summary>
         /// <param name="pFuente">Fuente a modificar</param>
-        public static void Modificar(IFuente pFuente)
+        internal static void Modificar(IFuente pFuente)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             fachada.ActualizarFuente(AutoMapper.Map<IFuente, Persistencia.Fuente>(pFuente));
         }
 
@@ -33,9 +33,9 @@ namespace Dominio
         /// Elimina la Fuente en la base de datos
         /// </summary>
         /// <param name="pFuente">Campaña a eliminar</param>
-        public static void Eliminar(IFuente pFuente)
+        internal static void Eliminar(IFuente pFuente)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             fachada.EliminarFuente(AutoMapper.Map<IFuente, Persistencia.Fuente>(pFuente));
         }
 
@@ -44,11 +44,22 @@ namespace Dominio
         /// </summary>
         /// <param name="argumentosFiltrado">Argumentos para filtrar Fuente</param>
         /// <returns>Tipo de dato Lista que representa las Fuentes filtradas</returns>
-        public static List<IFuente> ObtenerFuentes(IFuente argumentoFiltro = null)
+        internal static List<IFuente> ObtenerFuentes(IFuente argumentoFiltro = null)
         {
-            Persistencia.Fachada fachada = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachada = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             return (AutoMapper.Map<List<Persistencia.Fuente>, List<IFuente>>
                             (fachada.ObtenerFuentes(AutoMapper.Map<IFuente, Persistencia.Fuente>(argumentoFiltro))));
+        }
+
+        /// <summary>
+        /// Obtiene la Fuente que se corresponde con el código
+        /// </summary>
+        /// <param name="pCodigoFuente">Codigo de Fuente de la imagen a buscar</param>
+        /// <returns>Fuente cuyo código es el suminitrado</returns>
+        internal static IFuente ObtenerFuentePorCodigo(int pCodigoFuente)
+        {
+            return AutoMapper.Map<Persistencia.Fuente, IFuente>
+                        (IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>().ObtenerFuente(pCodigoFuente));
         }
 
         /// <summary>
@@ -56,7 +67,7 @@ namespace Dominio
         /// </summary>
         internal static void Actualizar()
         {
-            Persistencia.Fachada fachadaPersistencia = IoCContainerLocator.GetType<Persistencia.Fachada>();
+            Persistencia.FachadaPersistencia fachadaPersistencia = IoCContainerLocator.GetType<Persistencia.FachadaPersistencia>();
             foreach (IFuente pFuente in ControladorBanner.ActualizarFuentes())
             {
                 fachadaPersistencia.ActualizarFuente(AutoMapper.Map<IFuente, Persistencia.Fuente>(pFuente));

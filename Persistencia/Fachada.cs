@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Persistencia
 {
-    class Fachada
+    class FachadaPersistencia
     {
         /// <summary>
         /// Crea la Campaña en la base de datos
@@ -48,14 +48,14 @@ namespace Persistencia
         }
 
         /// <summary>
-        /// Devuelve las imágenes de una campaña
+        /// Devuelve la campaña cuyo código es el suministrado
         /// </summary>
-        /// <param name="pCodigoCamapaña">Código de campaña a obtener las imágenes</param>
-        /// <returns>Tipo de dato Lista de Imágenes que representa las imágenes de la campaña buscada</returns>
-        public List<Imagen> ObtenerImagenesCampaña(int pCodigoCamapaña)
+        /// <param name="pCodigoCamapaña">Código de la campaña a obtener</param>
+        /// <returns>Tipo de dato Campaña que representa la buscada</returns>
+        public Campaña ObtenerCampaña(int pCodigoCamapaña)
         {
             FachadaCRUDCampaña fachadaCampaña = new FachadaCRUDCampaña();
-            return (fachadaCampaña.GetByCodigo(pCodigoCamapaña).Imagenes);
+            return (fachadaCampaña.GetByCodigo(pCodigoCamapaña));
         }
 
         /// <summary>
@@ -124,6 +124,17 @@ namespace Persistencia
         }
 
         /// <summary>
+        /// Devuelve el banner cuyo código es el suministrado
+        /// </summary>
+        /// <param name="pCodigoBanner">Código del Banner a obtener</param>
+        /// <returns>Tipo de dato Banner que representa el buscado</returns>
+        public Banner ObtenerBanner(int pCodigoBanner)
+        {
+            FachadaCRUDBanner fachadaBanner = new FachadaCRUDBanner();
+            return (fachadaBanner.GetByCodigo(pCodigoBanner));
+        }
+
+        /// <summary>
         /// Crea la Fuente en la base de datos
         /// </summary>
         /// <param name="pFuente">Fuente a crear</param>
@@ -172,6 +183,17 @@ namespace Persistencia
             }
             FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
             return fachadaFuente.GetAll(filtro);
+        }
+
+        /// <summary>
+        /// Devuelve la fuente cuyo código es el suministrado
+        /// </summary>
+        /// <param name="pCodigoFuente">Código de la fuente a obtener</param>
+        /// <returns>Tipo de dato Fuente que representa la buscada</returns>
+        public Fuente ObtenerFuente(int pCodigoFuente)
+        {
+            FachadaCRUDFuente fachadaFuente = new FachadaCRUDFuente();
+            return (fachadaFuente.GetByCodigo(pCodigoFuente));
         }
     }
 }

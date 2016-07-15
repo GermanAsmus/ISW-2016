@@ -14,15 +14,15 @@ namespace UI
         /// Delegado del banner
         /// </summary>
         /// <param name="banner"></param>
-        internal delegate void delegado(ControladorBanner banner);
+        internal delegate void delegado(Banner banner);
         /// <summary>
         /// Delegado para agregar un banner
         /// </summary>
-        private delegado agregar = new delegado(ControladorBanner.Agregar);
+        private delegado agregar = new delegado(FachadaDominio.AgregarBanner);
         /// <summary>
         /// Delegado para modificar un banner
         /// </summary>
-        private delegado modificar = new delegado(ControladorBanner.Modificar);
+        private delegado modificar = new delegado(FachadaDominio.ModificarBanner);
         /// <summary>
         /// Cantidad de campañas que están siendo guardadas
         /// </summary>
@@ -192,7 +192,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            List<ControladorBanner> lista = (List<ControladorBanner>)this.dataGridView.DataSource;
+            List<Banner> lista = (List<Banner>)this.dataGridView.DataSource;
             if (lista.Count > 0)
             {
                 this.button_Eliminar.Enabled = true;
@@ -303,9 +303,9 @@ namespace UI
         /// <summary>
         /// Actualiza la lista
         /// </summary>
-        private void ActualizarFuente(List<ControladorBanner> fuenteBanners)
+        private void ActualizarFuente(List<Banner> fuenteBanners)
         {
-            this.dataGridView.DataSource = typeof(List<ControladorBanner>);
+            this.dataGridView.DataSource = typeof(List<Banner>);
             this.dataGridView.DataSource = fuenteBanners;
             this.ReDibujarDGV();
         }
@@ -324,9 +324,9 @@ namespace UI
         /// Devuelve el elemento seleccionado
         /// </summary>
         /// <returns>Tipo de dato Banner que representa el Banner seleccionado</returns>
-        private ControladorBanner ElementoSeleccionado()
+        private Banner ElementoSeleccionado()
         {
-            return (ControladorBanner)this.dataGridView.CurrentRow.DataBoundItem;
+            return (Banner)this.dataGridView.CurrentRow.DataBoundItem;
         }
 
         /// <summary>
@@ -464,11 +464,11 @@ namespace UI
             Dictionary<Type, object> argumentos = (Dictionary<Type, object>)e.Argument;
             if (argumentos.Count == 0)
             {
-                resultado = ControladorBanner.ObtenerBanners();
+                resultado = FachadaDominio.ObtenerBanners();
             }
             else
             {
-                resultado = ControladorBanner.ObtenerBanners(argumentos);
+                resultado = FachadaDominio.ObtenerBanners(argumentos);
             }
             e.Result = resultado;
         }
@@ -482,7 +482,7 @@ namespace UI
         {
             if ((e.Error == null) && (!e.Cancelled))
             {
-                List<ControladorBanner> resultado = (List<ControladorBanner>)e.Result;
+                List<Banner> resultado = (List<Banner>)e.Result;
                 this.ActualizarFuente(resultado);
             }
             this.label_Operacion.Visible = false;
@@ -496,7 +496,7 @@ namespace UI
         private void backgroundWorker_Eliminar_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            ControladorBanner.Eliminar((ControladorBanner) e.Argument);
+            FachadaDominio.EliminarBanner((Banner) e.Argument);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace UI
         {
             if (e.Error != null)
             {
-                ControladorBanner auxBanner = (ControladorBanner)e.Result;
+                Banner auxBanner = (Banner)e.Result;
                 MessageBox.Show("Ha ocurrido un problema mientras se intentaba eliminar el banner\n" +
                                 "\t- Nombre: " + auxBanner.Nombre + "\n" +
                                 "Problema:" + e.Error.Message +
@@ -516,7 +516,7 @@ namespace UI
             }
             else
             {
-                ((List<ControladorBanner>)this.dataGridView.DataSource).Remove((ControladorBanner)e.Result);
+                ((List<Banner>)this.dataGridView.DataSource).Remove((Banner)e.Result);
                 this.ReDibujarDGV();
             }
         }

@@ -12,7 +12,7 @@ namespace Testings
         public void Campaña1Insertar()
         {
             Campaña campaña;
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             for (int i = 1; i < 61; i++)
             {
                 campaña = new Campaña
@@ -44,7 +44,7 @@ namespace Testings
             List<RangoFecha> listaRangosFecha = new List<RangoFecha>(); listaRangosFecha.Add(this.CrearRangoFecha(i, DateTime.Today, campaña));
             campaña.Imagenes = listaImagenes;
             campaña.RangosFecha = listaRangosFecha;
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             fachada.ActualizarCampaña(campaña);
         }
 
@@ -63,14 +63,14 @@ namespace Testings
             listaRangosFecha.Add(this.CrearRangoFecha(122, DateTime.Today.AddDays(10),campaña));
             campaña.Imagenes = listaImagenes;
             campaña.RangosFecha = listaRangosFecha;
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             fachada.EliminarCampaña(campaña);
         }
 
         [TestMethod]
         public void Campaña4GetAll()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerCampañas().Count > 0);
         }
 
@@ -79,14 +79,14 @@ namespace Testings
         {
             Dictionary<Type, object> argumentosFiltrado = new Dictionary<Type, object>();
             argumentosFiltrado.Add(typeof(string), "Prueba");
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerCampañas(argumentosFiltrado).Count > 0);
         }
 
         [TestMethod]
         public void Banner1Insercion()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             FuenteRSS pFuenteRSS = this.CrearFuenteRSS(3, "Predeterminado");
             Banner pBanner;
             FuenteTextoFijo pTextoFijo;
@@ -129,7 +129,7 @@ namespace Testings
             listaRangosFecha.Add(this.CrearRangoFecha(31, DateTime.Now.AddDays(2800), pBanner));
             listaRangosFecha.Add(this.CrearRangoFecha(12, DateTime.Now.AddDays(2800), pBanner));
             pBanner.RangosFecha = listaRangosFecha;
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             fachada.ActualizarBanner(pBanner);
         }
 
@@ -139,7 +139,7 @@ namespace Testings
             int i = 33;
             List<RangoFecha> listaRangosFecha = new List<RangoFecha>();
             FuenteRSS pFuenteRSS = this.CrearFuenteRSS(33, "Fuente RSS " + i.ToString());
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Banner pBanner = new Banner()
             {
                 Codigo = i,
@@ -154,7 +154,7 @@ namespace Testings
         [TestMethod]
         public void Banner4GetAll()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerBanners().Count > 0);
         }
 
@@ -164,14 +164,14 @@ namespace Testings
             Dictionary<Type, object> argumentosFiltrado = new Dictionary<Type, object>();
             argumentosFiltrado.Add(typeof(string), "Banner");
             argumentosFiltrado.Add(typeof(FuenteRSS), typeof(FuenteRSS));
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerBanners(argumentosFiltrado).Count > 0);
         }
 
         [TestMethod]
         public void Fuente1Insercion()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             FuenteRSS pFuenteRSS;
             for (int i = 1; i < 31; i++)
             {
@@ -183,28 +183,28 @@ namespace Testings
         [TestMethod]
         public void Fuente2Actualizar()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             fachada.ActualizarFuente(this.CrearFuenteRSS(1, "Prueba"));
         }
 
         [TestMethod]
         public void Fuente3Eliminar()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             fachada.EliminarFuente(this.CrearFuenteRSS(3,"Prueba"));
         }
 
         [TestMethod]
         public void Fuente4GetAll()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerFuentes().Count > 30);
         }
 
         [TestMethod]
         public void Fuente5GetAllFiltro()
         {
-            Persistencia.Fachada fachada = new Persistencia.Fachada();
+            Persistencia.FachadaPersistencia fachada = new Persistencia.FachadaPersistencia();
             Assert.IsTrue(fachada.ObtenerFuentes(new FuenteTextoFijo()).Count <= 30);
         }
 

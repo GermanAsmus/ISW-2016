@@ -20,7 +20,7 @@ namespace Dominio
             Mapper.CreateMap<RangoFecha, Persistencia.RangoFecha>()
                     .ForMember(dest => dest.RangosHorario, opt => opt.MapFrom(src => src.ListaRangosHorario))
                     .AfterMap((s, d) => MapeoRangoFecha(d));
-            Mapper.CreateMap<ControladorCampaña, Persistencia.Campaña>()
+            Mapper.CreateMap<Campaña, Persistencia.Campaña>()
                     .ForMember(dest => dest.Imagenes, opt => opt.MapFrom(src => src.ListaImagenes))
                     .ForMember(dest => dest.RangosFecha, opt => opt.MapFrom(src => src.ListaRangosFecha))
                     .AfterMap((s, d) => MapeoCampaña(d));
@@ -28,7 +28,7 @@ namespace Dominio
                     .ConvertUsing<FuenteDominioConverter>();
             Mapper.CreateMap<FuenteTextoFijo, Persistencia.FuenteTextoFijo>();
             Mapper.CreateMap<FuenteRSS, Persistencia.FuenteRSS>();
-            Mapper.CreateMap<ControladorBanner, Persistencia.Banner>()
+            Mapper.CreateMap<Banner, Persistencia.Banner>()
                     .ForMember(dest => dest.RangosFecha, opt => opt.MapFrom(src => src.ListaRangosFecha))
                     .ForMember(dest => dest.Fuente, opt => opt.MapFrom(src => src.InstanciaFuente))
                     .AfterMap((s, d) => MapeoBanner(d));
@@ -40,14 +40,14 @@ namespace Dominio
                     .ForMember(dest => dest.Picture, opt => opt.ResolveUsing<PicturePersistencia>().ConstructedBy(() => new PicturePersistencia()));
             Mapper.CreateMap<Persistencia.RangoFecha, RangoFecha>()
                     .ForMember(dest => dest.ListaRangosHorario, opt => opt.MapFrom(src => src.RangosHorario));
-            Mapper.CreateMap<Persistencia.Campaña, ControladorCampaña>()
+            Mapper.CreateMap<Persistencia.Campaña, Campaña>()
                     .ForMember(dest => dest.ListaImagenes, opt => opt.MapFrom(src => src.Imagenes))
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha));
             Mapper.CreateMap<Persistencia.FuenteTextoFijo, FuenteTextoFijo>();
             Mapper.CreateMap<Persistencia.FuenteRSS, FuenteRSS>();
             Mapper.CreateMap<Persistencia.Fuente, IFuente>()
                     .ConvertUsing<FuentePersistenciaConverter>();
-            Mapper.CreateMap<Persistencia.Banner, ControladorBanner>()
+            Mapper.CreateMap<Persistencia.Banner, Banner>()
                     .ForMember(dest => dest.ListaRangosFecha, opt => opt.MapFrom(src => src.RangosFecha))
                     .ForMember(dest => dest.InstanciaFuente, opt => opt.MapFrom(src => src.Fuente));
             #endregion
