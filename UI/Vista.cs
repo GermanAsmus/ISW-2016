@@ -14,7 +14,6 @@ namespace UI
         private Banner iBannerProximo;
         private Campaña iCampañaActual;
         private Campaña iCampañaProxima;
-        private  IEnumerator<Imagen> enumeradorImagenes;
         #endregion
 
         #region Inicialización y Carga
@@ -56,8 +55,7 @@ namespace UI
             this.backgroundWorker_RSS.RunWorkerAsync(this.iBannerProximo);
             ///CAMPAÑA
             this.iCampañaActual = FachadaDominio.ObtenerCampañaSiguiente();
-            this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
-            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
+            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(this.iCampañaActual);
             this.iCampañaProxima = FachadaDominio.ObtenerCampañaSiguiente();
         }
         #endregion
@@ -116,21 +114,9 @@ namespace UI
         /// <returns></returns>
         private Image ImagenCampañaCorrespondiente(Campaña pCampaña)
         {
-            Image imagen;
-            if(this.enumeradorImagenes.MoveNext())
-            {
-                imagen=this.enumeradorImagenes.Current.Picture;
-                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo*1000;
-            }
-            else
-            {
-                this.enumeradorImagenes.Reset();
-                this.enumeradorImagenes.MoveNext();
-                this.timer_ImagenesCampaña.Interval = this.enumeradorImagenes.Current.Tiempo*1000;
-                imagen = this.enumeradorImagenes.Current.Picture;
-                
-            }
-            return imagen;
+            Imagen imagenActual = pCampaña.ImagenProxima();
+            this.timer_ImagenesCampaña.Interval = imagenActual.Tiempo * 1000;
+            return imagenActual.Picture;
         }
 
         /// <summary>
@@ -140,7 +126,7 @@ namespace UI
         /// <param name="e">Argumentos del evento</param>
         private void timer_ImagenesCampaña_Tick(object sender, EventArgs e)
         {
-            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
+            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(this.iCampañaActual);
         }
 
         /// <summary>
@@ -168,8 +154,7 @@ namespace UI
         /// </summary>
         public void ActualizarCampaña()
         {
-            this.enumeradorImagenes = this.iCampañaActual.ListaImagenes.GetEnumerator();
-            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(iCampañaActual);
+            this.pictureBox_Campaña.Image = this.ImagenCampañaCorrespondiente(this.iCampañaActual);
         }
         #endregion
 

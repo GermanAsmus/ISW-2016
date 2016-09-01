@@ -10,6 +10,7 @@ namespace Dominio
         private string iNombre;
         private List<RangoFecha> iListaRangosFecha;
         private List<Imagen> iListaImagenes;
+        private IEnumerator<Imagen> iEnumeradorImagenes;
 
         /// <summary>
         /// Constructor de la Campaña
@@ -62,7 +63,11 @@ namespace Dominio
         public List<Imagen> ListaImagenes
         {
             get { return this.iListaImagenes; }
-            set { this.iListaImagenes = value; }
+            set
+            {
+                this.iListaImagenes = value;
+                this.iEnumeradorImagenes = this.iListaImagenes.GetEnumerator();
+            }
         }
         
         /// <summary>
@@ -124,6 +129,26 @@ namespace Dominio
                 }
             }
             return listaResultado;
+        }
+
+        /// <summary>
+        /// Devuelve la imagen próxima a mostrar, trabaja de forma cíclica
+        /// </summary>
+        /// <returns>Tipo de dato Imagen que representa aquella a mostrar a continuación</returns>
+        public Imagen ImagenProxima()
+        {
+            Imagen imagenResultado;
+            if (this.iEnumeradorImagenes.MoveNext())
+            {
+                imagenResultado = this.iEnumeradorImagenes.Current;
+            }
+            else
+            {
+                this.iEnumeradorImagenes.Reset();
+                this.iEnumeradorImagenes.MoveNext();
+                imagenResultado = this.iEnumeradorImagenes.Current;
+            }
+            return imagenResultado;
         }
     }
 }
