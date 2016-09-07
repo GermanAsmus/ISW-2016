@@ -39,7 +39,8 @@ namespace Dominio
         /// <returns>Tipo de dato de clase T que representa el objeto instancia de la clase</returns>
         public static T GetType<T>()
         {
-            return IoCContainerLocator.Container.Resolve<T>();
+            return (T)Activator.CreateInstance(typeof(T));
+            //return IoCContainerLocator.Container.Resolve<T>();
         }
     }
 }
